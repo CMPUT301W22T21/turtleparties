@@ -1,0 +1,39 @@
+Class: Player
+Collaborator: LoginManager, Scorer, CameraManager, LocationManager
+Responsibility: Allow for new qr to be scanned, keep track of statistics, ask for permission to store sensitivate data
+
+Class: LoginManager
+Collaborator: Player, Database
+Responsibility: log in user, retrieve user data, verify login requests
+
+Class: Database
+Collaborator: LoginManager, Player, Scorer
+Responsibility: Manage user info, keep track of players scores, keeps track of all players
+
+Class: Scorer
+Collaborator: Database,
+Responsibility: Manage scores, verify placements in rankings
+
+Class: LocationManager
+Collaborator: Database
+Responsibility: Keep track of location, store location of QR code
+
+Class: QRCode
+Collaborator: CameraManager, QrScorer
+Responsibility: Get data from QR code that is scanned, send data to be scored
+
+Class: CameraManager
+Collaborator: QRCode, LocationManager
+Responsibility: Take picture if required, scan QR Code
+
+Class: QrScorer
+Collaborator: QRCode, Scorer
+Responsibility: Analyze how many points a QR code is worth, send Score to Scorer
+
+Class:
+Collaborator:
+Responsibility:
+
+Class:
+Collaborator:
+Responsibility:
