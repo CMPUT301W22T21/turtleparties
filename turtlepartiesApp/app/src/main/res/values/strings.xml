@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">turtlepartiesApp</string>
+    <string name="most_scans">Most Scans</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="highest_score">Highest Score</string>
+    <string name="greatest_sum">Greatest Sum</string>
 </resources>
