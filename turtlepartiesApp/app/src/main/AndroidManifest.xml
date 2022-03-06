@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TurtlepartiesApp">
         <activity
+            android:name=".LoginQRActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileQRActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
