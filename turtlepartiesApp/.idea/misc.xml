@@ -3,7 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/dkdlt/Desktop/winter22/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/leaderboards_screen.xml" value="0.12335359675785208" />
+        <entry key="..\:/Users/dkdlt/Desktop/winter22/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/player_screen.xml" value="0.264" />
+        <entry key="..\:/Users/georg/Documents/GitHub/turtleparties/turtlepartiesApp/app/src/main/res/layout/activity_login_qr.xml" value="0.2064814814814815" />
+        <entry key="..\:/Users/georg/Documents/GitHub/turtleparties/turtlepartiesApp/app/src/main/res/layout/activity_main.xml" value="0.18425925925925926" />
+        <entry key="..\:/Users/georg/Documents/GitHub/turtleparties/turtlepartiesApp/app/src/main/res/layout/activity_profile_qr.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/georg/Documents/GitHub/turtleparties/turtlepartiesApp/app/src/main/res/layout/leaderboards_screen.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/georg/Documents/GitHub/turtleparties/turtlepartiesApp/app/src/main/res/layout/player_screen.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/map.xml" value="0.5" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/map_view.xml" value="0.1" />
       </map>
     </option>
   </component>
