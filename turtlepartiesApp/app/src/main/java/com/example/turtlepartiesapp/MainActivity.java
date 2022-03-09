@@ -40,4 +40,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void leaderboardActivity(View view){
+        Intent intent = new Intent(this, LeaderboardActivity.class);
+        startActivity(intent);
+    }
+
 }
