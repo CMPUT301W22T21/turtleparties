@@ -27,12 +27,12 @@ public class Player {
     String username;
     String password;
     String name;
-    int score;
+    Long score;
     ArrayList<Qrcode> qrCodes;
 
     public Player(String username) {
         this.username = username;
-        this.score = 0;
+        this.score = Long.valueOf(0);
         this.name = "";
         this.qrCodes = new ArrayList<Qrcode>();
         //use db to get info
@@ -41,7 +41,8 @@ public class Player {
         final CollectionReference qrcodesRef  = db.collection("Users").document(username).collection("qrcodes");
         //add listener for changes to profile on db
         addProfileListener(userRef);
-        //addQrCodeListener(qrcodesRef);
+        //add listener for qrcode changes on db
+        addQrCodeListener(qrcodesRef);
 
     }
 
@@ -49,7 +50,7 @@ public class Player {
         return username;
     }
 
-    public int getScore() {
+    public long getScore() {
         return score;
     }
 
@@ -81,22 +82,22 @@ public class Player {
                     return;
                 }
 
+                score = Long.valueOf(0);
                 qrCodes.clear();
                 for(QueryDocumentSnapshot doc: value)
                 {
-                    String name = doc.getId();
-                    String comment = doc.getString("comment");
-                    Float latval = (Float)doc.get("latval");
-                    Float longval = (Float)doc.get("longval");
+                    //String qrname = doc.getId();
+                    //String qrcomment = doc.getString("comment");
+                    //Float latval = (Float)doc.get("latval");
+                    //Float longval = (Float)doc.get("longval");
                     String qrcodestring = doc.getString("qrcodestring");
-
                     Object qrscore = doc.get("score");
                     if(qrscore != null){
-                        score += (Integer) qrscore;
+                        score += (Long) qrscore;
                     }
 
                     try {
-                        qrCodes.add(new Qrcode(" "));
+                        qrCodes.add(new Qrcode(qrcodestring));
                     } catch (WriterException e) {
                         e.printStackTrace();
                     }
