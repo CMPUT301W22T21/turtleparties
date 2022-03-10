@@ -2,29 +2,23 @@ package com.example.turtlepartiesapp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.zxing.WriterException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db;
     final String username = "test1";
     CollectionReference collectionReference;
+    private ListView qrList;
+    private ArrayAdapter<Qrcode> qrAdapter;
+    private ArrayList<Qrcode> qrDataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +36,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         db = FirebaseFirestore.getInstance();
-        displayQRListview();
+
+        qrList = findViewById(R.id.qr_list);
+        qrDataList = new ArrayList<>();
+
+        addQRToDatalist();
+        try {
+            qrDataList.add(new Qrcode("hi"));
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "Size: " + qrDataList.size());
+        qrAdapter = new QRList(this, qrDataList);
+        qrList.setAdapter(qrAdapter);
     }
 
-    public void displayQRListview(){
+    public void addQRToDatalist(){
         collectionReference = db.collection("Users").document(username).collection("qrcodes");
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -53,7 +62,13 @@ public class MainActivity extends AppCompatActivity {
                     String comment = (String) doc.getData().get("comment");
                     Integer score = ((Number) doc.getData().get("score")).intValue();
 
-                    Log.d(TAG, qrstring + "  " + comment + "  " + score);
+                    try {
+                        qrDataList.add(new Qrcode(qrstring));
+                        Log.d(TAG, qrstring + "  " + comment + "  " + score);
+                        Log.d(TAG, "Size: " + qrDataList.size());
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
