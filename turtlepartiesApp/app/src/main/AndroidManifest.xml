@@ -28,6 +28,9 @@
         <activity
             android:name=".ProfileQRActivity"
             android:exported="false" />
+        <activity
+            android:name=".LeaderboardActivity"
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
