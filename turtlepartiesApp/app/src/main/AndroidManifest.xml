@@ -12,6 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TurtlepartiesApp">
+        <activity
+            android:name=".QRList"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -20,15 +23,12 @@
         <activity
             android:name=".MapsActivity"
             android:exported="false" />
-
         <activity
             android:name=".LoginQRActivity"
             android:exported="false" />
-
         <activity
             android:name=".ProfileQRActivity"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
