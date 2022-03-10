@@ -2,7 +2,6 @@ package com.example.turtlepartiesapp;
 
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,12 +38,12 @@ public class QRList extends ArrayAdapter<Qrcode> {
 
         ImageView qrImage = view.findViewById(R.id.qr_imageView);
         TextView comment = view.findViewById(R.id.comment_text);
-        TextView score = view.findViewById(R.id.score_text);
+        TextView score = view.findViewById(R.id.score_view2);
 
         //qrImage.setImageBitmap(thisCode.getMyBitmap());
         qrImage.setImageResource(R.drawable.ic_baseline_qr_code_24);
-        comment.setText("Comment");
-        score.setText("Score");
+        comment.setText(thisCode.getComment());
+        score.setText(String.valueOf(thisCode.getScore()));
 
         return view;
 

@@ -10,18 +10,26 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
-public class Qrcode {
+import java.io.Serializable;
+
+public class Qrcode implements Serializable {
 
     private String text;
     private String QRstring;
     private BitMatrix result = null;
     private Bitmap myBitmap;
+    private Integer score;
+    private Double lat;
+    private Double lon;
+    private String comment;
 
 
-
-    public Qrcode(String str_text) throws WriterException {
-
+    public Qrcode(String str_text, Integer score, Double lat, Double lon, String comment) throws WriterException {
         this.text = str_text;
+        this.score = score;
+        this.lat = lat;
+        this.lon = lon;
+        this.comment = comment;
     }
 
 
@@ -54,5 +62,25 @@ public class Qrcode {
 
     public String getText() {
         return text;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public Double getLon() {
+        return lon;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

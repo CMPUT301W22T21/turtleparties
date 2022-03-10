@@ -35,7 +35,8 @@ public class LoginQRActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Qrcode QR = null;
                 try {
-                    QR = new Qrcode(text);
+                    //QR = new Qrcode(text);
+                    QR = new Qrcode("hi", 100, 53.521331248, -113.521331248, "comment goes here");
                 } catch (WriterException e) {
                     e.printStackTrace();
                 }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -20,8 +21,9 @@ import com.google.zxing.WriterException;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements QRDeleteFragment.OnFragmentInteractionListener{
 
+    public static final String EXTRA_QR = "com.example.assignment1.MESSAGE";
     final String TAG = "firebase";
     FirebaseFirestore db;
     final String username = "test1";
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView qrList;
     private ArrayAdapter<Qrcode> qrAdapter;
     private ArrayList<Qrcode> qrDataList;
+    private int selectedPosition;
+    private Qrcode currentQr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +46,29 @@ public class MainActivity extends AppCompatActivity {
 
         addQRToDatalist();
         try {
-            qrDataList.add(new Qrcode("hi"));
+            qrDataList.add(new Qrcode("hi", 100, 53.521331248, -113.521331248, "comment goes here"));
         } catch (WriterException e) {
             e.printStackTrace();
         }
         Log.d(TAG, "Size: " + qrDataList.size());
         qrAdapter = new QRList(this, qrDataList);
         qrList.setAdapter(qrAdapter);
+
+        qrList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                currentQr = (Qrcode) qrList.getItemAtPosition(position);
+                switchActivity(currentQr);
+            }
+        });
+
+        qrList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+            public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
+                selectedPosition = position;
+                new QRDeleteFragment().show(getSupportFragmentManager(), "DELETE_QR");
+                return true;
+            }
+        });
     }
 
     public void addQRToDatalist(){
@@ -59,13 +79,14 @@ public class MainActivity extends AppCompatActivity {
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                 {
                     String qrstring = (String) doc.getData().get("qrcodestring");
-                    String comment = (String) doc.getData().get("comment");
                     Integer score = ((Number) doc.getData().get("score")).intValue();
+                    Double latval = ((Number) doc.getData().get("latval")).doubleValue();
+                    Double longval = ((Number) doc.getData().get("longval")).doubleValue();
+                    String comment = (String) doc.getData().get("comment");
 
                     try {
-                        qrDataList.add(new Qrcode(qrstring));
+                        qrDataList.add(new Qrcode(qrstring, score, latval, longval, comment));
                         Log.d(TAG, qrstring + "  " + comment + "  " + score);
-                        Log.d(TAG, "Size: " + qrDataList.size());
                     } catch (WriterException e) {
                         e.printStackTrace();
                     }
@@ -74,14 +95,28 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onDeleteClicked(){
+        qrDataList.remove(selectedPosition);
+        qrAdapter.notifyDataSetChanged();
+    }
+
+    public void switchActivity(Qrcode qrToPass){
+        Bundle args = new Bundle();
+        args.putSerializable("qrcode", qrToPass);
+        Intent qrinfoIntent = new Intent (this, QRInfo.class);
+        qrinfoIntent.putExtra(EXTRA_QR, args);
+        startActivity(qrinfoIntent);
+    }
+
     public void mapActivity(View view) {
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
+        Intent mapIntent = new Intent(this, MapsActivity.class);
+        startActivity(mapIntent);
     }
 
     public void leaderboardActivity(View view){
-        Intent intent = new Intent(this, LeaderboardActivity.class);
-        startActivity(intent);
+        Intent leaderboardIntent = new Intent(this, LeaderboardActivity.class);
+        startActivity(leaderboardIntent);
     }
 
     public void scanQRActivity(View view) {
@@ -93,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void profileQRActivity(View view) {
-        Intent intent = new Intent(this, ProfileQRActivity.class);
-        startActivity(intent);
+        Intent profileIntent = new Intent(this, ProfileQRActivity.class);
+        startActivity(profileIntent);
     }
 }

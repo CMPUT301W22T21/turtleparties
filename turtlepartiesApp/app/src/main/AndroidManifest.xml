@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TurtlepartiesApp">
         <activity
+            android:name=".QRInfo"
+            android:exported="false" />
+        <activity
             android:name=".QRList"
             android:exported="false" />
 
