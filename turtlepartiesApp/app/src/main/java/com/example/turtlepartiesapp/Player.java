@@ -35,8 +35,8 @@ public class Player {
         this.score = Long.valueOf(0);
         this.name = "";
         this.qrCodes = new ArrayList<Qrcode>();
-        //use db to get info
         this.db = FirebaseFirestore.getInstance();
+
         final DocumentReference userRef  = db.collection("Users").document(username);
         final CollectionReference qrcodesRef  = db.collection("Users").document(username).collection("qrcodes");
         //add listener for changes to profile on db
@@ -56,16 +56,6 @@ public class Player {
 
     public ArrayList<Qrcode> getQrCodes() {
         return qrCodes;
-    }
-
-    public void addQrCode(Qrcode qrCodes) {
-        this.qrCodes.add(qrCodes);
-        //add in db
-    }
-
-    public void removeQrCode(Qrcode qrCodes) {
-        this.qrCodes.remove(qrCodes);
-        //add in db
     }
 
     private void addQrCodeListener(final CollectionReference qrcodesRef){
