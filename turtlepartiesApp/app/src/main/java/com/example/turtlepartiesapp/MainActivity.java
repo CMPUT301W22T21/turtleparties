@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
 
         view = this.findViewById(android.R.id.content);
         db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("Users");
+        final CollectionReference collectionReference = db.collection("Users").document(username).collection("qrcodes");
 
         qrList = findViewById(R.id.qr_list);
         qrDataList = new ArrayList<>();
@@ -128,9 +130,16 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot doc = task.getResult();
-                                    Integer score = ((Number) doc.getData().get("score")).intValue();
-                                    Double latval = ((Number) doc.getData().get("latval")).doubleValue();
-                                    Double longval = ((Number) doc.getData().get("longval")).doubleValue();
+                                    Integer score = 0;
+                                    Double latval = 0.0;
+                                    Double longval = 0.0;
+                                    try {
+                                        score = ((Number) doc.getData().get("score")).intValue();
+                                        latval = ((Number) doc.getData().get("latval")).doubleValue();
+                                        longval = ((Number) doc.getData().get("longval")).doubleValue();
+                                    }catch (Exception e){
+                                        Log.d(TAG, "QR HAS DATA ISSUE");
+                                    }
 
                                     try {
                                         Qrcode thisQR = new Qrcode(qrname);
@@ -158,8 +167,24 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
 
     @Override
     public void onDeleteClicked(){
-        qrDataList.remove(selectedPosition);
-        qrAdapter.notifyDataSetChanged();
+        Qrcode deleteQR = (Qrcode) qrList.getItemAtPosition(selectedPosition);
+        CollectionReference collectionReference = db.collection("Users").document(username).collection("qrcodes");
+        if(deleteQR != null) {
+            collectionReference.document(deleteQR.getText())
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error deleting document", e);
+                        }
+                    });
+        }
     }
 
     public void switchActivity(Qrcode qrToPass){

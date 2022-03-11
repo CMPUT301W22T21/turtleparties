@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -35,10 +37,11 @@ public class QRInfo extends AppCompatActivity {
     private TextView scoreView;
     private TextView locationView;
     private View view;
-
+    private Qrcode thisQr;
     private ListView commentList;
     private ArrayAdapter<Comment> commentAdapter;
     private ArrayList<Comment> commentDataList;
+    private String username = "test1";
 
     FirebaseFirestore db;
 
@@ -51,7 +54,7 @@ public class QRInfo extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle qrBundle = intent.getBundleExtra(MainActivity.EXTRA_QR);
-        Qrcode thisQr = (Qrcode) qrBundle.getSerializable("qrcode");
+        thisQr = (Qrcode) qrBundle.getSerializable("qrcode");
         String qrname = thisQr.getText();
         thisQr.generateQRimage();
 
@@ -62,10 +65,17 @@ public class QRInfo extends AppCompatActivity {
         scoreView = view.findViewById(R.id.score_info_view);
         locationView = view.findViewById(R.id.location_view);
 
-        qrImage.setImageBitmap(thisQr.getMyBitmap());
+        if (qrname != "qrcode3") {
+            qrImage.setImageBitmap(thisQr.getMyBitmap());
+        }else{
+            qrImage.setImageResource(R.drawable.ic_baseline_qr_code_24);
+        }
         scoreView.setText(String.valueOf(thisQr.getScore()));
-        locationView.setText(String.valueOf(thisQr.getLat() + "° N " + thisQr.getLon()+ "° W"));
-
+        if (thisQr.getLat() != 0) {
+            locationView.setText(String.valueOf(thisQr.getLat() + "° N " + thisQr.getLon() + "° W"));
+        }else{
+            locationView.setText("n/a");
+        }
         commentList = findViewById(R.id.comment_list);
         commentDataList=new ArrayList<>();
 
@@ -105,6 +115,27 @@ public class QRInfo extends AppCompatActivity {
             }
 
         });
+    }
+
+    public void deleteButtonClicked(View view){
+        CollectionReference collectionReference = db.collection("Users").document(username).collection("qrcodes");
+        if(thisQr != null) {
+            collectionReference.document(thisQr.getText())
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error deleting document", e);
+                        }
+                    });
+        }
+        finish();
     }
 
 }

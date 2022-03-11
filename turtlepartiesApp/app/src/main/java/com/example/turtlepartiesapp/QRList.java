@@ -43,7 +43,7 @@ public class QRList extends ArrayAdapter<Qrcode> {
 
         Log.d("comment", ""+thisCode.getComment());
 
-        if (thisCode.getText() != "null") {
+        if (thisCode.getText() != "qrcode3") {
             thisCode.generateQRimage();
             qrImage.setImageBitmap(thisCode.getMyBitmap());
         }else{
@@ -53,7 +53,7 @@ public class QRList extends ArrayAdapter<Qrcode> {
         if (thisCode.getComment() != null) {
             comment.setText(thisCode.getComment());
         }else{
-            comment.setText("*No comment*");
+            comment.setText("No comment");
         }
         score.setText(String.valueOf(thisCode.getScore()));
 
