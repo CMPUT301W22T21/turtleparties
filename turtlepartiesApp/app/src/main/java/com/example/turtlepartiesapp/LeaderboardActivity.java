@@ -6,13 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -22,17 +27,28 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class LeaderboardActivity extends AppCompatActivity {
 
     private Button highestScoreBut;
     private Button mostScansBut;
     private Button greatesScansBut;
+    private TextView choosePrompt;
     FirebaseFirestore db;
     ListView leaderboardList;
     ArrayAdapter<String> personAdapter;
     ArrayList<Integer> scoresList;
     ArrayList<String> peopleNames;
+
+    HashMap<String, Integer> highestSumMap;
+    HashMap<String, Integer> highestQRScanMap;
+    HashMap<String, Integer> highestScoreMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,18 +56,25 @@ public class LeaderboardActivity extends AppCompatActivity {
         setContentView(R.layout.leaderboards_screen);
         db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Users");
-        identifyAllButtons();
 
-        Integer [] scores = {3,7,6};
+        identifyAllButtons();
+        choosePrompt.setVisibility(View.VISIBLE);
+
+
+
+        highestSumMap = new HashMap<>();
+        highestQRScanMap = new HashMap<>();
+        highestScoreMap = new HashMap<>();
 
         scoresList = new ArrayList<>();
         peopleNames = new ArrayList<>();
-        scoresList.addAll(Arrays.asList(scores));
+
+
 
         personAdapter= new LeaderboardAdapter(this,peopleNames,scoresList);
         leaderboardList.setAdapter(personAdapter);
 
-        Log.d("popie", String.valueOf(peopleNames) + " is popo");
+
 
 
 
@@ -59,13 +82,13 @@ public class LeaderboardActivity extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
                     FirebaseFirestoreException error) {
-                getDataFromFireBaseForLeaderboard();
+                getLeaderboardStatsFromFireBase();
                 personAdapter.notifyDataSetChanged();
             }
 
         });
 
-        getGreatestSumFromFirebase();
+
 
     }
 
@@ -74,6 +97,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         mostScansBut = findViewById(R.id.mostScansButton);
         greatesScansBut = findViewById(R.id.greatestSumButton);
         leaderboardList = findViewById(R.id.leadboardListView);
+        choosePrompt = findViewById(R.id.choosePromptTextView);
 
         highestScoreBut.setOnClickListener(view -> onHighestScoreClicked());
         mostScansBut.setOnClickListener(view -> onMostScansClicked());
@@ -84,50 +108,125 @@ public class LeaderboardActivity extends AppCompatActivity {
     }
 
     public void onHighestScoreClicked(){
-        String []people = {"bob","joe","daill", "rhs", "asd"};
-        Integer [] scores = {300,300,5434,336,745};
 
-        scoresList = new ArrayList<>();
+        choosePrompt.setVisibility(View.GONE);
 
-        scoresList.addAll(Arrays.asList(scores));
+        peopleNames.clear();
+        scoresList.clear();
 
-        personAdapter= new LeaderboardAdapter(this,peopleNames,scoresList);
-        leaderboardList.setAdapter(personAdapter);
-        return;
+        highestScoreMap = sortByValue(highestScoreMap);
+        peopleNames.addAll(highestScoreMap.keySet());
+        scoresList.addAll(highestScoreMap.values());
+        personAdapter.notifyDataSetChanged();
     }
 
     public void onMostScansClicked(){
-        return;
+
+        choosePrompt.setVisibility(View.GONE);
+
+        peopleNames.clear();
+        scoresList.clear();
+
+        highestQRScanMap = sortByValue(highestQRScanMap);
+
+        peopleNames.addAll(highestQRScanMap.keySet());
+        scoresList.addAll(highestQRScanMap.values());
+
+        personAdapter.notifyDataSetChanged();
+
     }
 
     public void onGreatestSumClicked(){
-        return;
+
+        choosePrompt.setVisibility(View.GONE);
+
+        peopleNames.clear();
+        scoresList.clear();
+
+        highestSumMap = sortByValue(highestSumMap);
+        peopleNames.addAll(highestSumMap.keySet());
+        scoresList.addAll(highestSumMap.values());
+        personAdapter.notifyDataSetChanged();
     }
 
 
-    public void getDataFromFireBaseForLeaderboard(){
 
+    public void getLeaderboardStatsFromFireBase(){
         db.collection("Users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
                         String name = doc.getId();
-                        Log.d("popie", name);
-                        peopleNames.add(name);
-                        personAdapter.notifyDataSetChanged();
+                        db.collection("Users").document(name).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot doc = task.getResult();
+                                    Integer highestqr = null;
+                                    Integer qrcount = null;
+                                    Integer qrsum = null;
+                                    //Highest sum
+                                    try{
+                                        qrsum = ((Number) doc.getData().get("qrsum")).intValue();
+                                        highestSumMap.put(name,qrsum);
+                                    }catch (Exception e){
+                                        highestSumMap.put(name,0);
+                                    }
+                                    //Highest score
+                                    try{
+                                        highestqr = ((Number) doc.getData().get("highestqr")).intValue();
+                                        highestScoreMap.put(name,highestqr);
+                                    }catch (Exception e){
+                                        highestScoreMap.put(name,0);
+                                    }
+                                    //Highest scan amount
+                                    try{
+                                        qrcount = ((Number) doc.getData().get("qrcount")).intValue();
+                                        highestQRScanMap.put(name,qrcount);
+                                    }catch (Exception e){
+                                        highestQRScanMap.put(name,0);
+                                    }
+
+
+                                    Log.d("LEADERBOARD_DEBUG", highestqr + "  " + qrcount + "  " + qrsum);
+                                    personAdapter.notifyDataSetChanged();
+
+
+                                }
+                            }
+                        });
                     }
 
                 }
             }
         });
 
+
     }
 
+    //Sort in descending order
+    public static HashMap<String, Integer>
+    sortByValue(HashMap<String, Integer> hm)
+    {
+        // Create a list from elements of HashMap
+        List<Map.Entry<String, Integer> > list
+                = new LinkedList<Map.Entry<String, Integer> >(
+                hm.entrySet());
 
-    public void getGreatestSumFromFirebase(){
-        ApiFuture<QuerySnapshot> future = db.collection("cities").get();
-        Log.d("popie", qrCodes.);
+        // Sort the list using lambda expression
+        Collections.sort(
+                list,
+                (i2,
+                 i1) -> i1.getValue().compareTo(i2.getValue()));
+
+        // put data from sorted list to hashmap
+        HashMap<String, Integer> temp
+                = new LinkedHashMap<String, Integer>();
+        for (Map.Entry<String, Integer> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
     }
 
 }
