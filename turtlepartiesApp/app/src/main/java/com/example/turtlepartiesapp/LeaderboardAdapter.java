@@ -19,7 +19,7 @@ public class LeaderboardAdapter extends ArrayAdapter<String> {
     private Context context;
     private ArrayList<String> people;
     private ArrayList<Integer> scores;
-    int n = 0;
+
 
     public LeaderboardAdapter(Context context,ArrayList<String> people, ArrayList<Integer> scores){
         super(context,0,people);
@@ -31,6 +31,7 @@ public class LeaderboardAdapter extends ArrayAdapter<String> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
+
         //Set up the view
         View view = convertView;
         if (view == null){
@@ -40,8 +41,8 @@ public class LeaderboardAdapter extends ArrayAdapter<String> {
         String score = scores.get(position).toString();
         TextView playerTextview = view.findViewById(R.id.playerNametextView);
         TextView leaderboardStatTextView = view.findViewById(R.id.leaderboardstatTextView);
-        n++;
-        playerTextview.setText(String.valueOf(n) + ". " + name);
+
+        playerTextview.setText(String.valueOf(position+1) + ". " + name);
         leaderboardStatTextView.setText(score + "   ");
 
         return view;
