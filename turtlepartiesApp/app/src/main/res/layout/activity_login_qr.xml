@@ -18,6 +18,4 @@
         android:id = "@+id/generateloginQr"/>
 
 
-
-
 </LinearLayout>
