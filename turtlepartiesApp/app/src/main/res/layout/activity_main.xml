@@ -91,7 +91,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="391dp"
+        android:layout_width="0dp"
         android:layout_height="64dp"
         android:background="@drawable/infobarborder"
         app:layout_constraintEnd_toEndOf="parent"
