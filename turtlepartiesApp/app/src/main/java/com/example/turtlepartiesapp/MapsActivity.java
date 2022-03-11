@@ -6,12 +6,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ResourceManagerInternal;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.VectorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -25,6 +30,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
@@ -41,6 +47,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.zxing.WriterException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +118,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.addMarker(new MarkerOptions()
                 .position(center)
                 .title("You are here"))
-                .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                .setIcon(getBitmapDescriptor(R.drawable.ic_baseline_my_location_24));
 
         mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
@@ -120,21 +127,33 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void addQRMarkers(@NonNull GoogleMap googleMap){
         mMap = googleMap;
 
-        collectionReference = db.collection("Users").document(username).collection("qrcodes");
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection("QR codes").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
-                {
-                    Double latval = ((Number) doc.getData().get("latval")).doubleValue();
-                    Double longval = ((Number) doc.getData().get("longval")).doubleValue();
-                    Integer score = ((Number) doc.getData().get("score")).intValue();
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        String qrname = doc.getId();
 
-                    Log.d(TAG, latval + "  " + longval + "  " + score);
-                    LatLng thisMarker = new LatLng(latval, longval);
-                    mMap.addMarker(new MarkerOptions()
-                            .position(thisMarker)
-                            .title(String.valueOf(score)));
+                        db.collection("QR codes").document(qrname).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot doc = task.getResult();
+                                    Integer score = ((Number) doc.getData().get("score")).intValue();
+                                    Double latval = ((Number) doc.getData().get("latval")).doubleValue();
+                                    Double longval = ((Number) doc.getData().get("longval")).doubleValue();
+
+                                    Log.d(TAG, latval + "  " + longval + "  " + score);
+                                    LatLng thisMarker = new LatLng(latval, longval);
+                                    mMap.addMarker(new MarkerOptions()
+                                            .position(thisMarker)
+                                            .title(String.valueOf(score)));
+                                }
+                            }
+                        });
+                    }
+                }else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }
         });
@@ -163,6 +182,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
         });
+    }
+
+    private BitmapDescriptor getBitmapDescriptor(int id) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            VectorDrawable vectorDrawable = (VectorDrawable) getDrawable(id);
+
+            int h = vectorDrawable.getIntrinsicHeight();
+            int w = vectorDrawable.getIntrinsicWidth();
+
+            vectorDrawable.setBounds(0, 0, w, h);
+
+            Bitmap bm = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bm);
+            vectorDrawable.draw(canvas);
+
+            return BitmapDescriptorFactory.fromBitmap(bm);
+
+        } else {
+            return BitmapDescriptorFactory.fromResource(id);
+        }
     }
 }
 

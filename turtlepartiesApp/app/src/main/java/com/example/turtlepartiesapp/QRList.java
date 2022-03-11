@@ -36,9 +36,9 @@ public class QRList extends ArrayAdapter<Qrcode> {
 
         Qrcode thisCode = codes.get(position);
 
-        ImageView qrImage = view.findViewById(R.id.qr_imageView);
-        TextView comment = view.findViewById(R.id.comment_text);
-        TextView score = view.findViewById(R.id.score_view2);
+        ImageView qrImage = view.findViewById(R.id.profile_imageview);
+        TextView comment = view.findViewById(R.id.commentlist_text);
+        TextView score = view.findViewById(R.id.username_text);
 
         //qrImage.setImageBitmap(thisCode.getMyBitmap());
         qrImage.setImageResource(R.drawable.ic_baseline_qr_code_24);

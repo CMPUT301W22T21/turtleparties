@@ -21,10 +21,12 @@ public class Qrcode implements Serializable {
     private Integer score;
     private Double lat;
     private Double lon;
+    private String id;
     private String comment;
 
 
-    public Qrcode(String str_text, Integer score, Double lat, Double lon, String comment) throws WriterException {
+    public Qrcode(String qrid, String str_text, Integer score, Double lat, Double lon, String comment) throws WriterException {
+        this.id = qrid;
         this.text = str_text;
         this.score = score;
         this.lat = lat;
@@ -80,7 +82,8 @@ public class Qrcode implements Serializable {
         return comment;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public String getId() {
+        return id;
     }
+
 }
