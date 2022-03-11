@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">turtlepartiesApp</string>
+    <string name="most_scans">Most Scans</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="highest_score">Highest Score</string>
+    <string name="greatest_sum">Greatest Sum</string>
+    <string name="style_json">
+    [
+        {
+          \"featureType\": \"poi.business\",
+          \"elementType\": \"all\",
+          \"stylers\": [
+            {
+              \"visibility\": \"off\"
+            }
+          ]
+        },
+        {
+          \"featureType\": \"transit\",
+          \"elementType\": \"labels.icon\",
+          \"stylers\": [
+            {
+              \"visibility\": \"off\"
+            }
+          ]
+        }
+    ]
+    </string>
+</resources>
