@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">595362815004-pk4fjpu9oqlvbudnhb8tbvehgebbccn3.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">595362815004</string>
+    <string name="google_api_key" translatable="false">AIzaSyDErKvoXSD_rxGRC-xnUfmBRC3PEdd6lFw</string>
+    <string name="google_app_id" translatable="false">1:595362815004:android:3af30b691dc420030b13d9</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDErKvoXSD_rxGRC-xnUfmBRC3PEdd6lFw</string>
+    <string name="google_storage_bucket" translatable="false">turtleparties-db.appspot.com</string>
+    <string name="project_id" translatable="false">turtleparties-db</string>
+</resources>
