@@ -10,25 +10,36 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
-public class Qrcode {
-
-    private String text;
-    private String QRstring;
-    private BitMatrix result = null;
-    private Bitmap myBitmap;
+import java.io.Serializable;
 
 
+public abstract class Qrcode implements Serializable {
 
-    public Qrcode(String str_text) throws WriterException {
 
-        this.text = str_text;
+    private String code;
+    private transient BitMatrix result = null;
+    private transient Bitmap myBitmap;
+
+    // instantiates the QR class
+
+    /**
+     * Abstract class for QR code it is extended by ScoreQRcode and LoginQRcode. This class generates a bitmap and the qrcode.
+     * @param code
+     */
+    public Qrcode(String code){
+        this.code = code;
     }
 
 
+
+    /**
+     * This method will generate the bitmap for a qr code. Bitmap must be set to imageview for qr code to be visible
+     * @return Bitmap
+     */
     public void generateQRimage(){
+
         try{
-            result = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, 300,300,null);
-            QRstring = result.toString();
+            result = new MultiFormatWriter().encode(this.getCode(), BarcodeFormat.QR_CODE, 300,300,null);
         }catch (WriterException e){
             e.printStackTrace();
         }
@@ -47,12 +58,12 @@ public class Qrcode {
         myBitmap.setPixels(pixels,0,width,0,0,width,height);
     }
 
-
     public Bitmap getMyBitmap() {
         return myBitmap;
     }
 
-    public String getText() {
-        return text;
+    public String getCode(){
+        return code;
     }
+
 }

@@ -28,13 +28,13 @@ public class Player {
     String password;
     String name;
     Long score;
-    ArrayList<Qrcode> qrCodes;
+    ArrayList<ScoreQrcode> qrCodes;
 
     public Player(String username) {
         this.username = username;
         this.score = Long.valueOf(0);
         this.name = "";
-        this.qrCodes = new ArrayList<Qrcode>();
+        this.qrCodes = new ArrayList<ScoreQrcode>();
         this.db = FirebaseFirestore.getInstance();
 
         final DocumentReference userRef  = db.collection("Users").document(username);
@@ -54,7 +54,7 @@ public class Player {
         return score;
     }
 
-    public ArrayList<Qrcode> getQrCodes() {
+    public ArrayList<ScoreQrcode> getQrCodes() {
         return qrCodes;
     }
 
@@ -87,8 +87,8 @@ public class Player {
                     }
 
                     try {
-                        qrCodes.add(new Qrcode(qrcodestring));
-                    } catch (WriterException e) {
+                        qrCodes.add(new ScoreQrcode(qrcodestring));
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
