@@ -20,29 +20,14 @@ import org.junit.Assert.*;
 import java.util.ArrayList;
 
 public class MainActivityTest {
-    FirebaseFirestore db;
-    CollectionReference collectionReference;
+
     ArrayList<String> databaseQRCodes;
 
     @Before
     public void setUpLinkToDatabase(){
         databaseQRCodes = new ArrayList<>();
         databaseQRCodes.clear();
-        db = FirebaseFirestore.getInstance();
-
-        db.collection("QR Codes").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot doc : task.getResult()) {
-                        String name = doc.getId();
-                        databaseQRCodes.add(name);
-
-                    }
-
-                }
-            }
-        });
+        //databaseQRCodes = MainActivity.getQRCodeStrings();
 
     }
 
