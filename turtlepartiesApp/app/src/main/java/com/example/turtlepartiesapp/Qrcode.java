@@ -10,13 +10,15 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import java.io.Serializable;
 
-public abstract class Qrcode {
+
+public abstract class Qrcode implements Serializable {
 
 
     private String code;
-    private BitMatrix result = null;
-    private Bitmap myBitmap;
+    private transient BitMatrix result = null;
+    private transient Bitmap myBitmap;
 
     // instantiates the QR class
 

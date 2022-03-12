@@ -19,7 +19,7 @@ public class ScoreQrcode extends Qrcode implements Serializable {
 
     private String qrName;
     private int score;
-    private GeoPoint geolocation;
+    private transient GeoPoint geolocation;
     private String comment;
 
 
@@ -77,6 +77,10 @@ public class ScoreQrcode extends Qrcode implements Serializable {
 
     public String getQrName() {
         return qrName;
+    }
+
+    public void setQrName(String qrName) {
+        this.qrName = qrName;
     }
 
     /**

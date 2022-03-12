@@ -51,6 +51,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.WriterException;
@@ -150,8 +151,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot doc = task.getResult();
                                     Integer score = ((Number) doc.getData().get("score")).intValue();
-                                    Double latval = ((Number) doc.getData().get("latval")).doubleValue();
-                                    Double longval = ((Number) doc.getData().get("longval")).doubleValue();
+                                    GeoPoint qrGeoPoint = (GeoPoint) doc.getData().get("geolocation");
+
+                                    Double latval = 0.0;
+                                    Double longval = 0.0;
+                                    try {
+                                        latval = qrGeoPoint.getLatitude();
+                                        longval = qrGeoPoint.getLongitude();
+                                    }catch (Exception e){
+                                        Log.d(TAG, "EMPTY GEOPOINT");
+                                    }
 
                                     Log.d(TAG, latval + "  " + longval + "  " + score);
                                     LatLng thisMarker = new LatLng(latval, longval);

@@ -56,10 +56,9 @@ public class QRInfo extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle qrBundle = intent.getBundleExtra(MainActivity.EXTRA_QR);
         thisQr = (ScoreQrcode) qrBundle.getSerializable("qrcode");
+        Double lat = (Double) qrBundle.getSerializable("lat");
+        Double lon = (Double) qrBundle.getSerializable("lon");
         String qrname = thisQr.getQrName();
-        GeoPoint qrGeo = thisQr.getGeolocation();
-        Double lat = qrGeo.getLatitude();
-        Double lon = qrGeo.getLongitude();
         thisQr.generateQRimage();
 
         db = FirebaseFirestore.getInstance();

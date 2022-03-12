@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
 
                                     try {
                                         ScoreQrcode thisQR = new ScoreQrcode(qrname);
+                                        thisQR.setQrName(qrname);
                                         thisQR.setGeolocation(qrGeo);
                                         thisQR.setComment(comment);
                                         qrDataList.add(thisQR);
@@ -231,6 +232,15 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     public void switchActivity(ScoreQrcode qrToPass){
         Bundle args = new Bundle();
         args.putSerializable("qrcode", qrToPass);
+
+        try {
+            args.putSerializable("lat", qrToPass.getGeolocation().getLatitude());
+            args.putSerializable("lon", qrToPass.getGeolocation().getLongitude());
+        }catch (Exception e){
+            args.putSerializable("lat", 0.0);
+            args.putSerializable("lon", 0.0);
+        }
+
         Intent qrinfoIntent = new Intent (this, QRInfo.class);
         qrinfoIntent.putExtra(EXTRA_QR, args);
         startActivity(qrinfoIntent);
