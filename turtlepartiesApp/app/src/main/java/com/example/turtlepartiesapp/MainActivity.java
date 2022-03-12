@@ -3,8 +3,14 @@ package com.example.turtlepartiesapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +34,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.WriterException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements QRDeleteFragment.OnFragmentInteractionListener{
 
@@ -46,11 +53,15 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     private TextView sumView;
     private TextView highestView;
     private TextView lowestView;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = this;
+        checkAndRequestPermissions();
 
         view = this.findViewById(android.R.id.content);
         db = FirebaseFirestore.getInstance();
@@ -87,6 +98,32 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
             }
 
         });
+    }
+
+    public boolean checkAndRequestPermissions() {
+        int internet = ContextCompat.checkSelfPermission(context,
+                Manifest.permission.INTERNET);
+        int loc = ContextCompat.checkSelfPermission(context,
+                Manifest.permission.ACCESS_COARSE_LOCATION);
+        int loc2 = ContextCompat.checkSelfPermission(context,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+        if (internet != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.INTERNET);
+        }
+        if (loc != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+        if (loc2 != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions((Activity) context, listPermissionsNeeded.toArray
+                    (new String[listPermissionsNeeded.size()]), 1);
+            return false;
+        }
+        return true;
     }
 
     public void updateInfo(View view){
