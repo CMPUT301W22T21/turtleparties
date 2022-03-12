@@ -23,6 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.WriterException;
@@ -37,7 +38,7 @@ public class QRInfo extends AppCompatActivity {
     private TextView scoreView;
     private TextView locationView;
     private View view;
-    private Qrcode thisQr;
+    private ScoreQrcode thisQr;
     private ListView commentList;
     private ArrayAdapter<Comment> commentAdapter;
     private ArrayList<Comment> commentDataList;
@@ -54,8 +55,11 @@ public class QRInfo extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle qrBundle = intent.getBundleExtra(MainActivity.EXTRA_QR);
-        thisQr = (Qrcode) qrBundle.getSerializable("qrcode");
-        String qrname = thisQr.getText();
+        thisQr = (ScoreQrcode) qrBundle.getSerializable("qrcode");
+        String qrname = thisQr.getQrName();
+        GeoPoint qrGeo = thisQr.getGeolocation();
+        Double lat = qrGeo.getLatitude();
+        Double lon = qrGeo.getLongitude();
         thisQr.generateQRimage();
 
         db = FirebaseFirestore.getInstance();
@@ -71,8 +75,8 @@ public class QRInfo extends AppCompatActivity {
             qrImage.setImageResource(R.drawable.ic_baseline_qr_code_24);
         }
         scoreView.setText(String.valueOf(thisQr.getScore()));
-        if (thisQr.getLat() != 0) {
-            locationView.setText(String.valueOf(thisQr.getLat() + "° N " + thisQr.getLon() + "° W"));
+        if (lat != 0.0) {
+            locationView.setText(String.valueOf(lat + "° N " + lon + "° W"));
         }else{
             locationView.setText("n/a");
         }
@@ -120,7 +124,7 @@ public class QRInfo extends AppCompatActivity {
     public void deleteButtonClicked(View view){
         CollectionReference collectionReference = db.collection("Users").document(username).collection("qrcodes");
         if(thisQr != null) {
-            collectionReference.document(thisQr.getText())
+            collectionReference.document(thisQr.getQrName())
                     .delete()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override

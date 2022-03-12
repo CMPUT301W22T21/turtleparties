@@ -13,6 +13,7 @@ import android.content.Context;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import android.widget.Button;
@@ -51,10 +52,10 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     final String username = "test1";
     CollectionReference collectionReference;
     private ListView qrList;
-    private ArrayAdapter<Qrcode> qrAdapter;
-    private ArrayList<Qrcode> qrDataList;
+    private ArrayAdapter<ScoreQrcode> qrAdapter;
+    private ArrayList<ScoreQrcode> qrDataList;
     private int selectedPosition;
-    private Qrcode currentQr;
+    private ScoreQrcode currentQr;
     View view;
     private TextView scanView;
     private TextView sumView;
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         qrList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                currentQr = (Qrcode) qrList.getItemAtPosition(position);
+                currentQr = (ScoreQrcode) qrList.getItemAtPosition(position);
                 switchActivity(currentQr);
             }
         });
@@ -175,26 +176,21 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot doc = task.getResult();
                                     Integer score = 0;
-                                    Double latval = 0.0;
-                                    Double longval = 0.0;
+                                    GeoPoint qrGeo = null;
                                     try {
                                         score = ((Number) doc.getData().get("score")).intValue();
-                                        latval = ((Number) doc.getData().get("latval")).doubleValue();
-                                        longval = ((Number) doc.getData().get("longval")).doubleValue();
-                                        Geolocation qrGeo = (GeoPoint) doc.getData().get("geolocation");
+                                        qrGeo = (GeoPoint) doc.getData().get("geolocation");
                                     }catch (Exception e){
                                         Log.d(TAG, "QR HAS DATA ISSUE");
                                     }
 
                                     try {
-                                        Qrcode thisQR = new ScoreQrcode(qrname);
-                                        thisQR.setScore(score);
-                                        thisQR.setLat(latval);
-                                        thisQR.setLon(longval);
+                                        ScoreQrcode thisQR = new ScoreQrcode(qrname);
+                                        thisQR.setGeolocation(qrGeo);
                                         thisQR.setComment(comment);
                                         qrDataList.add(thisQR);
                                         Log.d(TAG, qrname + "  " + comment + "  " + score);
-                                    } catch (WriterException e) {
+                                    } catch (Exception e) {
                                         Log.d(TAG, "NOT ADDED TO QR DATA LIST");
                                         e.printStackTrace();
                                     }
@@ -212,10 +208,10 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
 
     @Override
     public void onDeleteClicked(){
-        Qrcode deleteQR = (Qrcode) qrList.getItemAtPosition(selectedPosition);
+        ScoreQrcode deleteQR = (ScoreQrcode) qrList.getItemAtPosition(selectedPosition);
         CollectionReference collectionReference = db.collection("Users").document(username).collection("qrcodes");
         if(deleteQR != null) {
-            collectionReference.document(deleteQR.getText())
+            collectionReference.document(deleteQR.getQrName())
                     .delete()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -232,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         }
     }
 
-    public void switchActivity(Qrcode qrToPass){
+    public void switchActivity(ScoreQrcode qrToPass){
         Bundle args = new Bundle();
         args.putSerializable("qrcode", qrToPass);
         Intent qrinfoIntent = new Intent (this, QRInfo.class);

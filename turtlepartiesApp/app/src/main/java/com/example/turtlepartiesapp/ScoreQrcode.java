@@ -6,18 +6,20 @@ import static android.graphics.Color.WHITE;
 import android.graphics.Bitmap;
 
 import com.google.common.hash.Hashing;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 
-public class ScoreQrcode extends Qrcode {
+public class ScoreQrcode extends Qrcode implements Serializable {
 
-
+    private String qrName;
     private int score;
-    private Geolocation geolocation;
+    private GeoPoint geolocation;
     private String comment;
 
 
@@ -27,6 +29,7 @@ public class ScoreQrcode extends Qrcode {
      */
    public ScoreQrcode(String code){
        super(code);
+       this.qrName = null;
        this.calculatescore();
        this.geolocation = null;
        this.comment = null;
@@ -72,6 +75,10 @@ public class ScoreQrcode extends Qrcode {
 
     }
 
+    public String getQrName() {
+        return qrName;
+    }
+
     /**
      * This function will run a hash function on the qrcode's code
      */
@@ -83,11 +90,11 @@ public class ScoreQrcode extends Qrcode {
         return score;
     }
 
-    public Geolocation getGeolocation() {
+    public GeoPoint getGeolocation() {
         return geolocation;
     }
 
-    public void setGeolocation(Geolocation geolocation) {
+    public void setGeolocation(GeoPoint geolocation) {
         this.geolocation = geolocation;
     }
 

@@ -15,12 +15,12 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class QRList extends ArrayAdapter<Qrcode> {
+public class QRList extends ArrayAdapter<ScoreQrcode> {
 
-    private ArrayList<Qrcode> codes;
+    private ArrayList<ScoreQrcode> codes;
     private Context context;
 
-    public QRList(Context context, ArrayList<Qrcode> qr){
+    public QRList(Context context, ArrayList<ScoreQrcode> qr){
         super(context,0, qr);
         this.codes = qr;
         this.context = context;
@@ -35,7 +35,7 @@ public class QRList extends ArrayAdapter<Qrcode> {
             view = LayoutInflater.from(context).inflate(R.layout.qrlist_content, parent,false);
         }
 
-        Qrcode thisCode = codes.get(position);
+        ScoreQrcode thisCode = codes.get(position);
 
         ImageView qrImage = view.findViewById(R.id.profile_imageview);
         TextView comment = view.findViewById(R.id.commentlist_text);
@@ -43,7 +43,7 @@ public class QRList extends ArrayAdapter<Qrcode> {
 
         Log.d("comment", ""+thisCode.getComment());
 
-        if (thisCode.getText() != "qrcode3") {
+        if (thisCode.getQrName() != "qrcode3") {
             thisCode.generateQRimage();
             qrImage.setImageBitmap(thisCode.getMyBitmap());
         }else{
