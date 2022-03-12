@@ -253,6 +253,8 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
 
     public void leaderboardActivity(View view){
         Intent leaderboardIntent = new Intent(this, LeaderboardActivity.class);
+        leaderboardIntent.putExtra("USER_IDENTIFIER",username);
+
         startActivity(leaderboardIntent);
     }
 

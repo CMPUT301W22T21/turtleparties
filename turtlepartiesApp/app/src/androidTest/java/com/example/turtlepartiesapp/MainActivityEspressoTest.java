@@ -27,14 +27,31 @@ public class MainActivityEspressoTest {
 
     @Test
     public void goesToLeaderBoardScreen(){
-        onView(withId(R.id.openLeaderBoardButton)).check(matches(isDisplayed()));
-        onView(withId(R.id.openLeaderBoardButton)).perform(click());
+        onView(withId(R.id.openLeaderActivityButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.openLeaderActivityButton)).perform(click());
     }
 
     @Test
     public void goesToMap(){
-        //mapActivityButton
-       // onView(withId(R.id.button)).check(matches(isDisplayed()));
-       // onView(withId(R.id.button)).perform(click());
+        onView(withId(R.id.mapActivityButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.mapActivityButton)).perform(click());
+    }
+
+    @Test
+    public void goesTo(){
+        onView(withId(R.id.mapActivityButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.mapActivityButton)).perform(click());
+    }
+
+    @Test
+    public void goesToProfile(){
+        onView(withId(R.id.mapActivityButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.mapActivityButton)).perform(click());
+    }
+
+    @Test
+    public void goesToScan(){
+        onView(withId(R.id.mapActivityButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.mapActivityButton)).perform(click());
     }
 }
