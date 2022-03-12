@@ -6,12 +6,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+
+import android.widget.Button;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -29,6 +35,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.WriterException;
@@ -174,12 +181,13 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
                                         score = ((Number) doc.getData().get("score")).intValue();
                                         latval = ((Number) doc.getData().get("latval")).doubleValue();
                                         longval = ((Number) doc.getData().get("longval")).doubleValue();
+                                        Geolocation qrGeo = (GeoPoint) doc.getData().get("geolocation");
                                     }catch (Exception e){
                                         Log.d(TAG, "QR HAS DATA ISSUE");
                                     }
 
                                     try {
-                                        Qrcode thisQR = new Qrcode(qrname);
+                                        Qrcode thisQR = new ScoreQrcode(qrname);
                                         thisQR.setScore(score);
                                         thisQR.setLat(latval);
                                         thisQR.setLon(longval);
@@ -249,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     public void profileSearchActivity(View view) {
         // User search goes here
     }
+
 
     public void profileQRActivity(View view) {
         Intent profileIntent = new Intent(this, ProfileQRActivity.class);
