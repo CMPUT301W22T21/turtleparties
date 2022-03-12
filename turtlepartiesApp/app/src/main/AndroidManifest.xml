@@ -2,8 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.turtlepartiesapp">
 
+
+
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 
     <application
         android:allowBackup="true"
@@ -20,6 +23,9 @@
             android:exported="false" />
         <activity
             android:name=".MapsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ScanQRActivity"
             android:exported="false" />
         <activity
             android:name=".LoginQRActivity"

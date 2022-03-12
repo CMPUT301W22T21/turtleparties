@@ -10,33 +10,34 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
-import java.io.Serializable;
 
-public class Qrcode implements Serializable {
-
-    private String text;
-    private String QRstring;
-    private transient BitMatrix result = null;
-    private transient Bitmap myBitmap;
-    private Integer score;
-    private Double lat;
-    private Double lon;
-    private String comment;
+public abstract class Qrcode {
 
 
-    public Qrcode(String str_text) throws WriterException {
-        this.text = str_text;
-        this.score = null;
-        this.lat = null;
-        this.lon = null;
-        this.comment = null;
+    private String code;
+    private BitMatrix result = null;
+    private Bitmap myBitmap;
+
+    // instantiates the QR class
+
+    /**
+     * Abstract class for QR code it is extended by ScoreQRcode and LoginQRcode. This class generates a bitmap and the qrcode.
+     * @param code
+     */
+    public Qrcode(String code){
+        this.code = code;
     }
 
 
+
+    /**
+     * This method will generate the bitmap for a qr code. Bitmap must be set to imageview for qr code to be visible
+     * @return Bitmap
+     */
     public void generateQRimage(){
+
         try{
-            result = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, 300,300,null);
-            QRstring = result.toString();
+            result = new MultiFormatWriter().encode(this.getCode(), BarcodeFormat.QR_CODE, 300,300,null);
         }catch (WriterException e){
             e.printStackTrace();
         }
@@ -55,44 +56,12 @@ public class Qrcode implements Serializable {
         myBitmap.setPixels(pixels,0,width,0,0,width,height);
     }
 
-
     public Bitmap getMyBitmap() {
         return myBitmap;
     }
 
-    public String getText() {
-        return text;
+    public String getCode(){
+        return code;
     }
 
-    public Integer getScore() {
-        return score;
-    }
-
-    public Double getLat() {
-        return lat;
-    }
-
-    public Double getLon() {
-        return lon;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setScore(Integer score) {
-        this.score = score;
-    }
-
-    public void setLat(Double lat) {
-        this.lat = lat;
-    }
-
-    public void setLon(Double lon) {
-        this.lon = lon;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
 }

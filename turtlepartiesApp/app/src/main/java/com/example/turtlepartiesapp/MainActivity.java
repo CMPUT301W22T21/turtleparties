@@ -4,8 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import android.widget.Button;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -51,6 +56,11 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
+
 
         view = this.findViewById(android.R.id.content);
         db = FirebaseFirestore.getInstance();
@@ -212,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     public void profileSearchActivity(View view) {
         // User search goes here
     }
+
 
     public void profileQRActivity(View view) {
         Intent profileIntent = new Intent(this, ProfileQRActivity.class);
