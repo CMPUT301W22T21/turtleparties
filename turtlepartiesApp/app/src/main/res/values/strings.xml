@@ -4,4 +4,6 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="highest_score">Highest Score</string>
     <string name="greatest_sum">Greatest Sum</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
