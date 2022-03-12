@@ -45,6 +45,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     ArrayAdapter<String> personAdapter;
     ArrayList<Integer> scoresList;
     ArrayList<String> peopleNames;
+    String currentUser;
 
     HashMap<String, Integer> highestSumMap;
     HashMap<String, Integer> highestQRScanMap;
@@ -71,7 +72,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
 
 
-        personAdapter= new LeaderboardAdapter(this,peopleNames,scoresList);
+        personAdapter= new LeaderboardAdapter(this,peopleNames,scoresList,currentUser);
         leaderboardList.setAdapter(personAdapter);
 
 
@@ -103,7 +104,11 @@ public class LeaderboardActivity extends AppCompatActivity {
         mostScansBut.setOnClickListener(view -> onMostScansClicked());
         greatesScansBut.setOnClickListener(view -> onGreatestSumClicked());
 
-
+        //Get User from intent info
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            currentUser = extras.getString("USER_IDENTIFIER");
+        }
 
     }
 
@@ -228,5 +233,6 @@ public class LeaderboardActivity extends AppCompatActivity {
         }
         return temp;
     }
+
 
 }

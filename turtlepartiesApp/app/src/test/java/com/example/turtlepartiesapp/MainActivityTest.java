@@ -26,7 +26,7 @@ public class MainActivityTest {
     @Before
     public void setUpLinkToDatabase(){
         databaseQRCodes = new ArrayList<>();
-        databaseQRCodes.clear();
+
         //databaseQRCodes = MainActivity.getQRCodeStrings();
 
     }
