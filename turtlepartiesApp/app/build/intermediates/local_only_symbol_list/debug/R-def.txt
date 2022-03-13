@@ -12,7 +12,6 @@ drawable ic_launcher_foreground
 id bigName
 id bigUserName
 id button
-id button1
 id editEmail
 id editName
 id editPhoneNumber
@@ -24,14 +23,13 @@ id highestScoreButton
 id leadboardListView
 id leadboardTextView
 id leaderboardstatTextView
-id loginQRCloseButton
 id loginqr
 id map
 id mostScansButton
 id openLeaderBoardButton
+id openProfileButton
 id personalqr
 id playerNametextView
-id profileQRCloseButton
 id saveChangesButton
 id showFriendQRButton
 id showLoginQRButton

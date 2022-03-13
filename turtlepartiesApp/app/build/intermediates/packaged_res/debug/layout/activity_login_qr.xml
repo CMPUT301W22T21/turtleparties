@@ -17,14 +17,5 @@
         android:layout_height="100dp"
         android:id = "@+id/generateloginQr"/>
 
-    // added close button
-    <Button
-        android:id="@+id/loginQRCloseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="close" />
-
-
-
 
 </LinearLayout>

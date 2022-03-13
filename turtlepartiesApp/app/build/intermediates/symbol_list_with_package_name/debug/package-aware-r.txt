@@ -2672,7 +2672,6 @@ id bounceBoth
 id bounceEnd
 id bounceStart
 id button
-id button1
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -2827,7 +2826,6 @@ id line3
 id linear
 id listMode
 id list_item
-id loginQRCloseButton
 id loginqr
 id map
 id masked
@@ -2909,6 +2907,7 @@ id off
 id on
 id onInterceptTouchReturnSwipe
 id openLeaderBoardButton
+id openProfileButton
 id outline
 id outward
 id overshoot
@@ -2928,7 +2927,6 @@ id pin
 id playerNametextView
 id position
 id postLayout
-id profileQRCloseButton
 id progress_circular
 id progress_horizontal
 id radio
