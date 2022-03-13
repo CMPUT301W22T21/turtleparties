@@ -10,24 +10,58 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    TextView text_name, text_userName;
     EditText editText_name, editText_userName, editText_email, editText_phoneNumber;
-    Button saveButton;
-    Player player;
+    Button saveButton, showLoginQRButton, showFriendQRButton;
+    LoggedInPlayer player;
 
-    //
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_screen);
 
+        text_name = findViewById(R.id.bigName);
+        text_userName = findViewById(R.id.bigUserName);
         editText_name = findViewById(R.id.editName);
         editText_userName = findViewById(R.id.editUserName);
         editText_email = findViewById(R.id.editEmail);
         editText_phoneNumber = findViewById(R.id.editPhoneNumber);
         saveButton = findViewById(R.id.saveChangesButton);
+        showLoginQRButton = findViewById(R.id.showLoginQRButton);
+        showFriendQRButton = findViewById(R.id.showFriendQRButton);
+
+
+        // Open login QR Fragment
+        showLoginQRButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                replaceFragment(new LoginQRFragment());
+//                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//                ft.replace(R.id.loginQRContainer, new LoginQRFragment());
+//                ft.commit();
+            }
+        });
+
+        // Open friend QR Fragment
+        showFriendQRButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                replaceFragment(new FriendQRFragment());
+//                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//                ft.replace(R.id.friendQRContainer, new LoginQRFragment());
+//                ft.commit();
+            }
+        });
+
+
 
 //        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 //
@@ -38,15 +72,19 @@ public class ProfileActivity extends AppCompatActivity {
 //        textView_email = findViewById(R.id.text_email);
 //        textView_phoneNumber = findViewById(R.id.text_phoneNumber);
 
-        editText_name.setText("This sets the text.", TextView.BufferType.EDITABLE);
+//        String name, userName, email, phoneNumber;
 
+//        name = player.getName();
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+//        editText_name.setText(name, TextView.BufferType.EDITABLE);
+//
+//
+//        saveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
 
 //        saveButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -78,6 +116,14 @@ public class ProfileActivity extends AppCompatActivity {
 //        }
 
 
+    }
+
+    private void replaceFragment(Fragment fragment) {
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frameLayout, fragment);
+        ft.commit();
     }
 
     // saves user information changes
