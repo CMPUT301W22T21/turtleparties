@@ -51,13 +51,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
-        android:id="@+id/leadboardListView"
-        android:layout_width="409dp"
-        android:layout_height="609dp"
-        android:layout_marginTop="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/mostScansButton"
+    <TextView
+        android:id="@+id/choosePromptTextView"
+        android:layout_width="150sp"
+        android:layout_height="35sp"
+        android:text="Choose a Statistic"
+        android:textColor="#DC0000"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/leadboardTextView" />
+
+    <ListView
+        android:id="@+id/leadboardListView"
+        android:layout_width="0dp"
+        android:layout_height="578dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/mostScansButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/leadboardTextView"
+        app:layout_constraintVertical_bias="0.214">
+
+    </ListView>
 </androidx.constraintlayout.widget.ConstraintLayout>

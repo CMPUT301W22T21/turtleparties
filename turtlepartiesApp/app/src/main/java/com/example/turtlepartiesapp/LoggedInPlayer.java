@@ -7,7 +7,7 @@ public class LoggedInPlayer extends Player{
         super(username);
     }
 
-    public void addQrCode(Qrcode qrCodes) {
+    public void addQrCode(ScoreQrcode qrCodes) {
         this.qrCodes.add(qrCodes);
         //add in db
     }

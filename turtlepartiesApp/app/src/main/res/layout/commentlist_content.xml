@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="104dp">
+
+        <ImageView
+            android:id="@+id/profile_imageview"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_baseline_qr_code_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.363" />
+
+        <TextView
+            android:id="@+id/commentlist_text"
+            android:layout_width="303dp"
+            android:layout_height="66dp"
+            android:layout_marginStart="16dp"
+            android:gravity="center|start"
+            android:text="Comment"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/profile_imageview"
+            app:layout_constraintTop_toTopOf="parent">
+        </TextView>
+
+        <TextView
+            android:id="@+id/username_text"
+            android:layout_width="60dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="16dp"
+            android:gravity="center"
+            android:text="Username"
+            android:textSize="15sp"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_imageview">
+        </TextView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

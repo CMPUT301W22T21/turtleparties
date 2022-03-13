@@ -12,37 +12,20 @@ import com.google.zxing.WriterException;
 public class LoginQRActivity extends AppCompatActivity {
 
     ImageView loginqr;
-    Button genQR;
     String text;
 
-
+    // this is the activity that shows our login qr code
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_qr);
 
         loginqr = findViewById(R.id.loginqr);
-        genQR = findViewById(R.id.generateloginQr);
         text = "helloworld";
-
-
-
-
-
-        // Generates QR code on Button press based On players User name to add later //
-        genQR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Qrcode QR = null;
-                try {
-                    QR = new Qrcode(text);
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
-                QR.generateQRimage();
-                loginqr.setImageBitmap(QR.getMyBitmap());
-            }
-        });
+        LoginQrcode QR = null;
+        QR = new LoginQrcode(text);
+        QR.generateQRimage();
+        loginqr.setImageBitmap(QR.getMyBitmap());
 
     }
 }

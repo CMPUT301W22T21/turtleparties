@@ -22,10 +22,22 @@
         <entry key="..\:/Users/georg/Documents/GitHub/turtleparties/turtlepartiesApp/app/src/main/res/layout/activity_profile_qr.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/georg/Documents/GitHub/turtleparties/turtlepartiesApp/app/src/main/res/layout/leaderboards_screen.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/georg/Documents/GitHub/turtleparties/turtlepartiesApp/app/src/main/res/layout/player_screen.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/drawable/customborder.xml" value="0.1595" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/drawable/ic_baseline_my_location_24.xml" value="0.2535" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/drawable/infobarborder.xml" value="0.2535" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/drawable/searchbutton.xml" value="0.123" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/drawable/taskbarborder.xml" value="0.2535" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/activity_maps.xml" value="0.36685773840541946" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/activity_qrinfo.xml" value="0.33" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/commentlist_content.xml" value="0.5" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/fragment_add_image.xml" value="0.1" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/fragment_geolocation.xml" value="0.18811881188118812" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/fragment_qr_delete.xml" value="0.1" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/leaderboards_screen.xml" value="0.6573295985060691" />
         <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/map.xml" value="0.5" />
         <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/map_view.xml" value="0.1" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/qrlist_content.xml" value="0.4796747967479675" />
       </map>
     </option>
   </component>
