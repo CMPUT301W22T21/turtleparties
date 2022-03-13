@@ -47,6 +47,7 @@ public class LeaderboardAdapter extends ArrayAdapter<String> {
         if(name.equalsIgnoreCase(ownerUserID)){
             playerTextview.setText(String.valueOf(position+1) + ". " + name + " (ME)");
             playerTextview.setTextColor(Color.parseColor("#E1306C"));
+
         }else{
             playerTextview.setText(String.valueOf(position+1) + ". " + name);
         }

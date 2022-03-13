@@ -113,8 +113,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.e(TAG, "Style parsing failed.");
         }
 
-        Double latval = 53.521331248;
-        Double longval = -113.521331248;
+        Double latval = 53.5268095962;
+        Double longval = -113.526557051;
 
         if (longitude != null) {
             setMapCenter(latitude, longitude, mMap);

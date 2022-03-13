@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,7 +27,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,9 +47,10 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     public static final String EXTRA_QR = "com.example.assignment1.MESSAGE";
     final String TAG = "MainActivity";
     FirebaseFirestore db;
+    private CollectionReference qrcodesRef;
+
     private LoggedInPlayer user;
     final String username = "test1";
-    CollectionReference collectionReference;
     private ListView qrList;
     private ArrayAdapter<ScoreQrcode> qrAdapter;
     private ArrayList<ScoreQrcode> qrDataList;
@@ -63,17 +68,24 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // added temporary profile button
+        Button profileButton = (Button) findViewById(R.id.test_btn);
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+            }
+        });
+
         context = this;
         checkAndRequestPermissions();
         user = new LoggedInPlayer(username);
-        user.initializeStatsFromDB();
-        user.initializeCodesFromDB();
-
-        Log.d(TAG, user.getUsername() +" "+ user.getQrSum() +" "+ user.getQrCodes());
 
         view = this.findViewById(android.R.id.content);
         db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("Users").document(username).collection("qrcodes");
+
+        user = new LoggedInPlayer(username);
+        qrcodesRef  = db.collection("Users").document(username).collection("qrcodes");
 
         qrList = findViewById(R.id.qr_list);
         qrDataList = new ArrayList<>();
@@ -96,12 +108,12 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
                 return true;
             }
         });
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        qrcodesRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
                     FirebaseFirestoreException error) {
                 updateQRListview();
-                updateInfo(view);
+                updateInfo();
                 qrAdapter.notifyDataSetChanged();
             }
 
@@ -134,18 +146,38 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         return true;
     }
 
-    public void updateInfo(View view){
+
+    public void updateInfo(){
         highestView = view.findViewById(R.id.highest_qr_view);
         lowestView = view.findViewById(R.id.lowest_qr_view);
         scanView = view.findViewById(R.id.scan_count_view);
         sumView = view.findViewById(R.id.sum_view);
 
-        highestView.setText(String.valueOf(user.getQrHighest()));
-        lowestView.setText(String.valueOf(user.getQrLowest()));
-        scanView.setText(String.valueOf(user.getQrCount()));
-        sumView.setText(String.valueOf(user.getQrSum()));
+        db.collection("Users").document(username).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc = task.getResult();
+                    Long highestqr = (long) ((Number) doc.getData().get("highestqr")).intValue();
+                    Long lowestqr = (long) ((Number) doc.getData().get("lowestqr")).intValue();
+                    Long countqr = (long) ((Number) doc.getData().get("qrcount")).intValue();
+                    Long sumqr = (long) ((Number) doc.getData().get("qrsum")).intValue();
 
-        Log.d(TAG, user.getQrHighest() + " " + user.getQrLowest() + " " + user.getQrCount() + " " + user.getQrSum());
+                    user.setQrHighest(highestqr);
+                    user.setQrLowest(lowestqr);
+                    user.setQrCount(countqr);
+                    user.setQrSum(sumqr);
+
+                    Log.d(TAG, "updateInfo: "+highestqr + "  " + lowestqr + "  " + countqr + "  " + sumqr);
+
+                    highestView.setText(String.valueOf(highestqr));
+                    lowestView.setText(String.valueOf(lowestqr));
+                    scanView.setText(String.valueOf(countqr));
+                    sumView.setText(String.valueOf(sumqr));
+                }
+            }
+        });
+
     }
 
     public void updateQRListview(){
@@ -162,22 +194,27 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot doc = task.getResult();
-                                    Integer score = 0;
+                                    String qrtext = null;
                                     GeoPoint qrGeo = null;
+                                    boolean qrDraw = true;
                                     try {
-                                        score = ((Number) doc.getData().get("score")).intValue();
+                                        qrtext = (String) doc.getData().get("qrText");
+                                        qrDraw = (boolean) doc.getData().get("toShow");
                                         qrGeo = (GeoPoint) doc.getData().get("geolocation");
                                     }catch (Exception e){
-                                        Log.d(TAG, "QR HAS DATA ISSUE");
+                                        Log.d(TAG, "QRTEXT DATA ISSUE");
                                     }
 
                                     try {
                                         ScoreQrcode thisQR = new ScoreQrcode(qrname);
+                                        thisQR.setQrName(qrtext);
                                         thisQR.setQrName(qrname);
+                                        thisQR.setToShow(qrDraw);
                                         thisQR.setGeolocation(qrGeo);
                                         thisQR.setComment(comment);
                                         qrDataList.add(thisQR);
-                                        Log.d(TAG, qrname + "  " + comment + "  " + score);
+                                        user.addQrCode(thisQR);
+                                        Log.d(TAG, "UpdateQRCode: "+qrname + "  " + comment + "  " + qrtext);
                                     } catch (Exception e) {
                                         Log.d(TAG, "NOT ADDED TO QR DATA LIST");
                                         e.printStackTrace();
