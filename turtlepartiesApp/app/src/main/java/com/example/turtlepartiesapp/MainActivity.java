@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     public static final String EXTRA_QR = "com.example.assignment1.MESSAGE";
     final String TAG = "firebase";
     FirebaseFirestore db;
+    private LoggedInPlayer user;
     final String username = "test1";
     CollectionReference collectionReference;
     private ListView qrList;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
 
         context = this;
         checkAndRequestPermissions();
+        user = new LoggedInPlayer(username);
 
         view = this.findViewById(android.R.id.content);
         db = FirebaseFirestore.getInstance();
@@ -150,7 +152,8 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
                     Integer qrcount = ((Number) doc.getData().get("qrcount")).intValue();
                     Integer qrsum = ((Number) doc.getData().get("qrsum")).intValue();
 
-                    Log.d(TAG, highestqr + "  " + lowestqr + "  " + qrcount + "  " + qrsum);
+                    //user.setQrHighest(Longhighestqr);
+                    Log.d(TAG, "updateINfo: "+highestqr + "  " + lowestqr + "  " + qrcount + "  " + qrsum);
 
                     highestView.setText(String.valueOf(highestqr));
                     lowestView.setText(String.valueOf(lowestqr));
