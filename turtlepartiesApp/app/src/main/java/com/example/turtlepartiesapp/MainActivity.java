@@ -147,18 +147,22 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
-                    Integer highestqr = ((Number) doc.getData().get("highestqr")).intValue();
-                    Integer lowestqr = ((Number) doc.getData().get("lowestqr")).intValue();
-                    Integer qrcount = ((Number) doc.getData().get("qrcount")).intValue();
-                    Integer qrsum = ((Number) doc.getData().get("qrsum")).intValue();
+                    Long highestqr = (long) ((Number) doc.getData().get("highestqr")).intValue();
+                    Long lowestqr = (long) ((Number) doc.getData().get("lowestqr")).intValue();
+                    Long countqr = (long) ((Number) doc.getData().get("qrcount")).intValue();
+                    Long sumqr = (long) ((Number) doc.getData().get("qrsum")).intValue();
 
-                    //user.setQrHighest(Longhighestqr);
-                    Log.d(TAG, "updateINfo: "+highestqr + "  " + lowestqr + "  " + qrcount + "  " + qrsum);
+                    user.setQrHighest(highestqr);
+                    user.setQrLowest(lowestqr);
+                    user.setQrCount(countqr);
+                    user.setQrSum(sumqr);
+
+                    Log.d(TAG, "updateInfo: "+highestqr + "  " + lowestqr + "  " + countqr + "  " + sumqr);
 
                     highestView.setText(String.valueOf(highestqr));
                     lowestView.setText(String.valueOf(lowestqr));
-                    scanView.setText(String.valueOf(qrcount));
-                    sumView.setText(String.valueOf(qrsum));
+                    scanView.setText(String.valueOf(countqr));
+                    sumView.setText(String.valueOf(sumqr));
                 }
             }
         });
@@ -178,22 +182,27 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot doc = task.getResult();
-                                    Integer score = 0;
+                                    String qrtext = null;
                                     GeoPoint qrGeo = null;
+                                    boolean qrDraw = true;
                                     try {
-                                        score = ((Number) doc.getData().get("score")).intValue();
+                                        qrtext = (String) doc.getData().get("qrText");
+                                        qrDraw = (boolean) doc.getData().get("toShow");
                                         qrGeo = (GeoPoint) doc.getData().get("geolocation");
                                     }catch (Exception e){
-                                        Log.d(TAG, "QR HAS DATA ISSUE");
+                                        Log.d(TAG, "QRTEXT DATA ISSUE");
                                     }
 
                                     try {
                                         ScoreQrcode thisQR = new ScoreQrcode(qrname);
+                                        thisQR.setQrName(qrtext);
                                         thisQR.setQrName(qrname);
+                                        thisQR.setToShow(qrDraw);
                                         thisQR.setGeolocation(qrGeo);
                                         thisQR.setComment(comment);
                                         qrDataList.add(thisQR);
-                                        Log.d(TAG, qrname + "  " + comment + "  " + score);
+                                        user.addQrCode(thisQR);
+                                        Log.d(TAG, "UpdateQRCode: "+qrname + "  " + comment + "  " + qrtext);
                                     } catch (Exception e) {
                                         Log.d(TAG, "NOT ADDED TO QR DATA LIST");
                                         e.printStackTrace();
