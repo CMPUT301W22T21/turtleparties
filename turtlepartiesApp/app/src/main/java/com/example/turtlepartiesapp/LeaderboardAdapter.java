@@ -2,6 +2,7 @@ package com.example.turtlepartiesapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,8 @@ public class LeaderboardAdapter extends ArrayAdapter<String> {
         TextView leaderboardStatTextView = view.findViewById(R.id.leaderboardstatTextView);
         if(name.equalsIgnoreCase(ownerUserID)){
             playerTextview.setText(String.valueOf(position+1) + ". " + name + " (ME)");
+            playerTextview.setTextColor(Color.parseColor("#E1306C"));
+
         }else{
             playerTextview.setText(String.valueOf(position+1) + ". " + name);
         }
