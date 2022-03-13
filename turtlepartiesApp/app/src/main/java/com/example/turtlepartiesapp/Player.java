@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Todo: implement Qrcodes and db connection
+ *
  */
 public class Player {
     private static final String TAG = "player";
@@ -57,6 +57,16 @@ public class Player {
         addProfileListener(userRef);
         //add listener for qrcode changes on db
         addQrCodeListener(qrcodesRef);
+    }
+
+    public Player(String username, String name, long score) {
+        this.username = username;
+        this.name = name;
+        this.qrSum = score;
+        this.qrCount = Long.valueOf(0);
+        this.qrHighest = Long.valueOf(0);
+        this.qrLowest = Long.valueOf(0);
+        this.qrCodes = new ArrayList<ScoreQrcode>();
     }
 
     private void addQrCodeListener(final CollectionReference qrcodesRef){

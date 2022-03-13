@@ -288,6 +288,8 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
 
     public void profileSearchActivity(View view) {
         // User search goes here
+        Intent playerSearchIntent = new Intent(this, PlayerSearchActivity.class);
+        startActivity(playerSearchIntent);
     }
 
 
