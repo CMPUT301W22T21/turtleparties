@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -62,6 +63,15 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // added profile button
+        Button profileButton = (Button) findViewById(R.id.test_btn);
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+            }
+        });
 
         context = this;
         checkAndRequestPermissions();
@@ -258,4 +268,5 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         Intent profileIntent = new Intent(this, ProfileQRActivity.class);
         startActivity(profileIntent);
     }
+
 }
