@@ -32,4 +32,6 @@
     </string>
 
     <string name="delete_button">DELETE ENTRY</string>
+    <string name="search_username">username...</string>
+    <string name="button_search">Search</string>
 </resources>
