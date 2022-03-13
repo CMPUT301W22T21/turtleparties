@@ -68,7 +68,7 @@ public class QRInfo extends AppCompatActivity {
         scoreView = view.findViewById(R.id.score_info_view);
         locationView = view.findViewById(R.id.location_view);
 
-        if (qrname != "qrcode3") {
+        if (thisQr.isToShow()) {
             qrImage.setImageBitmap(thisQr.getMyBitmap());
         }else{
             qrImage.setImageResource(R.drawable.ic_baseline_qr_code_24);

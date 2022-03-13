@@ -7,9 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -59,98 +57,6 @@ public class Player {
         addProfileListener(userRef);
         //add listener for qrcode changes on db
         addQrCodeListener(qrcodesRef);
-    }
-
-    public interface MyCallback {
-        void onCallback(List<ScoreQrcode> qrlist);
-    }
-
-    public void callToReadData(){
-        readData(new MyCallback() {
-            @Override
-            public void onCallback(List<ScoreQrcode> qrlist) {
-                Log.d(TAG, "THIS: "+String.valueOf(qrlist));
-            }
-        });
-    }
-
-    public void readData(MyCallback myCallback) {
-        qrcodesRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    List<ScoreQrcode> qrlist = new ArrayList<>();
-                    initializeStatsFromDB();
-                    initializeCodesFromDB();
-                    qrlist.addAll(getQrCodes());
-                    myCallback.onCallback(qrlist);
-                }
-            }
-        });
-    }
-
-    public void initializeStatsFromDB(){
-        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot doc = task.getResult();
-                    Long highestqr = (long) ((Number) doc.getData().get("highestqr")).intValue();
-                    Long lowestqr = (long) ((Number) doc.getData().get("lowestqr")).intValue();
-                    Long countqr = (long) ((Number) doc.getData().get("qrcount")).intValue();
-                    Long sumqr = (long) ((Number) doc.getData().get("qrsum")).intValue();
-
-                    setQrHighest(highestqr);
-                    setQrLowest(lowestqr);
-                    setQrCount(countqr);
-                    setQrSum(sumqr);
-                }
-            }
-        });
-    }
-
-    public void initializeCodesFromDB(){
-        qrcodesRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot doc : task.getResult()) {
-                        String qrname = doc.getId();
-                        String comment = (String) doc.getData().get("comment");
-                        db.collection("QR codes").document(qrname).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot doc = task.getResult();
-                                    Integer score = 0;
-                                    GeoPoint qrGeo = null;
-                                    try {
-                                        score = ((Number) doc.getData().get("score")).intValue();
-                                        qrGeo = (GeoPoint) doc.getData().get("geolocation");
-                                    }catch (Exception e){
-                                        Log.d(TAG, "QR HAS DATA ISSUE");
-                                    }
-
-                                    try {
-                                        ScoreQrcode thisQR = new ScoreQrcode(qrname);
-                                        thisQR.setQrName(qrname);
-                                        thisQR.setGeolocation(qrGeo);
-                                        thisQR.setComment(comment);
-                                        addQrCode(thisQR);
-                                        Log.d(TAG, qrname + "  " + comment + "  " + score);
-                                    } catch (Exception e) {
-                                        Log.d(TAG, "NOT ADDED TO QR DATA LIST");
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        });
-                    }
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
     }
 
     private void addQrCodeListener(final CollectionReference qrcodesRef){

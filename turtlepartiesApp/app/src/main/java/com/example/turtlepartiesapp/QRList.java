@@ -43,7 +43,7 @@ public class QRList extends ArrayAdapter<ScoreQrcode> {
 
         Log.d("comment", ""+thisCode.getComment());
 
-        if (thisCode.getQrName() != "qrcode3") {
+        if (thisCode.isToShow()) {
             thisCode.generateQRimage();
             qrImage.setImageBitmap(thisCode.getMyBitmap());
         }else{
