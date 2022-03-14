@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -64,6 +65,35 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String uniqueID = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+
+        db = FirebaseFirestore.getInstance();
+
+        final DocumentReference uniqueId  = db.collection("UniqueID").document(uniqueID);
+        uniqueId.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+
+                        Log.d(TAG, "Device ID already exists" + document.getData());
+
+
+                    }
+                    else{
+                        uniqueId.set(document);
+                        Log.d(TAG, "added Device ID");
+
+
+
+                    }
+                }
+                else{
+                    Log.d(TAG, "get failed", task.getException());
+                }
+            }
+        });
 
         context = this;
         checkAndRequestPermissions();
