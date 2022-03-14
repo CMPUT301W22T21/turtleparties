@@ -20,6 +20,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,6 +36,8 @@ public class Player implements Serializable {
     String username;
     String password;
     String name;
+    String phoneNumber;
+    String email;
     Long qrSum;
     Long qrCount;
     Long qrHighest;
@@ -48,8 +51,11 @@ public class Player implements Serializable {
         this.qrHighest = Long.valueOf(0);
         this.qrLowest = Long.valueOf(0);
         this.name = "";
+        this.phoneNumber = "";
+        this.email = "";
         this.qrCodes = new ArrayList<ScoreQrcode>();
         this.db = FirebaseFirestore.getInstance();
+
 
         userRef  = db.collection("Users").document(username);
         qrcodesRef  = db.collection("Users").document(username).collection("qrcodes");
@@ -69,6 +75,7 @@ public class Player implements Serializable {
         this.qrLowest = Long.valueOf(0);
         this.qrCodes = new ArrayList<ScoreQrcode>();
     }
+
 
     private void addQrCodeListener(final CollectionReference qrcodesRef){
         qrcodesRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -135,6 +142,10 @@ public class Player implements Serializable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -160,7 +171,11 @@ public class Player implements Serializable {
     }
 
     public Long getQrHighest() {
-        return qrHighest;
+        if(this.qrCodes.size() == 0){
+            return (long)0;
+        }
+
+        return (long)Collections.max(qrCodes).getScore();
     }
 
     public void setQrHighest(Long qrHighest) {
@@ -168,7 +183,11 @@ public class Player implements Serializable {
     }
 
     public Long getQrLowest() {
-        return qrLowest;
+        if(this.qrCodes.size() == 0){
+            return (long)0;
+        }
+
+        return (long)Collections.min(qrCodes).getScore();
     }
 
     public void setQrLowest(Long qrLowest) {
@@ -185,6 +204,39 @@ public class Player implements Serializable {
 
     public void addQrCode(ScoreQrcode qrCode){
         this.qrCodes.add(qrCode);
+        if(qrHighest < qrCode.getScore()){
+            qrHighest = (long)qrCode.getScore();
+        }
+        if(qrLowest > qrCode.getScore()){
+            qrLowest = (long)qrCode.getScore();
+        }
+        this.qrSum += qrCode.getScore();
     }
 
+    public void removeQrCode(ScoreQrcode qrCode) {
+        this.qrCodes.remove(qrCode);
+        qrHighest = getQrHighest();
+        qrLowest = getQrLowest();
+        this.qrSum -= qrCode.getScore();
+    }
+
+    public boolean hasQrCode(ScoreQrcode qrcode) {
+        return qrCodes.contains(qrcode);
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

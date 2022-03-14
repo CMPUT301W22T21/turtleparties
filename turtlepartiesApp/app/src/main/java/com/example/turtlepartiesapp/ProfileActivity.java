@@ -18,7 +18,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView text_name, text_userName;
     EditText editText_name, editText_userName, editText_email, editText_phoneNumber;
     Button saveButton, showLoginQRButton, showFriendQRButton;
-    LoggedInPlayer player;
+    Player player;
 
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle userBundle = intent.getBundleExtra(MainActivity.EXTRA_USER);
-        player = (LoggedInPlayer) userBundle.getSerializable("usr");
+        player = (Player) userBundle.getSerializable("usr");
 
         text_name.setText(player.getName());
         text_userName.setText(player.getUsername());

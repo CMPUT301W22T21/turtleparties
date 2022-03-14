@@ -31,7 +31,8 @@ import java.io.IOException;
 
 public class ScanQRActivity extends AppCompatActivity {
 
-
+    private Player player;
+    private PlayerController playerController;
 
     private ImageView qrview;
     private Button openCameraButton;
@@ -47,6 +48,24 @@ public class ScanQRActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_qr);
+
+        /*get player async*/
+        Bundle b = getIntent().getExtras();
+        playerController = new PlayerController();
+        if(b != null){
+            ResultHandler handler = new ResultHandler() {
+                @Override
+                public void handleResult(Object data) {
+                    try{
+                        player = (Player) data;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            playerController.getPlayer(b.get("USER_ID").toString(), handler);
+        }
+
         openCameraButton = findViewById(R.id.openCamera);
         openGalleryButton = findViewById(R.id.openGallery);
         qrview = findViewById(R.id.scannedQRview);
@@ -92,6 +111,9 @@ public class ScanQRActivity extends AppCompatActivity {
                 scannedQR.setComment(mycomment);
 
                 // implementation for adding the qr to the database should go here
+                if(player != null){
+                    playerController.addQrToPlayer(player, scannedQR);
+                }
 
                 finish();
             }
