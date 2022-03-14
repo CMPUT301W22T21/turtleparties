@@ -8,19 +8,6 @@
 
     // temporary button for profile
 
-    <Button
-        android:id="@+id/test_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:text="Profile"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints">
-
-    </Button>
-
     <ListView
         android:id="@+id/qr_list"
         android:layout_width="0dp"
