@@ -37,7 +37,7 @@ public class PlayerSearcherController {
                                 String username = document.getId();
                                 String name = document.getString("name");
                                 long score = 0;
-                                Object playerScore = document.get("qrsum");
+                                Object playerScore = document.get("qrSum");
                                 if(playerScore != null){
                                     score = (long)playerScore;
                                 }

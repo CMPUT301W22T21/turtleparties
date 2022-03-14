@@ -275,7 +275,9 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
 
     public void scanQRActivity(View view) {
         // QR scanner goes here
+        String exampleUserId = "test4";
         Intent scanQRIntent = new Intent(this, ScanQRActivity.class);
+        scanQRIntent.putExtra("USER_ID", exampleUserId);
         startActivity(scanQRIntent);
     }
 

@@ -19,6 +19,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -162,7 +163,11 @@ public class Player {
     }
 
     public Long getQrHighest() {
-        return qrHighest;
+        if(this.qrCodes.size() == 0){
+            return (long)0;
+        }
+
+        return (long)Collections.max(qrCodes).getScore();
     }
 
     public void setQrHighest(Long qrHighest) {
@@ -170,7 +175,11 @@ public class Player {
     }
 
     public Long getQrLowest() {
-        return qrLowest;
+        if(this.qrCodes.size() == 0){
+            return (long)0;
+        }
+
+        return (long)Collections.min(qrCodes).getScore();
     }
 
     public void setQrLowest(Long qrLowest) {
@@ -187,9 +196,23 @@ public class Player {
 
     public void addQrCode(ScoreQrcode qrCode){
         this.qrCodes.add(qrCode);
+        if(qrHighest < qrCode.getScore()){
+            qrHighest = (long)qrCode.getScore();
+        }
+        if(qrLowest > qrCode.getScore()){
+            qrLowest = (long)qrCode.getScore();
+        }
+        this.qrSum += qrCode.getScore();
     }
 
-    public void removeQrCode(ScoreQrcode qrcode) {
-        this.qrCodes.remove(qrcode);
+    public void removeQrCode(ScoreQrcode qrCode) {
+        this.qrCodes.remove(qrCode);
+        qrHighest = getQrHighest();
+        qrLowest = getQrLowest();
+        this.qrSum -= qrCode.getScore();
+    }
+
+    public boolean hasQrCode(ScoreQrcode qrcode) {
+        return qrCodes.contains(qrcode);
     }
 }

@@ -1,19 +1,17 @@
 package com.example.turtlepartiesapp;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerController {
 
@@ -48,13 +46,43 @@ public class PlayerController {
         return;
     }
 
-    public void addQrToPlayer(Player player, ScoreQrcode qrcode){
+    public boolean addQrToPlayer(Player player, ScoreQrcode qrcode){
+        if(player.hasQrCode(qrcode)){
+            return false;
+        }
         player.addQrCode(qrcode);
-        savePlayer(player);
+        db.collection("Users").document(player.username).update("qrCodes", FieldValue.arrayUnion(qrcode));
+        db.collection("Users").document(player.username).update(
+                "qrCount",player.qrCodes.size(),
+                "qrHighest", player.qrHighest,
+                "qrLowest", player.qrLowest,
+                "qrSum", player.getQrSum()
+        );
+
+        HashMap<String, Object> qrMap = new HashMap<>();
+        qrMap.put("qrText", qrcode.getCode());
+        qrMap.put("geolocation", qrcode.getGeolocation());
+        qrMap.put("score", qrcode.getScore());
+        qrMap.put("toShow", qrcode.isToShow());
+
+        db.collection("QR codes").document(qrcode.getCode()).set(qrMap);
+
+        return true;
     }
 
-    public void removeQrFromPlayer(Player player, ScoreQrcode qrcode){
+    public boolean removeQrFromPlayer(Player player, ScoreQrcode qrcode){
+        if(!player.hasQrCode(qrcode)){
+            return false;
+        }
         player.removeQrCode(qrcode);
-        savePlayer(player);
+        db.collection("Users").document(player.username).update("qrCodes", FieldValue.arrayRemove(qrcode));
+
+        db.collection("Users").document(player.username).update(
+                "qrCount",player.qrCodes.size(),
+                "qrHighest", player.qrHighest,
+                "qrLowest", player.qrLowest,
+                "qrSum", player.getQrSum()
+        );
+        return true;
     }
 }

@@ -6,6 +6,7 @@ import static android.graphics.Color.WHITE;
 import android.graphics.Bitmap;
 
 import com.google.common.hash.Hashing;
+import com.google.firebase.database.Exclude;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -15,7 +16,7 @@ import com.google.zxing.common.BitMatrix;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 
-public class ScoreQrcode extends Qrcode implements Serializable {
+public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
 
     private String qrName;
     private int score;
@@ -117,5 +118,20 @@ public class ScoreQrcode extends Qrcode implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if(o == null || o.getClass() != ScoreQrcode.class){
+            return -1;
+        }
+        ScoreQrcode other = (ScoreQrcode) o;
+        if(this.getScore() > other.getScore()){
+            return 1;
+        }
+        if(this.getScore() < other.getScore()){
+            return -1;
+        }
+        return 0;
     }
 }
