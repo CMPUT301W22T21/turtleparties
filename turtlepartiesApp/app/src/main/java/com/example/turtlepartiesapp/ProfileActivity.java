@@ -1,5 +1,6 @@
 package com.example.turtlepartiesapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,34 +28,21 @@ public class ProfileActivity extends AppCompatActivity {
         text_name = findViewById(R.id.bigName);
         text_userName = findViewById(R.id.bigUserName);
         editText_name = findViewById(R.id.editName);
-        editText_userName = findViewById(R.id.editUserName);
         editText_email = findViewById(R.id.editEmail);
         editText_phoneNumber = findViewById(R.id.editPhoneNumber);
         saveButton = findViewById(R.id.saveChangesButton);
         showLoginQRButton = findViewById(R.id.showLoginQRButton);
         showFriendQRButton = findViewById(R.id.showFriendQRButton);
 
+        Intent intent = getIntent();
+        Bundle userBundle = intent.getBundleExtra(MainActivity.EXTRA_USER);
+        player = (LoggedInPlayer) userBundle.getSerializable("usr");
 
-        // Open login QR Fragment
-        showLoginQRButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                replaceFragment(new LoginQRFragment());
-            }
-        });
-
-        // Open friend QR Fragment
-        showFriendQRButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                replaceFragment(new FriendQRFragment());
-            }
-        });
-
-
-
+        text_name.setText(player.getName());
+        text_userName.setText(player.getUsername());
+        editText_name.setText(player.getName());
+        editText_email.setText(player.getEmail());
+        editText_phoneNumber.setText(player.getPhoneNumber());
 
     }
 
@@ -64,6 +52,20 @@ public class ProfileActivity extends AppCompatActivity {
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frameLayout, fragment);
         ft.commit();
+    }
+
+    public void onSaveButtonClicked(View view){
+        player.setName(String.valueOf(editText_name.getText()));
+        player.setEmail(String.valueOf(editText_email.getText()));
+        player.setPhoneNumber(String.valueOf(editText_name.getText()));
+    }
+
+    public void onShowLoginQRButtonClicked(View view){
+        replaceFragment(new LoginQRFragment());
+    }
+
+    public void onShowFriendQRButtonClicked(View view){
+        replaceFragment(new FriendQRFragment());
     }
 
 

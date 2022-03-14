@@ -19,7 +19,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,10 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -45,7 +41,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements QRDeleteFragment.OnFragmentInteractionListener{
 
-    public static final String EXTRA_QR = "com.example.assignment1.MESSAGE";
+    public static final String EXTRA_QR = "com.example.turtlepartiesapp.MESSAGE";
+    public static final String EXTRA_USER = "com.example.turtlepartiesapp.MESSAGE";
     final String TAG = "MainActivity";
     FirebaseFirestore db;
     private CollectionReference qrcodesRef;
@@ -118,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 currentQr = (ScoreQrcode) qrList.getItemAtPosition(position);
-                switchActivity(currentQr);
+                qrInfoActivity(currentQr);
             }
         });
 
@@ -274,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         }
     }
 
-    public void switchActivity(ScoreQrcode qrToPass){
+    public void qrInfoActivity(ScoreQrcode qrToPass){
         Bundle args = new Bundle();
         args.putSerializable("qrcode", qrToPass);
 
@@ -317,9 +314,10 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
 
 
     public void profileQRActivity(View view) {
+        Bundle args = new Bundle();
+        args.putSerializable("usr", user);
         Intent profileIntent  = new Intent(this, ProfileActivity.class);
+        profileIntent.putExtra(EXTRA_USER, args);
         startActivity(profileIntent);
-        //Intent profileIntent = new Intent(this, ProfileQRActivity.class);
-        //startActivity(profileIntent);
     }
 }
