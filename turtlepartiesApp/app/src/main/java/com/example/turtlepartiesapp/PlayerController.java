@@ -13,6 +13,10 @@ import com.google.firebase.firestore.GeoPoint;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * PLayer Controller class
+ * Manages player and other players
+ */
 public class PlayerController {
 
     private static final String READTAG = "PLAYER_CONTROLLER_READ";
@@ -41,11 +45,24 @@ public class PlayerController {
         return;
     }
 
+    /**
+     * Adds player to DB
+     * @param player
+     * Pass in player
+     */
     public void savePlayer(Player player){
         db.collection("Users").document(player.username).set(player);
         return;
     }
 
+    /**
+     * Adds a QR to player in DB
+     * @param player
+     * @param qrcode
+     * Pass in player and QR Code
+     * @return
+     * Returns success of fucntion
+     */
     public boolean addQrToPlayer(Player player, ScoreQrcode qrcode){
         if(player.hasQrCode(qrcode)){
             return false;
@@ -70,6 +87,13 @@ public class PlayerController {
         return true;
     }
 
+    /**
+     * Removes QR From PLayer
+     * @param player
+     * @param qrcode
+     * @return
+     * Returns wheteher it was scucesfull
+     */
     public boolean removeQrFromPlayer(Player player, ScoreQrcode qrcode){
         if(!player.hasQrCode(qrcode)){
             return false;

@@ -12,6 +12,10 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter used to display players in main acitivty.
+ * No outstnading issues
+ */
 public class PlayerListAdapter extends ArrayAdapter<Player> {
 
     private ArrayList<Player> players;

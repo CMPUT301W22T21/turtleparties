@@ -12,6 +12,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Controller to find players
+ * CUrrenly implemented in playersearch acitivty
+ * To Do: Impelenment in leaderbaord
+ */
 public class PlayerSearcherController {
     private static final String TAG = "player_searcher";
     FirebaseFirestore db;

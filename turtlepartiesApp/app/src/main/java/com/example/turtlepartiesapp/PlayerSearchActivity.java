@@ -10,6 +10,10 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+/**
+ * Player search acitivyti
+ * To DO: Improve effectiveness and info displayed
+ */
 public class PlayerSearchActivity extends AppCompatActivity {
 
     ListView playerList;

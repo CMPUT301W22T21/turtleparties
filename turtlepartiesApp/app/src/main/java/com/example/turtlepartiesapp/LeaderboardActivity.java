@@ -33,7 +33,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
+//Activity which displays the leaderboard activity.
+// No active errors. Need more cohesion with rest of project
 public class LeaderboardActivity extends AppCompatActivity {
 
     private Button highestScoreBut;
