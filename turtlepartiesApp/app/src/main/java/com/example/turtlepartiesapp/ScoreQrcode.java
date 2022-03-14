@@ -122,16 +122,28 @@ public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
 
     @Override
     public int compareTo(Object o) {
-        if(o == null || o.getClass() != ScoreQrcode.class){
+        if (o == null || o.getClass() != ScoreQrcode.class) {
             return -1;
         }
         ScoreQrcode other = (ScoreQrcode) o;
-        if(this.getScore() > other.getScore()){
+        if (this.getScore() > other.getScore()) {
             return 1;
         }
-        if(this.getScore() < other.getScore()){
+        if (this.getScore() < other.getScore()) {
             return -1;
         }
         return 0;
+    }
+
+    public Boolean hasGeoLocation(){
+        if(geolocation == null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public String sha256(){
+        return this.sha_hash();
     }
 }
