@@ -18,17 +18,18 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  */
-public class Player {
+public class Player implements Serializable {
     private static final String TAG = "player";
-    FirebaseFirestore db;
-    private DocumentReference userRef;
-    private CollectionReference qrcodesRef;
+    private transient FirebaseFirestore db;
+    private transient DocumentReference userRef;
+    private transient CollectionReference qrcodesRef;
     //QRGenerator qrGenerator;
 
     String username;
