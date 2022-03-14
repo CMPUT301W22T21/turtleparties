@@ -118,4 +118,16 @@ public class ScoreQrcode extends Qrcode implements Serializable {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public Boolean hasGeoLocation(){
+        if(geolocation == null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public String sha256(){
+        return this.sha_hash();
+    }
 }
