@@ -40,6 +40,8 @@ public class Player {
     Long qrLowest;
     ArrayList<ScoreQrcode> qrCodes;
 
+    public Player(){}
+
     public Player(String username) {
         this.username = username;
         this.qrSum = Long.valueOf(0);
@@ -68,6 +70,7 @@ public class Player {
         this.qrLowest = Long.valueOf(0);
         this.qrCodes = new ArrayList<ScoreQrcode>();
     }
+
 
     private void addQrCodeListener(final CollectionReference qrcodesRef){
         qrcodesRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -186,4 +189,7 @@ public class Player {
         this.qrCodes.add(qrCode);
     }
 
+    public void removeQrCode(ScoreQrcode qrcode) {
+        this.qrCodes.remove(qrcode);
+    }
 }

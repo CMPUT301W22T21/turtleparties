@@ -1,5 +1,5 @@
 package com.example.turtlepartiesapp;
 
 public interface ResultHandler {
-    public void handleResult();
+    public void handleResult(Object data);
 }

@@ -35,7 +35,7 @@ public class ScoreQrcode extends Qrcode implements Serializable {
        this.comment = null;
        this.toShow = true;
    }
-
+    public ScoreQrcode(){}
 
     /**
      * This function will calculate the score of a qr code upon instantiating

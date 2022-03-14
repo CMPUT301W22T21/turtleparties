@@ -29,7 +29,7 @@ public abstract class Qrcode implements Serializable {
     public Qrcode(String code){
         this.code = code;
     }
-
+    public Qrcode(){}
 
 
     /**

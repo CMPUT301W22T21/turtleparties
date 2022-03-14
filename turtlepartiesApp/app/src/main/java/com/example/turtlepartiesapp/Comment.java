@@ -4,6 +4,8 @@ public class Comment {
     private String commentBody;
     private String author;
 
+    Comment(){}
+
     Comment(String cmnt, String auth){
         this.commentBody = cmnt;
         this.author = auth;
