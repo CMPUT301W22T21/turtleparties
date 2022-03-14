@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -18,9 +19,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Todo: implement Qrcodes and db connection
+ *
  */
 public class Player {
     private static final String TAG = "player";
@@ -57,66 +59,14 @@ public class Player {
         addQrCodeListener(qrcodesRef);
     }
 
-    public void initializeStatsFromDB(){
-        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot doc = task.getResult();
-                Long highestqr = (long) ((Number) doc.getData().get("highestqr")).intValue();
-                Long lowestqr = (long) ((Number) doc.getData().get("lowestqr")).intValue();
-                Long countqr = (long) ((Number) doc.getData().get("qrcount")).intValue();
-                Long sumqr = (long) ((Number) doc.getData().get("qrsum")).intValue();
-
-                setQrHighest(highestqr);
-                setQrLowest(lowestqr);
-                setQrCount(countqr);
-                setQrSum(sumqr);
-            }
-        });
-    }
-
-    public void initializeCodesFromDB(){
-        qrcodesRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot doc : task.getResult()) {
-                        String qrname = doc.getId();
-                        String comment = (String) doc.getData().get("comment");
-                        db.collection("QR codes").document(qrname).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot doc = task.getResult();
-                                    Integer score = 0;
-                                    GeoPoint qrGeo = null;
-                                    try {
-                                        score = ((Number) doc.getData().get("score")).intValue();
-                                        qrGeo = (GeoPoint) doc.getData().get("geolocation");
-                                    }catch (Exception e){
-                                        Log.d(TAG, "QR HAS DATA ISSUE");
-                                    }
-
-                                    try {
-                                        ScoreQrcode thisQR = new ScoreQrcode(qrname);
-                                        thisQR.setQrName(qrname);
-                                        thisQR.setGeolocation(qrGeo);
-                                        thisQR.setComment(comment);
-                                        addQrCode(thisQR);
-                                        Log.d(TAG, qrname + "  " + comment + "  " + score);
-                                    } catch (Exception e) {
-                                        Log.d(TAG, "NOT ADDED TO QR DATA LIST");
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        });
-                    }
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
+    public Player(String username, String name, long score) {
+        this.username = username;
+        this.name = name;
+        this.qrSum = score;
+        this.qrCount = Long.valueOf(0);
+        this.qrHighest = Long.valueOf(0);
+        this.qrLowest = Long.valueOf(0);
+        this.qrCodes = new ArrayList<ScoreQrcode>();
     }
 
     private void addQrCodeListener(final CollectionReference qrcodesRef){

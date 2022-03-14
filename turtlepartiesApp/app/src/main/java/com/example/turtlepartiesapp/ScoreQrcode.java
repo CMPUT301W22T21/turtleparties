@@ -21,7 +21,7 @@ public class ScoreQrcode extends Qrcode implements Serializable {
     private int score;
     private transient GeoPoint geolocation;
     private String comment;
-
+    private boolean toShow;
 
     /**
      * This class is an extension of the QRcode class, it has a score, a comment, and a geolocation.
@@ -33,6 +33,7 @@ public class ScoreQrcode extends Qrcode implements Serializable {
        this.calculatescore();
        this.geolocation = null;
        this.comment = null;
+       this.toShow = true;
    }
 
 
@@ -88,6 +89,14 @@ public class ScoreQrcode extends Qrcode implements Serializable {
      */
     private String sha_hash(){
         return Hashing.sha256().hashString(this.getCode(), StandardCharsets.UTF_8).toString();
+    }
+
+    public boolean isToShow() {
+        return toShow;
+    }
+
+    public void setToShow(boolean toShow) {
+        this.toShow = toShow;
     }
 
     public int getScore(){
