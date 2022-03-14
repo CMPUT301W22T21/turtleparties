@@ -39,7 +39,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-
+// Main activity
+// Controls all acitivites
+// To do: Decide how to implement it with logging in
 public class MainActivity extends AppCompatActivity implements QRDeleteFragment.OnFragmentInteractionListener{
 
     public static final String EXTRA_QR = "com.example.turtlepartiesapp.MESSAGE";
@@ -146,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
             }
         });
     }
-
+    //Gets permissions from user for device things
     public boolean checkAndRequestPermissions() {
         int internet = ContextCompat.checkSelfPermission(context,
                 Manifest.permission.INTERNET);
@@ -173,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         return true;
     }
 
-
+    //Updates displayed player info
     public void updateInfo(){
         highestView = view.findViewById(R.id.highest_qr_view);
         lowestView = view.findViewById(R.id.lowest_qr_view);
@@ -217,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     }
 
 
-
+    //When delete is clicked on a qr code it is remove form DB
     @Override
     public void onDeleteClicked(){
         ScoreQrcode deleteQR = (ScoreQrcode) qrList.getItemAtPosition(selectedPosition);
@@ -239,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
                     });
         }
     }
-
+    // Goes to QRInfo acitivty with intent
     public void qrInfoActivity(ScoreQrcode qrToPass){
         Bundle args = new Bundle();
         args.putSerializable("qrcode", qrToPass);
@@ -307,33 +309,33 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
             }
         });
     }*/
-
+    //Goes to map activty
     public void mapActivity(View view) {
         Intent mapIntent = new Intent(this, MapsActivity.class);
         startActivity(mapIntent);
     }
-
+    //Goes to leaderboard acitivty
     public void leaderboardActivity(View view){
         Intent leaderboardIntent = new Intent(this, LeaderboardActivity.class);
         leaderboardIntent.putExtra("USER_IDENTIFIER",username);
 
         startActivity(leaderboardIntent);
     }
-
+    //Goes to scan qr acitivty
     public void scanQRActivity(View view) {
         // QR scanner goes here
         Intent scanQRIntent = new Intent(this, ScanQRActivity.class);
         scanQRIntent.putExtra("USER_ID", username);
         startActivity(scanQRIntent);
     }
-
+    //Goes to profile search acitivy
     public void profileSearchActivity(View view) {
         // User search goes here
         Intent playerSearchIntent = new Intent(this, PlayerSearchActivity.class);
         startActivity(playerSearchIntent);
     }
 
-
+    //Goes to profile Qr Acitivty
     public void profileQRActivity(View view) {
         Bundle args = new Bundle();
         args.putSerializable("usr", user);
