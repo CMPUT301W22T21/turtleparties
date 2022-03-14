@@ -68,15 +68,6 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // added temporary profile button
-        Button profileButton = (Button) findViewById(R.id.test_btn);
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-            }
-        });
-
         context = this;
         checkAndRequestPermissions();
         user = new LoggedInPlayer(username);
@@ -284,6 +275,8 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
 
     public void scanQRActivity(View view) {
         // QR scanner goes here
+        Intent scanQRIntent = new Intent(this, ScanQRActivity.class);
+        startActivity(scanQRIntent);
     }
 
     public void profileSearchActivity(View view) {
@@ -294,7 +287,9 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
 
 
     public void profileQRActivity(View view) {
-        Intent profileIntent = new Intent(this, ProfileQRActivity.class);
+        Intent profileIntent  = new Intent(this, ProfileActivity.class);
         startActivity(profileIntent);
+        //Intent profileIntent = new Intent(this, ProfileQRActivity.class);
+        //startActivity(profileIntent);
     }
 }
