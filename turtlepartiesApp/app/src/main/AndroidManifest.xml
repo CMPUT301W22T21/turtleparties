@@ -33,9 +33,6 @@
             android:name=".ScanQRActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginQRActivity"
-            android:exported="false" />
-        <activity
             android:name=".ProfileQRActivity"
             android:exported="false" />
         <activity
