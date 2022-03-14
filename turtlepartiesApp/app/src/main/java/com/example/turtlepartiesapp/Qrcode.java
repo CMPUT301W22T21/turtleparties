@@ -5,6 +5,7 @@ import static android.graphics.Color.WHITE;
 
 import android.graphics.Bitmap;
 
+import com.google.firebase.database.Exclude;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -17,7 +18,9 @@ public abstract class Qrcode implements Serializable {
 
 
     private String code;
+    @Exclude
     private transient BitMatrix result = null;
+    @Exclude
     private transient Bitmap myBitmap;
 
     // instantiates the QR class
@@ -29,7 +32,7 @@ public abstract class Qrcode implements Serializable {
     public Qrcode(String code){
         this.code = code;
     }
-
+    public Qrcode(){}
 
 
     /**
@@ -57,7 +60,7 @@ public abstract class Qrcode implements Serializable {
         myBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         myBitmap.setPixels(pixels,0,width,0,0,width,height);
     }
-
+    @com.google.firebase.firestore.Exclude
     public Bitmap getMyBitmap() {
         return myBitmap;
     }
@@ -66,4 +69,21 @@ public abstract class Qrcode implements Serializable {
         return code;
     }
 
+
+    @Override
+    public boolean equals(Object qrCode){
+        if(qrCode == null || qrCode.getClass() != this.getClass()){
+            return false;
+        }
+        Qrcode otherQr = (Qrcode) qrCode;
+        if(otherQr.getCode().equals(this.getCode())){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return getCode().hashCode();
+    }
 }

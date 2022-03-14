@@ -21,7 +21,7 @@ public class PlayerSearcherController {
     }
 
 
-    public ArrayList<Player> searchByName(String search, ArrayList<Player> players, int max, ResultHandler handler){
+    public void searchByName(String search, ArrayList<Player> players, int max, ResultHandler handler){
         db.collection("Users")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -37,7 +37,7 @@ public class PlayerSearcherController {
                                 String username = document.getId();
                                 String name = document.getString("name");
                                 long score = 0;
-                                Object playerScore = document.get("qrsum");
+                                Object playerScore = document.get("qrSum");
                                 if(playerScore != null){
                                     score = (long)playerScore;
                                 }
@@ -45,13 +45,13 @@ public class PlayerSearcherController {
                                     players.add(new Player(username,name,score));
                                 }
                             }
-                            handler.handleResult();
+                            handler.handleResult(players);
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
 
-        return players;
+        return;
     }
 }

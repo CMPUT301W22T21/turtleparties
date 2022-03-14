@@ -18,11 +18,19 @@ public class PlayerSearchActivity extends AppCompatActivity {
 
     PlayerSearcherController searcherController;
 
+    ResultHandler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_search);
-
+        
+        handler = new ResultHandler() {
+            @Override
+            public void handleResult(Object data) {
+                playerAdapter.notifyDataSetChanged();
+            }
+        };
 
         playerList = findViewById(R.id.playerListView);
         players = new ArrayList<Player>();
@@ -36,7 +44,7 @@ public class PlayerSearchActivity extends AppCompatActivity {
     public void onClickSearch(View view){
         EditText editText = (EditText) findViewById(R.id.search_text);
         String name = editText.getText().toString();
-        ResultHandler handler = () -> playerAdapter.notifyDataSetChanged();
+
         searcherController.searchByName(name, players,20, handler);
     }
 }
