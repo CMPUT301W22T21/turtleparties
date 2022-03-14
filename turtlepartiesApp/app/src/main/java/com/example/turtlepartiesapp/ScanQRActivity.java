@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,11 +36,12 @@ public class ScanQRActivity extends AppCompatActivity {
     private ImageView qrview;
     private Button openCameraButton;
     private Button openGalleryButton;
+    private Button addQRCode;
     final Activity myactivity = this;
     private String mystring;
-    private ScoreQrcode newQR;
     private ScoreQrcode scannedQR;
     private TextView qrscore;
+    private EditText comment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +51,16 @@ public class ScanQRActivity extends AppCompatActivity {
         openGalleryButton = findViewById(R.id.openGallery);
         qrview = findViewById(R.id.scannedQRview);
         qrscore = findViewById(R.id.score);
+        addQRCode = findViewById(R.id.addQR);
+        comment = findViewById(R.id.QRcomment);
 
         openCameraButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 IntentIntegrator integrator = new IntentIntegrator(myactivity);
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
-                integrator.setPrompt("Scan");
+                integrator.setPrompt("Scan QR code");
                 integrator.setCameraId(0);
-                integrator.setBeepEnabled(false);
                 integrator.setBarcodeImageEnabled(false);
                 integrator.initiateScan();
 
@@ -65,6 +68,9 @@ public class ScanQRActivity extends AppCompatActivity {
         });
 
 
+        /*https://stackoverflow.com/questions/6016000/how-to-open-phones-gallery-through-code
+         author: Jyonsa on May 16, 2011
+         answer author: Niranj Patel on May 16, 2011*/
 
         openGalleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +82,24 @@ public class ScanQRActivity extends AppCompatActivity {
 
             }
         });
+
+
+
+        addQRCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String mycomment = comment.getText().toString();
+                scannedQR.setComment(mycomment);
+
+                // implementation for adding the qr to the database should go here
+
+                finish();
+            }
+        });
+
+
     }
+
 
 
 
@@ -97,20 +120,31 @@ public class ScanQRActivity extends AppCompatActivity {
             } else {
                 mystring = scanresult.getContents();
                 // create QR code object and display the code on the screen with the score
-                newQR = new ScoreQrcode(mystring);
-                newQR.generateQRimage();
-                qrview.setImageBitmap(newQR.getMyBitmap());
-                qrscore.setText("Score:" + newQR.getScore());
+                scannedQR = new ScoreQrcode(mystring);
+                scannedQR.generateQRimage();
+                qrview.setImageBitmap(scannedQR.getMyBitmap());
+                qrscore.setText("Score:" + scannedQR.getScore());
+                addQRCode.setVisibility(View.VISIBLE);
+                comment.setVisibility(View.VISIBLE);
 
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
 
+
+
         // this part checks if the selected activity was for reading a qr from image //
-        //https://stackoverflow.com/questions/6016000/how-to-open-phones-gallery-through-code
-        https:
-//stackoverflow.com/questions/29649673/scan-barcode-from-an-image-in-gallery-android//
+
+        /*https://stackoverflow.com/questions/6016000/how-to-open-phones-gallery-through-code
+         author: Jyonsa on May 16, 2011
+         answer author: Niranj Patel on May 16, 2011*/
+
+
+        /*https://stackoverflow.com/questions/29649673/scan-barcode-from-an-image-in-gallery-android
+          author: MrSiro on Apr 15, 2015
+          answer author: LaurentY on Apr 15, 2015*/
+
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
@@ -137,6 +171,9 @@ public class ScanQRActivity extends AppCompatActivity {
                             scannedQR.generateQRimage();
                             qrview.setImageBitmap(scannedQR.getMyBitmap());
                             qrscore.setText("Score:" + scannedQR.getScore());
+                            addQRCode.setVisibility(View.VISIBLE);
+                            comment.setVisibility(View.VISIBLE);
+
                         }
 
 

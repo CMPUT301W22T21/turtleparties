@@ -8,12 +8,11 @@
     android:weightSum="100">
 
 
-
     <ImageView
         android:id="@+id/scannedQRview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="70"
+        android:layout_weight="60"
         app:srcCompat="@android:drawable/gallery_thumb" />
 
 
@@ -21,9 +20,11 @@
         android:id="@+id/score"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="20"
-        android:textSize="50dp"
-        android:text="Score:" />
+        android:layout_weight="10"
+        android:text="Score:"
+        android:textSize="50dp" />
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,5 +48,22 @@
             android:text="Scan from photo" />
 
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/QRcomment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Comment"
+        android:layout_weight="10"
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/addQR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:backgroundTint="#189D1E"
+        android:text="ADD QR CODE"
+        android:visibility="invisible"/>
 
 </LinearLayout>
