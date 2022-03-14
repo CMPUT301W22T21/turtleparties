@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+//ScoreQr code adapter for listview
 public class QRList extends ArrayAdapter<ScoreQrcode> {
 
     private ArrayList<ScoreQrcode> codes;
@@ -25,6 +26,7 @@ public class QRList extends ArrayAdapter<ScoreQrcode> {
         this.codes = qr;
         this.context = context;
     }
+
 
     @NonNull
     @Override

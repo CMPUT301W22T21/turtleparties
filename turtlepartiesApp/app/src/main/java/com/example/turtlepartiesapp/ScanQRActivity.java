@@ -73,6 +73,8 @@ public class ScanQRActivity extends AppCompatActivity {
         addQRCode = findViewById(R.id.addQR);
         comment = findViewById(R.id.QRcomment);
 
+
+        //Button for opening the camera //
         openCameraButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -91,6 +93,7 @@ public class ScanQRActivity extends AppCompatActivity {
          author: Jyonsa on May 16, 2011
          answer author: Niranj Patel on May 16, 2011*/
 
+        //Button for opening the gallery //
         openGalleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,7 +106,7 @@ public class ScanQRActivity extends AppCompatActivity {
         });
 
 
-
+        // button for adding qr code and saving to database //
         addQRCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -46,6 +46,7 @@ public class QRInfo extends AppCompatActivity {
 
     FirebaseFirestore db;
 
+    // used for displaying qr info
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +121,7 @@ public class QRInfo extends AppCompatActivity {
         });
     }
 
+    // used for deleting qr code from profile
     public void deleteButtonClicked(View view){
         CollectionReference collectionReference = db.collection("Users").document(username).collection("qrcodes");
         if(thisQr != null) {

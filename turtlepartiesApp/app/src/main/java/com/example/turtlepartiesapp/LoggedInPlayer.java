@@ -5,14 +5,17 @@ public class LoggedInPlayer extends Player{
     String phoneNumber;
     String email;
 
+
     public LoggedInPlayer(String username) {
         super(username);
     }
+
 
     public void addQrCode(ScoreQrcode qrCodes) {
         this.qrCodes.add(qrCodes);
         //add in db
     }
+
 
     public void removeQrCode(Qrcode qrCodes) {
         this.qrCodes.remove(qrCodes);
