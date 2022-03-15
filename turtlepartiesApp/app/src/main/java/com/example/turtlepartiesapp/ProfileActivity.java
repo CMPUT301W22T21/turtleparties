@@ -13,6 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+/**
+ * Profile activity
+ * Displays current players information
+ */
 public class ProfileActivity extends AppCompatActivity {
 
     TextView text_name, text_userName;

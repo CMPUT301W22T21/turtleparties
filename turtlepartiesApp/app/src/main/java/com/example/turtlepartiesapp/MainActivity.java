@@ -39,7 +39,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-
+// Main activity
+// Controls all acitivites
+// To do: Decide how to implement it with logging in
 public class MainActivity extends AppCompatActivity implements QRDeleteFragment.OnFragmentInteractionListener{
 
     public static final String EXTRA_QR = "com.example.turtlepartiesapp.MESSAGE";
@@ -151,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     }
 
 
+    //Gets permissions from user for device things
     public boolean checkAndRequestPermissions() {
         int internet = ContextCompat.checkSelfPermission(context,
                 Manifest.permission.INTERNET);
@@ -200,32 +203,15 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     }
 
 
-
+    //When delete is clicked on a qr code it is remove form DB
     @Override
     public void onDeleteClicked(){
         ScoreQrcode deleteQR = (ScoreQrcode) qrList.getItemAtPosition(selectedPosition);
         playerControl.removeQrFromPlayer(user, deleteQR);
         return;
-
-//        CollectionReference collectionReference = db.collection("Users").document(username).collection("qrcodes");
-//        if(deleteQR != null) {
-//            collectionReference.document(deleteQR.getQrName())
-//                    .delete()
-//                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                        @Override
-//                        public void onSuccess(Void aVoid) {
-//                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
-//                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Log.w(TAG, "Error deleting document", e);
-//                        }
-//                    });
-//        }
     }
 
+    // Goes to QRInfo acitivty with intent
     public void qrInfoActivity(ScoreQrcode qrToPass){
         Bundle args = new Bundle();
         args.putSerializable("qrcode", qrToPass);
@@ -244,83 +230,33 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         startActivity(qrinfoIntent);
     }
 
-    /*
-    public void updateQRListview(){
-        qrDataList.clear();
-        db.collection("Users").document(username).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot doc = task.getResult();
-                    //ArrayList <qrCodes> = {};
-                    String comment = (String) doc.getData().get("comment");
-                    db.collection("QR codes").document(qrname).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot doc = task.getResult();
-                                String qrtext = null;
-                                GeoPoint qrGeo = null;
-                                boolean qrDraw = true;
-                                try {
-                                    qrtext = (String) doc.getData().get("qrText");
-                                    qrDraw = (boolean) doc.getData().get("toShow");
-                                    qrGeo = (GeoPoint) doc.getData().get("geolocation");
-                                }catch (Exception e){
-                                    Log.d(TAG, "QRTEXT DATA ISSUE");
-                                }
-
-                                try {
-                                    ScoreQrcode thisQR = new ScoreQrcode(qrname);
-                                    thisQR.setQrName(qrtext);
-                                    thisQR.setQrName(qrname);
-                                    thisQR.setToShow(qrDraw);
-                                    thisQR.setGeolocation(qrGeo);
-                                    thisQR.setComment(comment);
-                                    qrDataList.add(thisQR);
-                                    user.addQrCode(thisQR);
-                                    Log.d(TAG, "UpdateQRCode: "+qrname + "  " + comment + "  " + qrtext);
-                                } catch (Exception e) {
-                                    Log.d(TAG, "NOT ADDED TO QR DATA LIST");
-                                    e.printStackTrace();
-                                }
-                            }
-                            qrAdapter.notifyDataSetChanged();
-                        }
-                    });
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
-    }*/
-
+    //Goes to map activty
     public void mapActivity(View view) {
         Intent mapIntent = new Intent(this, MapsActivity.class);
         startActivity(mapIntent);
     }
-
+    //Goes to leaderboard acitivty
     public void leaderboardActivity(View view){
         Intent leaderboardIntent = new Intent(this, LeaderboardActivity.class);
         leaderboardIntent.putExtra("USER_IDENTIFIER",username);
 
         startActivity(leaderboardIntent);
     }
-
+    //Goes to scan qr acitivty
     public void scanQRActivity(View view) {
         // QR scanner goes here
         Intent scanQRIntent = new Intent(this, ScanQRActivity.class);
         scanQRIntent.putExtra("USER_ID", username);
         startActivity(scanQRIntent);
     }
-
+    //Goes to profile search acitivy
     public void profileSearchActivity(View view) {
         // User search goes here
         Intent playerSearchIntent = new Intent(this, PlayerSearchActivity.class);
         startActivity(playerSearchIntent);
     }
 
-
+    //Goes to profile Qr Acitivty
     public void profileQRActivity(View view) {
         Bundle args = new Bundle();
         args.putSerializable("usr", user);

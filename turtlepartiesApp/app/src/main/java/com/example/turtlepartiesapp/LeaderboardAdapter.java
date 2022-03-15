@@ -15,7 +15,8 @@ import androidx.annotation.Nullable;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-
+//Adapter needed for functionality in Leaderboard Acitivty
+// No outstanding changes needed
 public class LeaderboardAdapter extends ArrayAdapter<String> {
     private Context context;
     private ArrayList<String> people;

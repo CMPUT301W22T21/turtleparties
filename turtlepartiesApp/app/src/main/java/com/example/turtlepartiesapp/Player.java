@@ -23,7 +23,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+//Player class whcihc stores player data and releavant methods
 /**
  *
  */
@@ -46,6 +46,11 @@ public class Player implements Serializable {
 
     public Player(){}
 
+
+    /**
+     * Constructor for player only requires username
+     * @param username
+     */
     public Player(String username) {
         this.username = username;
         this.qrSum = Long.valueOf(0);
@@ -58,6 +63,12 @@ public class Player implements Serializable {
         this.qrCodes = new ArrayList<ScoreQrcode>();
     }
 
+    /**
+     * Alternative constructor which takes ina username, name and score
+     * @param username
+     * @param name
+     * @param score
+     */
     public Player(String username, String name, long score) {
         this.username = username;
         this.name = name;
@@ -68,42 +79,83 @@ public class Player implements Serializable {
         this.qrCodes = new ArrayList<ScoreQrcode>();
     }
 
+
+    /**
+     * Getter method for username
+     * @return
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Getter method for name
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Setter method for name
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Getter method for password
+     * @return
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Setter method for password
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * Getter method for qr sum
+     * @return
+     */
     public Long getQrSum() {
         return qrSum;
     }
 
+    /**
+     * Setter method for QR sum
+     * @param qrSum
+     */
     public void setQrSum(Long qrSum) {
         this.qrSum = qrSum;
     }
 
+    /**
+     * Getter for QR Count
+     * @return
+     */
     public Long getQrCount() {
         return qrCount;
     }
 
+    /**
+     * Setter method for QR count
+     * @param qrCount
+     */
     public void setQrCount(Long qrCount) {
         this.qrCount = qrCount;
     }
 
+    /**
+     * Getter method for QR Highest
+     * @return
+     */
     public Long getQrHighest() {
         if(this.qrCodes.size() == 0){
             return (long)0;
@@ -112,10 +164,18 @@ public class Player implements Serializable {
         return (long)Collections.max(qrCodes).getScore();
     }
 
+    /**
+     * Setter for QR Highest
+     * @param qrHighest
+     */
     public void setQrHighest(Long qrHighest) {
         this.qrHighest = qrHighest;
     }
 
+    /**
+     * GEtter for QR lowest
+     * @return
+     */
     public Long getQrLowest() {
         if(this.qrCodes.size() == 0){
             return (long)0;
@@ -124,18 +184,35 @@ public class Player implements Serializable {
         return (long)Collections.min(qrCodes).getScore();
     }
 
+    /**
+     * Setter for QR lowest
+     * @param qrLowest
+     */
     public void setQrLowest(Long qrLowest) {
         this.qrLowest = qrLowest;
     }
 
+    /**
+     * Getter for arraylist of QR codes
+     * @return
+     */
     public ArrayList<ScoreQrcode> getQrCodes() {
         return qrCodes;
     }
 
+    /**
+     * Setter for arraylist of qr codes
+     * @param qrCodes
+     */
     public void setQrCodes(ArrayList<ScoreQrcode> qrCodes) {
         this.qrCodes = qrCodes;
     }
 
+    /**
+     * Adds qr codes to arraylist of player
+     * @param qrCode
+     * Pass in a object of type QR Codes
+     */
     public void addQrCode(ScoreQrcode qrCode){
         this.qrCodes.add(qrCode);
         if(qrHighest < qrCode.getScore()){
@@ -147,6 +224,10 @@ public class Player implements Serializable {
         this.qrSum += qrCode.getScore();
     }
 
+    /**
+     * REmoves QR codes from player class
+     * @param qrCode
+     */
     public void removeQrCode(ScoreQrcode qrCode) {
         this.qrCodes.remove(qrCode);
         qrHighest = getQrHighest();
@@ -154,24 +235,48 @@ public class Player implements Serializable {
         this.qrSum -= qrCode.getScore();
     }
 
+    /**
+     * Checks if player has a certain qr code
+     * @param qrcode
+     * @return
+     */
     public boolean hasQrCode(ScoreQrcode qrcode) {
         return qrCodes.contains(qrcode);
     }
 
+
+
+
+    /**
+     * Gette method for player phone number
+     * @return
+     */
     @Exclude
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
+    /**
+     * Setter method for phone numebr
+     * @param phoneNumber
+     */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
+    /**
+     * Getter method for email
+     * @return
+     */
     @Exclude
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Setter method for email
+     * @param email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
