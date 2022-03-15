@@ -23,6 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
     EditText editText_name, editText_userName, editText_email, editText_phoneNumber;
     Button saveButton, showLoginQRButton, showFriendQRButton;
     Player player;
+    PlayerController playerController;
 
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle userBundle = intent.getBundleExtra(MainActivity.EXTRA_USER);
         player = (Player) userBundle.getSerializable("usr");
+        playerController = new PlayerController();
 
         text_name.setText(player.getName());
         text_userName.setText(player.getUsername());
@@ -61,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
     public void onSaveButtonClicked(View view){
         player.setName(String.valueOf(editText_name.getText()));
         player.setEmail(String.valueOf(editText_email.getText()));
-        player.setPhoneNumber(String.valueOf(editText_name.getText()));
+        player.setPhoneNumber(String.valueOf(editText_phoneNumber.getText()));
     }
 
     public void onShowLoginQRButtonClicked(View view){
