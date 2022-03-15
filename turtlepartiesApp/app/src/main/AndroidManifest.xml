@@ -4,8 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -20,8 +19,8 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}"/>
-
+            android:value="AIzaSyCj9bxeyKrtePUr9OsZY6_OkjDpURt2Xcc">
+        </meta-data>
 
         <activity
             android:name=".QRInfo"

@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -59,17 +60,17 @@ import com.google.zxing.WriterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 //Map class which displays google maps and all qr codes near by you
 //To Do: Better UI and more stability
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
 
-    private String username = "test1";
     private GoogleMap mMap;
     FirebaseFirestore db;
-    CollectionReference collectionReference;
     private static final String TAG = MapsActivity.class.getSimpleName();
-    private FusedLocationProviderClient fusedLocationClient;
-    protected Double latitude,longitude;
+    private LocationManager locationManager;
+    private Marker myLocationMarker;
+    protected Double latitude, longitude;
 
 
     @Override
@@ -78,25 +79,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_maps);
 
         db = FirebaseFirestore.getInstance();
-
-        LocationRequest mLocationRequest = LocationRequest.create();
-        mLocationRequest.setInterval(60000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        LocationCallback mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
-                    return;
-                }
-                for (Location location : locationResult.getLocations()) {
-                    if (location != null) {
-                        //TODO: UI updates.
-                    }
-                }
-            }
-        };
-        //LocationServices.getFusedLocationProviderClient(context).requestLocationUpdates(mLocationRequest, mLocationCallback, null);
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -114,23 +97,34 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.e(TAG, "Style parsing failed.");
         }
 
-        Double latval = 53.5268095962;
-        Double longval = -113.526557051;
-
-        if (longitude != null) {
-            setMapCenter(latitude, longitude, mMap);
-        }else{
-            setMapCenter(latval, longval, mMap);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MapsActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,}, 1);
         }
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5, 15, new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+                Log.d(TAG, "My location: " + latitude + "   " + longitude);
+                setMapCenter(latitude, longitude, mMap);
+            }
+        });
+
         addQRMarkers(mMap);
     }
 
     public void setMapCenter(Double latval, Double longval, @NonNull GoogleMap mMap){
         LatLng center = new LatLng(latval, longval);
-        mMap.addMarker(new MarkerOptions()
-                .position(center)
-                .title("You are here"))
-                .setIcon(getBitmapDescriptor(R.drawable.ic_baseline_my_location_24));
+
+        try {
+            myLocationMarker.remove();
+        }catch (Exception e){
+            Log.d(TAG, "NO location marker");
+        }
+
+        myLocationMarker = mMap.addMarker(new MarkerOptions().position(center).title("You are here"));
+        myLocationMarker.setIcon(getBitmapDescriptor(R.drawable.ic_baseline_my_location_24));
 
         mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
