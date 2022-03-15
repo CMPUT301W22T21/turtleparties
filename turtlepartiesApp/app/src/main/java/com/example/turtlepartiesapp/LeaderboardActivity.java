@@ -174,21 +174,21 @@ public class LeaderboardActivity extends AppCompatActivity {
                                     Integer qrsum = null;
                                     //Highest sum
                                     try{
-                                        qrsum = ((Number) doc.getData().get("qrsum")).intValue();
+                                        qrsum = ((Number) doc.getData().get("qrSum")).intValue();
                                         highestSumMap.put(name,qrsum);
                                     }catch (Exception e){
                                         highestSumMap.put(name,0);
                                     }
                                     //Highest score
                                     try{
-                                        highestqr = ((Number) doc.getData().get("highestqr")).intValue();
+                                        highestqr = ((Number) doc.getData().get("qrHighest")).intValue();
                                         highestScoreMap.put(name,highestqr);
                                     }catch (Exception e){
                                         highestScoreMap.put(name,0);
                                     }
                                     //Highest scan amount
                                     try{
-                                        qrcount = ((Number) doc.getData().get("qrcount")).intValue();
+                                        qrcount = ((Number) doc.getData().get("qrCount")).intValue();
                                         highestQRScanMap.put(name,qrcount);
                                     }catch (Exception e){
                                         highestQRScanMap.put(name,0);
