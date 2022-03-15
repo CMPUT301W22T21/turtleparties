@@ -11,8 +11,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 /**
- * Player search acitivyti
- * To DO: Improve effectiveness and info displayed
+ * This is a class that provides a UI for searching other players
  */
 public class PlayerSearchActivity extends AppCompatActivity {
 
@@ -44,7 +43,11 @@ public class PlayerSearchActivity extends AppCompatActivity {
         searcherController = new PlayerSearcherController();
     }
 
-
+    /**
+     * Searches db for other players with usernames that contain name
+     * @param view
+     * view is an EditText containing the search word
+     */
     public void onClickSearch(View view){
         EditText editText = (EditText) findViewById(R.id.search_text);
         String name = editText.getText().toString();

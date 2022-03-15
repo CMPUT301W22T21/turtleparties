@@ -23,9 +23,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-//Player class whcihc stores player data and releavant methods
+
 /**
- *
+ * Class that represents a user account
  */
 public class Player implements Serializable {
 
@@ -47,6 +47,7 @@ public class Player implements Serializable {
     /**
      * Constructor for player only requires username
      * @param username
+     * String that is used to Identify Player
      */
     public Player(String username) {
         this.username = username;
