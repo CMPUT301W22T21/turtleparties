@@ -28,10 +28,6 @@ import java.util.List;
  *
  */
 public class Player implements Serializable {
-    private static final String TAG = "player";
-    private transient DocumentReference userRef;
-    private transient CollectionReference qrcodesRef;
-    //QRGenerator qrGenerator;
 
     String username;
     String password;
@@ -43,6 +39,7 @@ public class Player implements Serializable {
     Long qrHighest;
     Long qrLowest;
     ArrayList<ScoreQrcode> qrCodes;
+
 
     public Player(){}
 
@@ -78,7 +75,6 @@ public class Player implements Serializable {
         this.qrLowest = Long.valueOf(0);
         this.qrCodes = new ArrayList<ScoreQrcode>();
     }
-
 
     /**
      * Getter method for username
@@ -243,9 +239,6 @@ public class Player implements Serializable {
     public boolean hasQrCode(ScoreQrcode qrcode) {
         return qrCodes.contains(qrcode);
     }
-
-
-
 
     /**
      * Gette method for player phone number

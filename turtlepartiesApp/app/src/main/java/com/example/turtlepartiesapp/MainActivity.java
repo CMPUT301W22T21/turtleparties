@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         qrinfoIntent.putExtra(EXTRA_QR, args);
         startActivity(qrinfoIntent);
     }
-
+    
     //Goes to map activty
     public void mapActivity(View view) {
         Intent mapIntent = new Intent(this, MapsActivity.class);
