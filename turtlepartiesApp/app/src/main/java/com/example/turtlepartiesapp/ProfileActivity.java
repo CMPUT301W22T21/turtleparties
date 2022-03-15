@@ -67,7 +67,11 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void onShowLoginQRButtonClicked(View view){
-        replaceFragment(new LoginQRFragment());
+        Bundle userBundle = new Bundle();
+        userBundle.putSerializable("player", player);
+        Fragment loginFrag = new Fragment();
+        loginFrag.setArguments(userBundle);
+        replaceFragment(loginFrag);
     }
 
     public void onShowFriendQRButtonClicked(View view){
