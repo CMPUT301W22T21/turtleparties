@@ -1,5 +1,6 @@
 package com.example.turtlepartiesapp;
-
+// Extends player and stores currently logged in player
+// To be deprecated in future iterations
 public class LoggedInPlayer extends Player{
     //String Password;
     String phoneNumber;

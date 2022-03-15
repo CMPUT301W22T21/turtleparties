@@ -61,8 +61,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
-    
+//Map class which displays google maps and all qr codes near by you
+//To Do: Better UI and more stability
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
+
+    private String username = "test1";
     private GoogleMap mMap;
     FirebaseFirestore db;
     private static final String TAG = MapsActivity.class.getSimpleName();

@@ -12,6 +12,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Controller to find players
+ * CUrrenly implemented in playersearch acitivty
+ * To Do: Impelenment in leaderbaord
+ */
 public class PlayerSearcherController {
     private static final String TAG = "player_searcher";
     FirebaseFirestore db;
@@ -35,14 +40,13 @@ public class PlayerSearcherController {
                                     break;
                                 }
                                 String username = document.getId();
-                                String name = document.getString("name");
                                 long score = 0;
                                 Object playerScore = document.get("qrSum");
                                 if(playerScore != null){
                                     score = (long)playerScore;
                                 }
-                                if(name != null && name.contains(search)){
-                                    players.add(new Player(username,name,score));
+                                if(username.contains(search)){
+                                    players.add(new Player(username,username,score));
                                 }
                             }
                             handler.handleResult(players);

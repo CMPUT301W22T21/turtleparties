@@ -43,6 +43,7 @@ public class QRInfo extends AppCompatActivity {
     private ArrayAdapter<Comment> commentAdapter;
     private ArrayList<Comment> commentDataList;
     private String username;
+    private Player user;
 
     FirebaseFirestore db;
 
@@ -56,9 +57,10 @@ public class QRInfo extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle qrBundle = intent.getBundleExtra(MainActivity.EXTRA_QR);
         thisQr = (ScoreQrcode) qrBundle.getSerializable("qrcode");
+        user = (Player) qrBundle.getSerializable("user");
         Double lat = (Double) qrBundle.getSerializable("lat");
         Double lon = (Double) qrBundle.getSerializable("lon");
-        String qrname = thisQr.getQrName();
+        String qrname = thisQr.getCode();
         thisQr.generateQRimage();
 
         db = FirebaseFirestore.getInstance();
@@ -121,23 +123,9 @@ public class QRInfo extends AppCompatActivity {
     }
 
     public void deleteButtonClicked(View view){
-        CollectionReference collectionReference = db.collection("Users").document(username).collection("qrcodes");
-        if(thisQr != null) {
-            collectionReference.document(thisQr.getQrName())
-                    .delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error deleting document", e);
-                        }
-                    });
-        }
+        PlayerController playerController = new PlayerController();
+        playerController.removeQrFromPlayer(user, thisQr);
+
         finish();
     }
 
