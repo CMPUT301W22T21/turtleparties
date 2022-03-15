@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         setContentView(R.layout.activity_main);
         String uniqueID = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         username = uniqueID;
-        username = "test4";
+        username = "test1";
         Log.d(TAG, uniqueID);
         db = FirebaseFirestore.getInstance();
 
@@ -98,19 +98,19 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         context = this;
         checkAndRequestPermissions();
 
-        playerControl = new PlayerController();
-        ResultHandler handler = new ResultHandler() {
-            @Override
-            public void handleResult(Object data) {
-                try{
-                    user = (Player) data;
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        };
-        playerControl.getPlayer(username, handler);
-
+//        playerControl = new PlayerController();
+//        ResultHandler handler = new ResultHandler() {
+//            @Override
+//            public void handleResult(Object data) {
+//                try{
+//                    user = (Player) data;
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        playerControl.getPlayer(username, handler);
+        user = new Player(username);
 
         view = this.findViewById(android.R.id.content);
 
@@ -243,6 +243,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     public void qrInfoActivity(ScoreQrcode qrToPass){
         Bundle args = new Bundle();
         args.putSerializable("qrcode", qrToPass);
+        args.putSerializable("username", username);
 
         try {
             args.putSerializable("lat", qrToPass.getGeolocation().getLatitude());

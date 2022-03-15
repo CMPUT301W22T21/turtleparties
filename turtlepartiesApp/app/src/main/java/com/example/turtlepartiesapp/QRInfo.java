@@ -42,7 +42,7 @@ public class QRInfo extends AppCompatActivity {
     private ListView commentList;
     private ArrayAdapter<Comment> commentAdapter;
     private ArrayList<Comment> commentDataList;
-    private String username = "test1";
+    private String username;
 
     FirebaseFirestore db;
 
