@@ -62,8 +62,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
-
-    private String username = "test1";
+    
     private GoogleMap mMap;
     FirebaseFirestore db;
     private static final String TAG = MapsActivity.class.getSimpleName();
