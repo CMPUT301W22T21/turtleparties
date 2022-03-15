@@ -12,6 +12,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
@@ -27,11 +28,6 @@ import java.util.List;
  *
  */
 public class Player implements Serializable {
-    private static final String TAG = "player";
-    private transient FirebaseFirestore db;
-    private transient DocumentReference userRef;
-    private transient CollectionReference qrcodesRef;
-    //QRGenerator qrGenerator;
 
     String username;
     String password;
@@ -43,6 +39,10 @@ public class Player implements Serializable {
     Long qrHighest;
     Long qrLowest;
     ArrayList<ScoreQrcode> qrCodes;
+
+
+    public Player(){}
+
 
     /**
      * Constructor for player only requires username
@@ -58,16 +58,6 @@ public class Player implements Serializable {
         this.phoneNumber = "";
         this.email = "";
         this.qrCodes = new ArrayList<ScoreQrcode>();
-        this.db = FirebaseFirestore.getInstance();
-
-
-        userRef  = db.collection("Users").document(username);
-        qrcodesRef  = db.collection("Users").document(username).collection("qrcodes");
-
-        //add listener for changes to profile on db
-        addProfileListener(userRef);
-        //add listener for qrcode changes on db
-        addQrCodeListener(qrcodesRef);
     }
 
     /**
@@ -84,73 +74,6 @@ public class Player implements Serializable {
         this.qrHighest = Long.valueOf(0);
         this.qrLowest = Long.valueOf(0);
         this.qrCodes = new ArrayList<ScoreQrcode>();
-    }
-
-    /**
-     * Listener whcih checks for when new QR codes are added
-     * @param qrcodesRef
-     * Pass in Database collectionreference to monitor
-     */
-    private void addQrCodeListener(final CollectionReference qrcodesRef){
-        qrcodesRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.w(TAG, "Listen failed.", error);
-                    return;
-                }
-
-                if(value == null){
-                    return;
-                }
-
-                qrSum = Long.valueOf(0);
-                qrCodes.clear();
-                for(QueryDocumentSnapshot doc: value)
-                {
-                    //String qrname = doc.getId();
-                    //String qrcomment = doc.getString("comment");
-                    //Float latval = (Float)doc.get("latval");
-                    //Float longval = (Float)doc.get("longval");
-                    String qrcodestring = doc.getString("qrcodestring");
-                    Object qrscore = doc.get("score");
-                    if(qrscore != null){
-                        qrSum += (Long) qrscore;
-                    }
-
-                    try {
-                        qrCodes.add(new ScoreQrcode(qrcodestring));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        });
-    }
-
-    /**
-     * Profile listener
-     * @param userRef
-     * Pass in document reference of user
-     */
-    private void addProfileListener(DocumentReference userRef){
-        userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.w(TAG, "Listen failed.", error);
-                    return;
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-
-                    name = snapshot.getString("name");
-                }
-
-            }
-        });
     }
 
     /**
@@ -321,6 +244,7 @@ public class Player implements Serializable {
      * Gette method for player phone number
      * @return
      */
+    @Exclude
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -337,6 +261,7 @@ public class Player implements Serializable {
      * Getter method for email
      * @return
      */
+    @Exclude
     public String getEmail() {
         return email;
     }
