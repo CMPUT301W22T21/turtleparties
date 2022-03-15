@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         setContentView(R.layout.activity_main);
         String uniqueID = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         username = uniqueID;
-        username = "test4";
+        username = "test5";
         Log.d(TAG, uniqueID);
         db = FirebaseFirestore.getInstance();
 
@@ -97,6 +97,11 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
 
         context = this;
         checkAndRequestPermissions();
+        view = this.findViewById(android.R.id.content);
+        qrList = findViewById(R.id.qr_list);
+        context = this;
+
+        userRef = db.collection("Users").document(username);
 
         playerControl = new PlayerController();
         ResultHandler handler = new ResultHandler() {
@@ -104,48 +109,47 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
             public void handleResult(Object data) {
                 try{
                     user = (Player) data;
+                    if(user == null){
+                        user = new Player(username);
+                        playerControl.savePlayer(user);
+                    }
+                    qrDataList = user.qrCodes;
+                    qrAdapter = new QRList(context, qrDataList);
+                    qrList.setAdapter(qrAdapter);
+
+                    qrList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                            currentQr = (ScoreQrcode) qrList.getItemAtPosition(position);
+                            qrInfoActivity(currentQr);
+                        }
+                    });
+
+                    qrList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+                        public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
+                            selectedPosition = position;
+                            new QRDeleteFragment().show(getSupportFragmentManager(), "DELETE_QR");
+                            return true;
+                        }
+                    });
+
+                    userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                            //updateQRListview();
+                            updateInfo(value);
+                            qrAdapter.notifyDataSetChanged();
+                        }
+                    });
+
                 }catch (Exception e){
                     e.printStackTrace();
                 }
             }
         };
         playerControl.getPlayer(username, handler);
-
-
-        view = this.findViewById(android.R.id.content);
-
-        userRef = db.collection("Users").document(username);
-
-        qrList = findViewById(R.id.qr_list);
-        qrDataList = new ArrayList<>();
-
-        qrAdapter = new QRList(this, qrDataList);
-        qrList.setAdapter(qrAdapter);
-
-        qrList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                currentQr = (ScoreQrcode) qrList.getItemAtPosition(position);
-                qrInfoActivity(currentQr);
-            }
-        });
-
-        qrList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
-            public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
-                selectedPosition = position;
-                new QRDeleteFragment().show(getSupportFragmentManager(), "DELETE_QR");
-                return true;
-            }
-        });
-        userRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                //updateQRListview();
-                updateInfo();
-                qrAdapter.notifyDataSetChanged();
-            }
-        });
     }
+
 
     public boolean checkAndRequestPermissions() {
         int internet = ContextCompat.checkSelfPermission(context,
@@ -174,46 +178,25 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     }
 
 
-    public void updateInfo(){
-        highestView = view.findViewById(R.id.highest_qr_view);
-        lowestView = view.findViewById(R.id.lowest_qr_view);
-        scanView = view.findViewById(R.id.scan_count_view);
-        sumView = view.findViewById(R.id.sum_view);
+    public void updateInfo(DocumentSnapshot value){
 
-        db.collection("Users").document(username).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot doc = task.getResult();
-                    Long highestqr = user.getQrHighest();
-                    Long lowestqr = user.getQrLowest();
-                    Long countqr = user.getQrCount();
-                    Long sumqr = user.getQrSum();
-
-                    try {
-                        highestqr = (long) ((Number) doc.getData().get("qrHighest")).intValue();
-                        lowestqr = (long) ((Number) doc.getData().get("qrLowest")).intValue();
-                        countqr = (long) ((Number) doc.getData().get("qrCount")).intValue();
-                        sumqr = (long) ((Number) doc.getData().get("qrSum")).intValue();
-                    }catch (Exception e){
-                        Log.d(TAG, "issue with player info");
-                    }
-
-                    user.setQrHighest(highestqr);
-                    user.setQrLowest(lowestqr);
-                    user.setQrCount(countqr);
-                    user.setQrSum(sumqr);
-
-                    Log.d(TAG, "updateInfo: "+highestqr + "  " + lowestqr + "  " + countqr + "  " + sumqr);
-
-                    highestView.setText(String.valueOf(highestqr));
-                    lowestView.setText(String.valueOf(lowestqr));
-                    scanView.setText(String.valueOf(countqr));
-                    sumView.setText(String.valueOf(sumqr));
-                }
-            }
-        });
-
+        try{
+            highestView = view.findViewById(R.id.highest_qr_view);
+            lowestView = view.findViewById(R.id.lowest_qr_view);
+            scanView = view.findViewById(R.id.scan_count_view);
+            sumView = view.findViewById(R.id.sum_view);
+            user = value.toObject(Player.class);
+            qrDataList.clear();
+            qrDataList.addAll(user.qrCodes);
+            highestView.setText(String.valueOf(user.getQrHighest()));
+            lowestView.setText(String.valueOf(user.getQrLowest()));
+            scanView.setText(String.valueOf(user.getQrCount()));
+            sumView.setText(String.valueOf(user.getQrSum()));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return;
     }
 
 
@@ -221,28 +204,32 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     @Override
     public void onDeleteClicked(){
         ScoreQrcode deleteQR = (ScoreQrcode) qrList.getItemAtPosition(selectedPosition);
-        CollectionReference collectionReference = db.collection("Users").document(username).collection("qrcodes");
-        if(deleteQR != null) {
-            collectionReference.document(deleteQR.getQrName())
-                    .delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error deleting document", e);
-                        }
-                    });
-        }
+        playerControl.removeQrFromPlayer(user, deleteQR);
+        return;
+
+//        CollectionReference collectionReference = db.collection("Users").document(username).collection("qrcodes");
+//        if(deleteQR != null) {
+//            collectionReference.document(deleteQR.getQrName())
+//                    .delete()
+//                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                        @Override
+//                        public void onSuccess(Void aVoid) {
+//                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+//                        }
+//                    })
+//                    .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Log.w(TAG, "Error deleting document", e);
+//                        }
+//                    });
+//        }
     }
 
     public void qrInfoActivity(ScoreQrcode qrToPass){
         Bundle args = new Bundle();
         args.putSerializable("qrcode", qrToPass);
+        args.putSerializable("user", user);
 
         try {
             args.putSerializable("lat", qrToPass.getGeolocation().getLatitude());

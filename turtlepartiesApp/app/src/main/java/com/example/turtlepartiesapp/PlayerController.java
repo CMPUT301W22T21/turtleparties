@@ -35,6 +35,7 @@ public class PlayerController {
                 DocumentSnapshot doc = task.getResult();
                 Object player = doc.toObject(Player.class);
                 handler.handleResult(player);
+                return;
             }
         });
 
