@@ -65,20 +65,20 @@ public class OtherPlayerProfileActivity extends AppCompatActivity {
         otherQRAdapter = new QRList(this, otherQRDataList);
         otherQRList.setAdapter(otherQRAdapter);
 
-        userRef = db.collection("Users").document(thisUser.getUsername());
-        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot document = task.getResult();
-                    ArrayList <ScoreQrcode> listQR = (ArrayList) document.get("qrCodes");
-                    otherQRDataList.addAll(listQR);
-                    otherQRAdapter.notifyDataSetChanged();
-                }else{
-                    Log.d(TAG, "FAILED");
-                }
-            }
-        });
+//        userRef = db.collection("Users").document(thisUser.getUsername());
+//        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if(task.isSuccessful()){
+//                    DocumentSnapshot document = task.getResult();
+//                    ArrayList <ScoreQrcode> listQR = (ArrayList) document.get("qrCodes");
+//                    otherQRDataList.addAll(listQR);
+//                    otherQRAdapter.notifyDataSetChanged();
+//                }else{
+//                    Log.d(TAG, "FAILED");
+//                }
+//            }
+//        });
     }
 
     public void setView(){
