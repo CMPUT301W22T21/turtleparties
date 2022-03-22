@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         String uniqueID = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        Log.d(TAG, "My Unique ID: "+uniqueID);
         username = uniqueID;
         username = "test4";
         Log.d(TAG, uniqueID);
@@ -85,7 +86,8 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
                         Log.d(TAG, "Device ID already exists" + document.getData());
                     }
                     else{
-                        uniqueId.set(document);
+                        user = new Player(username);
+                        playerControl.savePlayer(user);
                         Log.d(TAG, "added Device ID");
                     }
                 }
@@ -94,8 +96,6 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
                 }
             }
         });
-
-        Log.d(TAG, "AFTER");
 
         context = this;
         checkAndRequestPermissions();

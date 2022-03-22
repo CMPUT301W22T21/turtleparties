@@ -65,7 +65,6 @@ import java.util.Map;
 //To Do: Better UI and more stability
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
 
-    private String username = "test1";
     private GoogleMap mMap;
     FirebaseFirestore db;
     private static final String TAG = MapsActivity.class.getSimpleName();
@@ -95,14 +94,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .getString(R.string.style_json)));
 
         if (!success) {
-            Log.e(TAG, "Style parsing failed.");
+            Log.d(TAG, "Map load failed");
         }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MapsActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,}, 1);
         }
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5, 15, new LocationListener() {
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 15, new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 latitude = location.getLatitude();
