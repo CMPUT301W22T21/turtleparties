@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -14,13 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TurtlepartiesApp">
         <activity
+            android:name=".OtherPlayerProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".PlayerSearchActivity"
             android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCj9bxeyKrtePUr9OsZY6_OkjDpURt2Xcc">
-        </meta-data>
+            android:value="AIzaSyCj9bxeyKrtePUr9OsZY6_OkjDpURt2Xcc"></meta-data>
 
         <activity
             android:name=".QRInfo"
@@ -37,11 +39,9 @@
         <activity
             android:name=".LeaderboardActivity"
             android:exported="false" />
-
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -56,18 +56,6 @@ public class PlayerController {
         return;
     }
 
-    /**
-     * Edits player info in DB
-     * @param player
-     * Pass in player
-     */
-    public void editPlayer(Player player){
-        db.collection("Users").document(player.username).update(
-                "name",player.getName(),
-                "email", player.getEmail(),
-                "phone", player.getPhoneNumber()
-        );
-    }
 
     /**
      * Adds a QR to player in DB
