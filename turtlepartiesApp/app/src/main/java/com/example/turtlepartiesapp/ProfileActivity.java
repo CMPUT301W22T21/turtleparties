@@ -2,6 +2,7 @@ package com.example.turtlepartiesapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,10 +21,12 @@ import androidx.fragment.app.FragmentTransaction;
 public class ProfileActivity extends AppCompatActivity {
 
     TextView text_name, text_userName;
-    EditText editText_name, editText_userName, editText_email, editText_phoneNumber;
+    EditText editText_name, editText_email, editText_phoneNumber;
     Button saveButton, showLoginQRButton, showFriendQRButton;
     Player player;
-    PlayerController playerController;
+
+    PlayerController playerControl;
+    final String TAG = "ProfileActivity";
 
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,28 +45,35 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle userBundle = intent.getBundleExtra(MainActivity.EXTRA_USER);
         player = (Player) userBundle.getSerializable("usr");
-        playerController = new PlayerController();
 
-        text_name.setText(player.getName());
-        text_userName.setText(player.getUsername());
-        editText_name.setText(player.getName());
-        editText_email.setText(player.getEmail());
-        editText_phoneNumber.setText(player.getPhoneNumber());
+        playerControl = new PlayerController();
 
+
+        setInfo();
     }
 
     private void replaceFragment(Fragment fragment) {
-
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frameLayout, fragment);
         ft.commit();
     }
 
+    public void setInfo(){
+        text_name.setText(player.getName());
+        text_userName.setText(player.getUsername());
+        editText_name.setText(player.getName());
+        editText_email.setText(player.getEmail());
+        editText_phoneNumber.setText(player.getPhoneNumber());
+        Log.d(TAG, player.getEmail() + "  " + player.getEmail());
+    }
+
     public void onSaveButtonClicked(View view){
         player.setName(String.valueOf(editText_name.getText()));
         player.setEmail(String.valueOf(editText_email.getText()));
         player.setPhoneNumber(String.valueOf(editText_phoneNumber.getText()));
+        playerControl.editPlayer(player);
+        setInfo();
     }
 
     public void onShowLoginQRButtonClicked(View view){
