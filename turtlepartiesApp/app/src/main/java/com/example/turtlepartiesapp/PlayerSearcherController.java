@@ -47,6 +47,8 @@ public class PlayerSearcherController {
                                 if(players.size() == max){
                                     break;
                                 }
+                                String name = document.getString("name");
+
                                 String username = document.getId();
                                 long score = 0;
                                 Object playerScore = document.get("qrSum");

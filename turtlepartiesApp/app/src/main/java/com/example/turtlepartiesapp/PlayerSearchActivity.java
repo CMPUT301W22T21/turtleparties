@@ -2,11 +2,15 @@ package com.example.turtlepartiesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -41,6 +45,14 @@ public class PlayerSearchActivity extends AppCompatActivity {
         playerList.setAdapter(playerAdapter);
 
         searcherController = new PlayerSearcherController();
+
+
+        playerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startOtherProfileActivity(players.get(i).getUsername());
+            }
+        });
     }
 
     /**
@@ -54,4 +66,11 @@ public class PlayerSearchActivity extends AppCompatActivity {
 
         searcherController.searchByName(name, players,20, handler);
     }
+
+    private void startOtherProfileActivity(String username) {
+        Intent intent = new Intent(this, OtherPlayerProfileActivity.class);
+        intent.putExtra("USER_IDENTIFIER", username);
+        startActivity(intent);
+    }
+
 }
