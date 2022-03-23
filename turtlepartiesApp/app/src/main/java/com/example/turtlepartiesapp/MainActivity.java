@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         String uniqueID = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.d(TAG, "My Unique ID: "+uniqueID);
         username = uniqueID;
-        //username = "test4";
+        username = "test5";
         Log.d(TAG, uniqueID);
         db = FirebaseFirestore.getInstance();
 
@@ -245,8 +245,10 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     }
     //Goes to profile search acitivy
     public void profileSearchActivity(View view) {
-        // User search goes here
+        Bundle args = new Bundle();
+        args.putSerializable("mainUser", user);
         Intent playerSearchIntent = new Intent(this, PlayerSearchActivity.class);
+        playerSearchIntent.putExtra(EXTRA_USER, args);
         startActivity(playerSearchIntent);
     }
 

@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.protobuf.StringValue;
+
 import java.util.ArrayList;
 
 /**
@@ -25,6 +27,7 @@ public class PlayerSearchActivity extends AppCompatActivity {
     ArrayAdapter<Player> playerAdapter;
     ArrayList<Player> players;
 
+    Player mainUser;
     PlayerSearcherController searcherController;
 
     ResultHandler handler;
@@ -33,6 +36,11 @@ public class PlayerSearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_search);
+
+        Intent mainIntent = getIntent();
+        Bundle playerBundle = mainIntent.getBundleExtra(MainActivity.EXTRA_USER);
+        mainUser = (Player) playerBundle.getSerializable("mainUser");
+        Log.d("SearchActivity", mainUser.getUsername());
         
         handler = new ResultHandler() {
             @Override
@@ -74,6 +82,7 @@ public class PlayerSearchActivity extends AppCompatActivity {
     public void initiateOtherPlayerActivity(Player thisPlayer){
         Bundle args = new Bundle();
         args.putSerializable("thisPlayer", thisPlayer);
+        args.putSerializable("mainPlayer", mainUser);
         Intent showOtherProfileIntent = new Intent (this, OtherPlayerProfileActivity.class);
         showOtherProfileIntent.putExtra(EXTRA_OTHER_PLAYER, args);
         startActivity(showOtherProfileIntent);
