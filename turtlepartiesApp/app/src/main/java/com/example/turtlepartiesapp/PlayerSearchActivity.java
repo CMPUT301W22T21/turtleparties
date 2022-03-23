@@ -4,17 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 /**
- * Player search acitivyti
- * To DO: Improve effectiveness and info displayed
+ * This is a class that provides a UI for searching other players
  */
 public class PlayerSearchActivity extends AppCompatActivity {
 
@@ -56,12 +57,19 @@ public class PlayerSearchActivity extends AppCompatActivity {
         });
     }
 
+
+    /**
+     * Searches db for other players with usernames that contain name
+     * @param view
+     * view is an EditText containing the search word
+     */
     public void onClickSearch(View view){
         EditText editText = (EditText) findViewById(R.id.search_text);
         String name = editText.getText().toString();
 
         searcherController.searchByName(name, players,20, handler);
     }
+
 
     public void initiateOtherPlayerActivity(Player thisPlayer){
         Bundle args = new Bundle();
@@ -70,4 +78,5 @@ public class PlayerSearchActivity extends AppCompatActivity {
         showOtherProfileIntent.putExtra(EXTRA_OTHER_PLAYER, args);
         startActivity(showOtherProfileIntent);
     }
+
 }

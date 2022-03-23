@@ -24,8 +24,10 @@ public class ProfileActivity extends AppCompatActivity {
     EditText editText_name, editText_email, editText_phoneNumber;
     Button saveButton, showLoginQRButton, showFriendQRButton;
     Player player;
+
     PlayerController playerControl;
     final String TAG = "ProfileActivity";
+
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,9 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle userBundle = intent.getBundleExtra(MainActivity.EXTRA_USER);
         player = (Player) userBundle.getSerializable("usr");
+
         playerControl = new PlayerController();
+
 
         setInfo();
     }

@@ -13,9 +13,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 /**
- * Controller to find players
- * CUrrenly implemented in playersearch acitivty
- * To Do: Impelenment in leaderbaord
+ * Controller class to find players
  */
 public class PlayerSearcherController {
     private static final String TAG = "player_searcher";
@@ -25,7 +23,17 @@ public class PlayerSearcherController {
         db = FirebaseFirestore.getInstance();
     }
 
-
+    /**
+     * Queries db for players with usernames that contain search String. Adds matching players to players list.
+     * @param search
+     * String to search for in usernames
+     * @param players
+     * List of players to update
+     * @param max
+     * Integer for max amount of results
+     * @param handler
+     * Handler for callback after search
+     */
     public void searchByName(String search, ArrayList<Player> players, int max, ResultHandler handler){
         db.collection("Users")
                 .get()
@@ -39,14 +47,18 @@ public class PlayerSearcherController {
                                 if(players.size() == max){
                                     break;
                                 }
+
                                 String username = document.getId();
-                                long score = 0;
-                                Object playerScore = document.get("qrSum");
-                                if(playerScore != null){
-                                    score = (long)playerScore;
-                                }
+
                                 if(username.contains(search)){
-                                    players.add(new Player(username,username,score));
+
+                                    try{
+                                        Object player = document.toObject(Player.class);
+                                        players.add((Player) player);
+                                    }
+                                    catch (Exception e){
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                             handler.handleResult(players);

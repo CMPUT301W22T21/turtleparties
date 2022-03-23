@@ -111,4 +111,13 @@ public class PlayerController {
         );
         return true;
     }
+
+    public void savePlayerProfile(Player player) {
+        db.collection("Users").document(player.username).update(
+                "qrCount",player.qrCodes.size(),
+                "qrHighest", player.qrHighest,
+                "qrLowest", player.qrLowest,
+                "qrSum", player.getQrSum()
+        );
+    }
 }

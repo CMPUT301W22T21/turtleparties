@@ -23,9 +23,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-//Player class whcihc stores player data and releavant methods
+
 /**
- *
+ * Class that represents a user account
  */
 public class Player implements Serializable {
 
@@ -41,12 +41,23 @@ public class Player implements Serializable {
     ArrayList<ScoreQrcode> qrCodes;
 
 
-    public Player(){}
+    public Player(){
+        this.username = "";
+        this.qrSum = Long.valueOf(0);
+        this.qrCount = Long.valueOf(0);
+        this.qrHighest = Long.valueOf(0);
+        this.qrLowest = Long.valueOf(0);
+        this.name = "";
+        this.phoneNumber = "";
+        this.email = "";
+        this.qrCodes = new ArrayList<ScoreQrcode>();
+    }
 
 
     /**
      * Constructor for player only requires username
      * @param username
+     * String that is used to Identify Player
      */
     public Player(String username) {
         this.username = username;
@@ -121,7 +132,8 @@ public class Player implements Serializable {
      * @return
      */
     public Long getQrSum() {
-        return qrSum;
+
+        return this.qrSum;
     }
 
     /**
