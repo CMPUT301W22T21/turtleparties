@@ -19,6 +19,8 @@ import java.util.ArrayList;
  */
 public class PlayerSearchActivity extends AppCompatActivity {
 
+    public static final String EXTRA_OTHER_PLAYER = "com.example.turtlepartiesapp.MESSAGE";
+
     ListView playerList;
     ArrayAdapter<Player> playerAdapter;
     ArrayList<Player> players;
@@ -46,14 +48,15 @@ public class PlayerSearchActivity extends AppCompatActivity {
 
         searcherController = new PlayerSearcherController();
 
-
         playerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startOtherProfileActivity(players.get(i).getUsername());
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Player thisPlayer = (Player) playerList.getItemAtPosition(position);
+                initiateOtherPlayerActivity(thisPlayer);
             }
         });
     }
+
 
     /**
      * Searches db for other players with usernames that contain name
@@ -67,10 +70,13 @@ public class PlayerSearchActivity extends AppCompatActivity {
         searcherController.searchByName(name, players,20, handler);
     }
 
-    private void startOtherProfileActivity(String username) {
-        Intent intent = new Intent(this, OtherPlayerProfileActivity.class);
-        intent.putExtra("USER_IDENTIFIER", username);
-        startActivity(intent);
+
+    public void initiateOtherPlayerActivity(Player thisPlayer){
+        Bundle args = new Bundle();
+        args.putSerializable("thisPlayer", thisPlayer);
+        Intent showOtherProfileIntent = new Intent (this, OtherPlayerProfileActivity.class);
+        showOtherProfileIntent.putExtra(EXTRA_OTHER_PLAYER, args);
+        startActivity(showOtherProfileIntent);
     }
 
 }

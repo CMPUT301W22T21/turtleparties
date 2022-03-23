@@ -245,7 +245,7 @@ public class Player implements Serializable {
      * Gette method for player phone number
      * @return
      */
-    @Exclude
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -262,7 +262,7 @@ public class Player implements Serializable {
      * Getter method for email
      * @return
      */
-    @Exclude
+
     public String getEmail() {
         return email;
     }

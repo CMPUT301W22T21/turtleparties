@@ -34,4 +34,11 @@
     <string name="delete_button">DELETE ENTRY</string>
     <string name="search_username">username...</string>
     <string name="button_search">Search</string>
+    <string name="other_player_name">Name</string>
+    <string name="other_player_username">Username</string>
+    <string name="other_player_imageview_description">Displays user profile picture</string>
+    <string name="other_player_user_qr_list_header_textview">%1$s QR CODE LIST:</string>
+    <string name="other_player_show_common_qr_button_text">SHOW COMMON QR</string>
+    <string name="other_player_show_user_qr_button_text">SHOW USER QR</string>
+    <string name="other_player_common_qr_list_header_textview">COMMON QR CODE LIST:</string>
 </resources>

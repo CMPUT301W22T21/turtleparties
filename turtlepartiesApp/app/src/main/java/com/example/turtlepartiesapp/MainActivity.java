@@ -24,18 +24,12 @@ import android.widget.TextView;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         context = this;
         checkAndRequestPermissions();
         view = this.findViewById(android.R.id.content);
-        qrList = findViewById(R.id.qr_list);
+        qrList = findViewById(R.id.other_player_qr_list);
         context = this;
 
         userRef = db.collection("Users").document(username);

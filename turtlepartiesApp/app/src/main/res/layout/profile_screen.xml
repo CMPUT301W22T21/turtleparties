@@ -18,10 +18,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/other_player_imageview" />
+
+    <ImageView
+        android:id="@+id/other_player_imageview"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_emoji_emotions_24" />
 
     <TextView
-        android:id="@+id/bigUserName"
+        android:id="@+id/other_player_username_textview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -30,21 +40,21 @@
         android:text="Username"
         android:textSize="38dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintStart_toEndOf="@+id/other_player_imageview"
         app:layout_constraintTop_toTopOf="parent" />
 
     // Labels for editable user information
 
     <TextView
-        android:id="@+id/bigName"
+        android:id="@+id/other_player_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
         android:text="Name"
         android:textSize="16dp"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/bigUserName"
+        app:layout_constraintStart_toEndOf="@+id/other_player_imageview"
+        app:layout_constraintTop_toBottomOf="@+id/other_player_username_textview"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -92,7 +102,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/bigName"
+        app:layout_constraintTop_toBottomOf="@+id/other_player_name_textview"
         tools:ignore="MissingConstraints" />
 
     <EditText
@@ -168,16 +178,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="28dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_emoji_emotions_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

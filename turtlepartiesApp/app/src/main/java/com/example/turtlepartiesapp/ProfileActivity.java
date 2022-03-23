@@ -33,8 +33,8 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_screen);
 
-        text_name = findViewById(R.id.bigName);
-        text_userName = findViewById(R.id.bigUserName);
+        text_name = findViewById(R.id.other_player_name_textview);
+        text_userName = findViewById(R.id.other_player_username_textview);
         editText_name = findViewById(R.id.editName);
         editText_email = findViewById(R.id.editEmail);
         editText_phoneNumber = findViewById(R.id.editPhoneNumber);
@@ -72,7 +72,7 @@ public class ProfileActivity extends AppCompatActivity {
         player.setName(String.valueOf(editText_name.getText()));
         player.setEmail(String.valueOf(editText_email.getText()));
         player.setPhoneNumber(String.valueOf(editText_phoneNumber.getText()));
-        playerControl.editPlayer(player);
+        playerControl.savePlayer(player);
         setInfo();
     }
 

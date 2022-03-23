@@ -6,4 +6,73 @@
     android:layout_height="match_parent"
     tools:context=".OtherPlayerProfileActivity">
 
+    <ImageView
+        android:id="@+id/other_player_imageview"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_emoji_emotions_24"
+        android:contentDescription="@string/other_player_imageview_description" />
+
+    <TextView
+        android:id="@+id/other_player_username_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/other_player_username"
+        android:textSize="38sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/other_player_imageview"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/other_player_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/other_player_name"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/other_player_imageview"
+        app:layout_constraintTop_toBottomOf="@+id/other_player_username_textview"/>
+
+    <TextView
+        android:id="@+id/other_player_qr_list_header_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/other_player_user_qr_list_header_textview"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/other_player_imageview" />
+
+    <ListView
+        android:id="@+id/other_player_qr_list"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/other_player_change_qr_list_type_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/other_player_qr_list_header_textview" />
+
+    <Button
+        android:id="@+id/other_player_change_qr_list_type_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="changeQRListView"
+        android:text="@string/other_player_show_common_qr_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
