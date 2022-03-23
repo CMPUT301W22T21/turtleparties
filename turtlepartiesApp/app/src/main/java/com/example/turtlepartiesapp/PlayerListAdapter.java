@@ -39,8 +39,9 @@ public class PlayerListAdapter extends ArrayAdapter<Player> {
 
         Player player = players.get(position);
 
-        String name = player.getName();
+        String name = player.getUsername();
         String score = player.getQrSum().toString();
+
         TextView playerTextview = view.findViewById(R.id.playerNametextView);
         TextView leaderboardStatTextView = view.findViewById(R.id.leaderboardstatTextView);
 

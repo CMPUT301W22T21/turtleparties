@@ -47,16 +47,18 @@ public class PlayerSearcherController {
                                 if(players.size() == max){
                                     break;
                                 }
-                                String name = document.getString("name");
 
                                 String username = document.getId();
-                                long score = 0;
-                                Object playerScore = document.get("qrSum");
-                                if(playerScore != null){
-                                    score = (long)playerScore;
-                                }
+
                                 if(username.contains(search)){
-                                    players.add(new Player(username,username,score));
+
+                                    try{
+                                        Object player = document.toObject(Player.class);
+                                        players.add((Player) player);
+                                    }
+                                    catch (Exception e){
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                             handler.handleResult(players);

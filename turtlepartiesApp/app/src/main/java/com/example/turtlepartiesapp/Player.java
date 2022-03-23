@@ -41,7 +41,17 @@ public class Player implements Serializable {
     ArrayList<ScoreQrcode> qrCodes;
 
 
-    public Player(){}
+    public Player(){
+        this.username = "";
+        this.qrSum = Long.valueOf(0);
+        this.qrCount = Long.valueOf(0);
+        this.qrHighest = Long.valueOf(0);
+        this.qrLowest = Long.valueOf(0);
+        this.name = "";
+        this.phoneNumber = "";
+        this.email = "";
+        this.qrCodes = new ArrayList<ScoreQrcode>();
+    }
 
 
     /**
@@ -122,7 +132,8 @@ public class Player implements Serializable {
      * @return
      */
     public Long getQrSum() {
-        return qrSum;
+
+        return this.qrSum;
     }
 
     /**
