@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -17,10 +18,11 @@ import java.util.ArrayList;
 
 public class OtherPlayerProfileActivity extends AppCompatActivity {
 
+    String EXTRA_QR = "com.example.turtlepartiesapp.MESSAGE";
+    String TAG = "OtherProfile";
     Player thisUser;
     Player mainUser;
     Context context;
-    String TAG = "OtherProfile";
 
     TextView usernameTextView;
     TextView nameTextView;
@@ -34,6 +36,8 @@ public class OtherPlayerProfileActivity extends AppCompatActivity {
     ArrayAdapter<ScoreQrcode> commonQRAdapter;
     ArrayList<ScoreQrcode> otherUserQRDataList;
     ArrayList<ScoreQrcode> commonQRDataList;
+
+    ScoreQrcode currentQr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,32 @@ public class OtherPlayerProfileActivity extends AppCompatActivity {
         otherUserQRAdapter = new QRList(this, otherUserQRDataList);
         commonQRAdapter = new QRList(this, commonQRDataList);
         otherQRList.setAdapter(otherUserQRAdapter);
+
+        otherQRList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                currentQr = (ScoreQrcode) otherQRList.getItemAtPosition(position);
+                qrInfoActivity(currentQr);
+            }
+        });
+    }
+
+    public void qrInfoActivity(ScoreQrcode qrToPass){
+        Bundle args = new Bundle();
+        args.putSerializable("qrcode", qrToPass);
+        args.putSerializable("showDeleteButton", false);
+
+        try {
+            args.putSerializable("lat", qrToPass.getGeolocation().getLatitude());
+            args.putSerializable("lon", qrToPass.getGeolocation().getLongitude());
+        }catch (Exception e){
+            args.putSerializable("lat", 0.0);
+            args.putSerializable("lon", 0.0);
+        }
+
+        Intent qrinfoIntent = new Intent (this, QRInfo.class);
+        qrinfoIntent.putExtra(EXTRA_QR, args);
+        startActivity(qrinfoIntent);
     }
 
     public void setView(){

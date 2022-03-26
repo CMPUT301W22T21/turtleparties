@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -37,6 +38,7 @@ public class QRInfo extends AppCompatActivity {
     private ImageView qrImage;
     private TextView scoreView;
     private TextView locationView;
+    private Button deleteButton;
     private View view;
     private ScoreQrcode thisQr;
     private ListView commentList;
@@ -44,6 +46,7 @@ public class QRInfo extends AppCompatActivity {
     private ArrayList<Comment> commentDataList;
     private String username;
     private Player user;
+    private boolean showDeleteButton;
 
     FirebaseFirestore db;
 
@@ -58,6 +61,8 @@ public class QRInfo extends AppCompatActivity {
         Bundle qrBundle = intent.getBundleExtra(MainActivity.EXTRA_QR);
         thisQr = (ScoreQrcode) qrBundle.getSerializable("qrcode");
         user = (Player) qrBundle.getSerializable("user");
+        showDeleteButton = (boolean) qrBundle.getSerializable("showDeleteButton");
+
         Double lat = (Double) qrBundle.getSerializable("lat");
         Double lon = (Double) qrBundle.getSerializable("lon");
         String qrname = thisQr.getCode();
@@ -69,6 +74,7 @@ public class QRInfo extends AppCompatActivity {
         qrImage = view.findViewById(R.id.qr_imageView);
         scoreView = view.findViewById(R.id.score_info_view);
         locationView = view.findViewById(R.id.location_view);
+        deleteButton = view.findViewById(R.id.deleteQrButton);
 
         if (thisQr.isToShow()) {
             qrImage.setImageBitmap(thisQr.getMyBitmap());
@@ -80,6 +86,9 @@ public class QRInfo extends AppCompatActivity {
             locationView.setText(String.valueOf(lat + "° N " + lon + "° W"));
         }else{
             locationView.setText("n/a");
+        }
+        if (!showDeleteButton){
+            deleteButton.setVisibility(view.INVISIBLE);
         }
         commentList = findViewById(R.id.comment_list);
         commentDataList=new ArrayList<>();

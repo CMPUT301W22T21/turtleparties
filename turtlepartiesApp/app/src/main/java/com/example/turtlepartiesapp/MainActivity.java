@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         String uniqueID = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.d(TAG, "My Unique ID: "+uniqueID);
         username = uniqueID;
-        username = "test5";
+        username = "test4";
         Log.d(TAG, uniqueID);
         db = FirebaseFirestore.getInstance();
 
@@ -210,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         Bundle args = new Bundle();
         args.putSerializable("qrcode", qrToPass);
         args.putSerializable("user", user);
+        args.putSerializable("showDeleteButton", true);
 
         try {
             args.putSerializable("lat", qrToPass.getGeolocation().getLatitude());
