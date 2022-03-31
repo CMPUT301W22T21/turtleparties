@@ -1,5 +1,8 @@
 package com.example.turtlepartiesapp;
 
+
+import static com.example.turtlepartiesapp.PlayerController.sortByValue;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,6 +60,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.leaderboards_screen);
         db = FirebaseFirestore.getInstance();
+        PlayerController pc = new PlayerController();
         final CollectionReference collectionReference = db.collection("Users");
 
         identifyAllButtons();
@@ -84,7 +88,10 @@ public class LeaderboardActivity extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
                     FirebaseFirestoreException error) {
-                getLeaderboardStatsFromFireBase();
+                highestSumMap = pc.getLeaderboardStatsFromFireBase("sum");
+                highestScoreMap = pc.getLeaderboardStatsFromFireBase("score");
+                highestQRScanMap = pc.getLeaderboardStatsFromFireBase("qr");
+                //pc.getLeaderboardStatsFromFireBase(highestQRScanMap,highestScoreMap,highestSumMap);
                 personAdapter.notifyDataSetChanged();
             }
 
@@ -157,83 +164,9 @@ public class LeaderboardActivity extends AppCompatActivity {
 
 
 
-    public void getLeaderboardStatsFromFireBase(){
-        db.collection("Users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot doc : task.getResult()) {
-                        String name = doc.getId();
-                        db.collection("Users").document(name).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot doc = task.getResult();
-                                    Integer highestqr = null;
-                                    Integer qrcount = null;
-                                    Integer qrsum = null;
-                                    //Highest sum
-                                    try{
-                                        qrsum = ((Number) doc.getData().get("qrSum")).intValue();
-                                        highestSumMap.put(name,qrsum);
-                                    }catch (Exception e){
-                                        highestSumMap.put(name,0);
-                                    }
-                                    //Highest score
-                                    try{
-                                        highestqr = ((Number) doc.getData().get("qrHighest")).intValue();
-                                        highestScoreMap.put(name,highestqr);
-                                    }catch (Exception e){
-                                        highestScoreMap.put(name,0);
-                                    }
-                                    //Highest scan amount
-                                    try{
-                                        qrcount = ((Number) doc.getData().get("qrCount")).intValue();
-                                        highestQRScanMap.put(name,qrcount);
-                                    }catch (Exception e){
-                                        highestQRScanMap.put(name,0);
-                                    }
 
 
-                                    Log.d("LEADERBOARD_DEBUG", highestqr + "  " + qrcount + "  " + qrsum);
-                                    personAdapter.notifyDataSetChanged();
 
-
-                                }
-                            }
-                        });
-                    }
-
-                }
-            }
-        });
-
-
-    }
-
-    //Sort in descending order
-    public static HashMap<String, Integer>
-    sortByValue(HashMap<String, Integer> hm)
-    {
-        // Create a list from elements of HashMap
-        List<Map.Entry<String, Integer> > list
-                = new LinkedList<Map.Entry<String, Integer> >(
-                hm.entrySet());
-
-        // Sort the list using lambda expression
-        Collections.sort(
-                list,
-                (i2,
-                 i1) -> i1.getValue().compareTo(i2.getValue()));
-
-        // put data from sorted list to hashmap
-        HashMap<String, Integer> temp
-                = new LinkedHashMap<String, Integer>();
-        for (Map.Entry<String, Integer> aa : list) {
-            temp.put(aa.getKey(), aa.getValue());
-        }
-        return temp;
-    }
 
 
 }

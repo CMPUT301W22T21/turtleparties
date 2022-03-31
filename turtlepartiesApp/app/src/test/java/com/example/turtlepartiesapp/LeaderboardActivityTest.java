@@ -27,7 +27,7 @@ public class LeaderboardActivityTest {
         expectedResult.add(1);
         assertFalse(ourSortedResults.equals(expectedResult));
         assertEquals(0,0);
-        testHashMap = LeaderboardActivity.sortByValue(testHashMap);
+        testHashMap = PlayerController.sortByValue(testHashMap);
         ourSortedResults.clear();
         ourSortedResults.addAll(testHashMap.values());
         assertTrue(ourSortedResults.equals(expectedResult));
