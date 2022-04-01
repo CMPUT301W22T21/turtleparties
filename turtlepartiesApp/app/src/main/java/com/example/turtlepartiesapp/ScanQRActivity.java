@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -98,7 +99,6 @@ public class ScanQRActivity extends AppCompatActivity {
                 opengallery.setType("image/*");
                 opengallery.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(opengallery, "Select Picture"), 1);
-
             }
         });
 
@@ -120,10 +120,8 @@ public class ScanQRActivity extends AppCompatActivity {
         });
 
 
+
     }
-
-
-
 
 
 
@@ -218,5 +216,6 @@ public class ScanQRActivity extends AppCompatActivity {
             }
         }
     }
+
 
 }

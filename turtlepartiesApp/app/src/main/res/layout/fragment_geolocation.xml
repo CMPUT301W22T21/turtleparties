@@ -5,10 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".GeolocationFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:text="Would you like to store the geolocation for this QR?"
+        android:textSize="15dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingTop="5dp"/>
 
 </FrameLayout>

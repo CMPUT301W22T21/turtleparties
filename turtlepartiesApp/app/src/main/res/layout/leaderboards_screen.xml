@@ -64,7 +64,7 @@
 
     <ListView
         android:id="@+id/leadboardListView"
-        android:layout_width="414dp"
+        android:layout_width="0dp"
         android:layout_height="555dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toTopOf="@+id/mostScansButton"
