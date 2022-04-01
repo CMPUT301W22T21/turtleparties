@@ -95,7 +95,10 @@ public class PlayerController {
         qrMap.put("toShow", qrcode.isToShow());
 
         db.collection("QR codes").document(qrcode.getCode()).set(qrMap);
-
+        HashMap<String, Object> commentMap = new HashMap<>();
+        commentMap.put("comment", qrcode.getComment());
+        db.collection("QR codes").document(qrcode.getCode())
+                .collection("comments").document(player.username).set(commentMap);
         return true;
     }
 
@@ -119,7 +122,13 @@ public class PlayerController {
                 "qrLowest", player.qrLowest,
                 "qrSum", player.getQrSum()
         );
+        deleteQRComment(player, qrcode);
         return true;
+    }
+
+    public void deleteQRComment(Player player, ScoreQrcode qrcode){
+        db.collection("QR codes").document(qrcode.getCode())
+                .collection("comments").document(player.username).delete();
     }
 
     public void savePlayerProfile(Player player) {
