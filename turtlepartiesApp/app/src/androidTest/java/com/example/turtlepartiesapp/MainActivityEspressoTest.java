@@ -7,6 +7,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -38,20 +39,39 @@ public class MainActivityEspressoTest {
     }
 
     @Test
-    public void goesTo(){
-        onView(withId(R.id.mapActivityButton)).check(matches(isDisplayed()));
-        onView(withId(R.id.mapActivityButton)).perform(click());
+    public void goesToScanQR(){
+        onView(withId(R.id.scanQRActivityButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.scanQRActivityButton)).perform(click());
+    }
+
+    @Test
+    public void goesToSearch(){
+        onView(withId(R.id.searchPlayerActivityButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.searchPlayerActivityButton)).perform(click());
     }
 
     @Test
     public void goesToProfile(){
-        onView(withId(R.id.mapActivityButton)).check(matches(isDisplayed()));
-        onView(withId(R.id.mapActivityButton)).perform(click());
+        onView(withId(R.id.profileActivityButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.profileActivityButton)).perform(click());
     }
 
     @Test
-    public void goesToScan(){
+    public void fullUITest(){
+        onView(withId(R.id.openLeaderActivityButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.openLeaderActivityButton)).perform(click());
+        Espresso.pressBack();
         onView(withId(R.id.mapActivityButton)).check(matches(isDisplayed()));
         onView(withId(R.id.mapActivityButton)).perform(click());
+        Espresso.pressBack();
+        onView(withId(R.id.scanQRActivityButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.scanQRActivityButton)).perform(click());
+        Espresso.pressBack();
+        onView(withId(R.id.searchPlayerActivityButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.searchPlayerActivityButton)).perform(click());
+        Espresso.pressBack();
+        onView(withId(R.id.profileActivityButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.profileActivityButton)).perform(click());
+
     }
 }
