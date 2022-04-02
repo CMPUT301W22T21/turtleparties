@@ -33,6 +33,8 @@
         <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/map_view.xml" value="0.1" />
         <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/profile_screen.xml" value="0.5" />
         <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/qrlist_content.xml" value="0.4796747967479675" />
+        <entry key="app/src/main/res/drawable/ic_baseline_qr_code_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_qr_code_scanner_24.xml" value="0.1" />
       </map>
     </option>
   </component>

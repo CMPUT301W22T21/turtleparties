@@ -10,11 +10,12 @@
 
     <ImageView
         android:id="@+id/loginQRImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="365dp"
+        android:layout_height="365dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="7dp"
         android:layout_marginTop="9dp"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_baseline_qr_code_24" />
 </RelativeLayout>
