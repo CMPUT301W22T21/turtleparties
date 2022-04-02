@@ -14,11 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.io.Serializable;
+
 /**
  * Profile activity
  * Displays current players information
  */
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements LoginQRFragment.OnFragmentInteractionListener {
 
     TextView text_name, text_userName;
     EditText editText_name, editText_email, editText_phoneNumber;
@@ -76,6 +78,19 @@ public class ProfileActivity extends AppCompatActivity {
         setInfo();
     }
 
+
+    public void onShowLoginQRButtonClicked(View view){
+        Bundle userBundle = new Bundle();
+        userBundle.putSerializable("player", player);
+        LoginQRFragment newFragment = new LoginQRFragment();
+        newFragment.setArguments(userBundle);
+        newFragment.show(getSupportFragmentManager(),"SHOWLOGIN");
+
+    }
+
+
+    // Georgin - Commented out this method for generating the fragment
+    /*
     public void onShowLoginQRButtonClicked(View view){
         Bundle userBundle = new Bundle();
         userBundle.putSerializable("player", player);
@@ -85,6 +100,12 @@ public class ProfileActivity extends AppCompatActivity {
         replaceFragment(loginFrag);
     }
 
+*/
+
+
+
+
+    /* TO BE COMPLETED
     public void onShowFriendQRButtonClicked(View view){
 
 
@@ -94,6 +115,9 @@ public class ProfileActivity extends AppCompatActivity {
         loginFrag.setArguments(userBundle);
         replaceFragment(loginFrag);
     }
+    */
 
+    @Override
+    public void onclosePressed() {;}
 
 }
