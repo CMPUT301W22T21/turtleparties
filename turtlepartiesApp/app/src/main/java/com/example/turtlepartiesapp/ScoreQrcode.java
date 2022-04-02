@@ -23,6 +23,7 @@ public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
     private transient GeoPoint geolocation;
     private String comment;
     private boolean toShow;
+    private Bitmap picture;
 
     /**
      * This class is an extension of the QRcode class, it has a score, a comment, and a geolocation.
@@ -35,6 +36,7 @@ public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
        this.geolocation = null;
        this.comment = null;
        this.toShow = true;
+       this.picture = null;
    }
     public ScoreQrcode(){}
 
@@ -119,6 +121,10 @@ public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public Bitmap getPicture() { return picture; }
+
+    public void setPicture(Bitmap picture) { this.picture = picture; }
 
     @Override
     public int compareTo(Object o) {
