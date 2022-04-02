@@ -36,7 +36,7 @@ import java.util.List;
 // Main activity
 // Controls all acitivites
 // To do: Decide how to implement it with logging in
-public class MainActivity extends AppCompatActivity implements QRDeleteFragment.OnFragmentInteractionListener, GeolocationFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements QRDeleteFragment.OnFragmentInteractionListener {
 
     public static final String EXTRA_QR = "com.example.turtlepartiesapp.MESSAGE";
     public static final String EXTRA_USER = "com.example.turtlepartiesapp.MESSAGE";
@@ -204,12 +204,6 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         return;
     }
 
-
-    @Override
-    public void geoLocation(){
-        //Log.d(TAG, lat + "  " + lon);
-    }
-
     // Goes to QRInfo acitivty with intent
     public void qrInfoActivity(ScoreQrcode qrToPass){
         Bundle args = new Bundle();
@@ -232,10 +226,8 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     
     //Goes to map activty
     public void mapActivity(View view) {
-//        Intent mapIntent = new Intent(this, MapsActivity.class);
-//        startActivity(mapIntent);
-
-        new GeolocationFragment().show(getSupportFragmentManager(), "ADD_GEOLOCATION");
+        Intent mapIntent = new Intent(this, MapsActivity.class);
+        startActivity(mapIntent);
     }
     //Goes to leaderboard acitivty
     public void leaderboardActivity(View view){
