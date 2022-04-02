@@ -82,6 +82,7 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
     public void onShowLoginQRButtonClicked(View view){
         Bundle userBundle = new Bundle();
         userBundle.putSerializable("player", player);
+
         LoginQRFragment newFragment = new LoginQRFragment();
         newFragment.setArguments(userBundle);
         newFragment.show(getSupportFragmentManager(),"SHOWLOGIN");

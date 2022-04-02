@@ -1,12 +1,20 @@
 package com.example.turtlepartiesapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.GeoPoint;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
 import com.google.zxing.FormatException;
@@ -28,8 +37,11 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.concurrent.TimeUnit;
 
-public class ScanQRActivity extends AppCompatActivity {
+public class ScanQRActivity extends AppCompatActivity implements GeolocationFragment.OnFragmentInteractionListener{
 
     private Player player;
     private PlayerController playerController;
@@ -44,11 +56,16 @@ public class ScanQRActivity extends AppCompatActivity {
     private TextView qrscore;
     private EditText comment;
 
+    private LocationManager locationManager;
+    double latitude;
+    double longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_qr);
 
+        geoLocation();
         /*get player async*/
         Bundle b = getIntent().getExtras();
         playerController = new PlayerController();
@@ -98,7 +115,6 @@ public class ScanQRActivity extends AppCompatActivity {
                 opengallery.setType("image/*");
                 opengallery.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(opengallery, "Select Picture"), 1);
-
             }
         });
 
@@ -120,10 +136,8 @@ public class ScanQRActivity extends AppCompatActivity {
         });
 
 
+
     }
-
-
-
 
 
 
@@ -148,7 +162,6 @@ public class ScanQRActivity extends AppCompatActivity {
                 qrscore.setText("Score:" + scannedQR.getScore());
                 addQRCode.setVisibility(View.VISIBLE);
                 comment.setVisibility(View.VISIBLE);
-
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -196,6 +209,7 @@ public class ScanQRActivity extends AppCompatActivity {
                             addQRCode.setVisibility(View.VISIBLE);
                             comment.setVisibility(View.VISIBLE);
 
+                            new GeolocationFragment().show(getSupportFragmentManager(), "ADD_GEOLOCATION");
                         }
 
 
@@ -219,4 +233,52 @@ public class ScanQRActivity extends AppCompatActivity {
         }
     }
 
+    public void geoLocation(){
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        DecimalFormat df = new DecimalFormat("#.####");
+        df.setRoundingMode(RoundingMode.CEILING);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(ScanQRActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,}, 1);
+        }
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 15, new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                latitude = Double.parseDouble(df.format(location.getLatitude()));
+                longitude = Double.parseDouble(df.format(location.getLongitude()));
+                Log.d("GEO", "My location: " + latitude + "   " + longitude);
+            }
+            @Override
+            public void onProviderEnabled(@NonNull String provider) {
+            }
+
+            @Override
+            public void onProviderDisabled(@NonNull String provider) {
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
+        });
+    }
+
+
+    @Override
+    public double[] getGeoLocation() {
+        double[] geoLoc = new double[2];
+
+        geoLoc[0] = latitude;
+        geoLoc[1] = longitude;
+
+        return geoLoc;
+    }
+
+    public void setLocation(){
+        if (scannedQR != null){
+            Log.d("GEOERR", latitude + "   " + longitude);
+            GeoPoint newGP = new GeoPoint((latitude), (longitude));
+            scannedQR.setGeolocation(newGP);
+        }
+    }
 }

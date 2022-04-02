@@ -25,10 +25,10 @@
         <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/activity_qrinfo.xml" value="0.33" />
         <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/commentlist_content.xml" value="0.5" />
         <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/fragment_add_image.xml" value="0.1" />
-        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/fragment_geolocation.xml" value="0.18811881188118812" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/fragment_geolocation.xml" value="0.5" />
         <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/fragment_login_qr.xml" value="0.5" />
-        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/fragment_qr_delete.xml" value="0.1" />
-        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/leaderboards_screen.xml" value="0.6573295985060691" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/fragment_qr_delete.xml" value="0.33" />
+        <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/leaderboards_screen.xml" value="0.25" />
         <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/map.xml" value="0.5" />
         <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/map_view.xml" value="0.1" />
         <entry key="..\:/Users/mdayy/cmput301/turtleparties/turtlepartiesApp/app/src/main/res/layout/profile_screen.xml" value="0.5" />

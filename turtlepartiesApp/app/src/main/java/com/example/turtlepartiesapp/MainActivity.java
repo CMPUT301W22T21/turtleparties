@@ -36,7 +36,7 @@ import java.util.List;
 // Main activity
 // Controls all acitivites
 // To do: Decide how to implement it with logging in
-public class MainActivity extends AppCompatActivity implements QRDeleteFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements QRDeleteFragment.OnFragmentInteractionListener {
 
     public static final String EXTRA_QR = "com.example.turtlepartiesapp.MESSAGE";
     public static final String EXTRA_USER = "com.example.turtlepartiesapp.MESSAGE";
@@ -173,7 +173,6 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         }
         return true;
     }
-
 
     public void updateInfo(DocumentSnapshot value){
 
