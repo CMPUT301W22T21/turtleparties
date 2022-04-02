@@ -3,6 +3,9 @@ package com.example.turtlepartiesapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.app.Activity;
@@ -36,12 +39,13 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.concurrent.TimeUnit;
 
-public class ScanQRActivity extends AppCompatActivity implements GeolocationFragment.OnFragmentInteractionListener{
+public class ScanQRActivity extends AppCompatActivity implements GeolocationFragment.OnFragmentInteractionListener, AddImageFragment.OnFragmentInteractionListener{
 
     private Player player;
     private PlayerController playerController;
@@ -119,7 +123,7 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
         });
 
 
-
+        // button for adding qr code //
         addQRCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,6 +166,8 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
                 qrscore.setText("Score:" + scannedQR.getScore());
                 addQRCode.setVisibility(View.VISIBLE);
                 comment.setVisibility(View.VISIBLE);
+                new GeolocationFragment().show(getSupportFragmentManager(), "ADD_GEOLOCATION");
+
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -209,7 +215,10 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
                             addQRCode.setVisibility(View.VISIBLE);
                             comment.setVisibility(View.VISIBLE);
 
+                            new AddImageFragment().show(getSupportFragmentManager(),"ADD_IMAGE");
                             new GeolocationFragment().show(getSupportFragmentManager(), "ADD_GEOLOCATION");
+
+
                         }
 
 
@@ -231,7 +240,19 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
 
             }
         }
+
+        if(requestCode==2){
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            scannedQR.setPicture(photo); // sets the picture to the qrcode
+
+            /* SHOW IMAGE FRAGMENT AND ADD PICTURE TO THE DATABASE IMPLEMENTATION GOES HERE */
+
+        }
+
     }
+
+
+
 
     public void geoLocation(){
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -281,4 +302,15 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
             scannedQR.setGeolocation(newGP);
         }
     }
+
+    @Override
+    public void OnOpenCamera() {
+        // opens camera when user prompts
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent,2);
+
+
+    }
+
+
 }
