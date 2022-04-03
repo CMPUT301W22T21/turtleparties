@@ -63,10 +63,11 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().hide();
         String uniqueID = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.d(TAG, "My Unique ID: "+uniqueID);
         username = uniqueID;
-        username = "test4";
         Log.d(TAG, uniqueID);
         db = FirebaseFirestore.getInstance();
 
