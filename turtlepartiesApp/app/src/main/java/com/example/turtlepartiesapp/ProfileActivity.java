@@ -1,16 +1,20 @@
 package com.example.turtlepartiesapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -26,6 +30,7 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
     TextView text_name, text_userName;
     EditText editText_name, editText_email, editText_phoneNumber;
     Button saveButton, showLoginQRButton, showFriendQRButton;
+    Button darkModeButton;
     ImageButton goalsButton;
     Player player;
 
@@ -46,6 +51,7 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
         showLoginQRButton = findViewById(R.id.showLoginQRButton);
         showFriendQRButton = findViewById(R.id.showFriendQRButton);
         goalsButton = findViewById(R.id.goalsButton);
+        darkModeButton = findViewById(R.id.toggleDarkModeButton);
 
 
         Intent intent = getIntent();
@@ -56,6 +62,37 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
 
 
         setInfo();
+        SharedPreferences appSettings = getSharedPreferences("AppSettings",0);
+        SharedPreferences.Editor shEditor = appSettings.edit();
+        Boolean nightmode = appSettings.getBoolean("NightMode",false);
+        if(nightmode){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            FrameLayout f1 = findViewById(R.id.frameLayout);
+            f1.setBackgroundColor(Color.parseColor("#121212"));
+            goalsButton.setBackgroundColor(Color.parseColor("#121212"));
+            darkModeButton.setText("Disable Dark Mode");
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            darkModeButton.setText("Enable Dark Mode");
+        }
+
+        darkModeButton.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  if(nightmode){
+                      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                      shEditor.putBoolean("NightMode", false);
+                      shEditor.apply();
+                      darkModeButton.setText("Enable Dark Mode");
+                  }else{
+                      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                      shEditor.putBoolean("NightMode", true);
+                      shEditor.apply();
+                      darkModeButton.setText("Disable Dark Mode");
+                  }
+              }
+          }
+        );
     }
 
     private void replaceFragment(Fragment fragment) {
