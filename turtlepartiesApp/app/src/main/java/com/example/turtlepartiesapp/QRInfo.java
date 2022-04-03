@@ -10,14 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -27,10 +24,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.zxing.WriterException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class QRInfo extends AppCompatActivity {
 
@@ -40,13 +35,13 @@ public class QRInfo extends AppCompatActivity {
     private TextView locationView;
     private Button deleteButton;
     private View view;
-    private ScoreQrcode thisQr;
+    protected ScoreQrcode thisQr;
     private ListView commentList;
     private ArrayAdapter<Comment> commentAdapter;
     private ArrayList<Comment> commentDataList;
     private String username;
     private Player user;
-    private boolean showDeleteButton;
+    protected boolean showDeleteButton;
 
     FirebaseFirestore db;
 
@@ -59,12 +54,11 @@ public class QRInfo extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle qrBundle = intent.getBundleExtra(MainActivity.EXTRA_QR);
-        thisQr = (ScoreQrcode) qrBundle.getSerializable("qrcode");
-        user = (Player) qrBundle.getSerializable("user");
-        showDeleteButton = (boolean) qrBundle.getSerializable("showDeleteButton");
+        handleBundle(qrBundle);
 
         Double lat = (Double) qrBundle.getSerializable("lat");
         Double lon = (Double) qrBundle.getSerializable("lon");
+        thisQr.setGeolocation(new GeoPoint(lat, lon));
         String qrname = thisQr.getCode();
         thisQr.generateQRimage();
 
@@ -130,6 +124,13 @@ public class QRInfo extends AppCompatActivity {
 
         });
     }
+
+    public void handleBundle(Bundle qrBundle ){
+        thisQr = (ScoreQrcode) qrBundle.getSerializable("qrcode");
+        user = (Player) qrBundle.getSerializable("user");
+        showDeleteButton = (boolean) qrBundle.getSerializable("showDeleteButton");
+    }
+
 
     public void deleteButtonClicked(View view){
         PlayerController playerController = new PlayerController();
