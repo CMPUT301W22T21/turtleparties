@@ -10,13 +10,13 @@ import androidx.core.content.ContextCompat;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import android.provider.Settings;
@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     private ArrayAdapter<ScoreQrcode> qrAdapter;
     private ArrayList<ScoreQrcode> qrDataList;
     private int selectedPosition;
+    ConstraintLayout infoConLayout;
+    LinearLayout taskLinLayout;
     private ScoreQrcode currentQr;
     View view;
     private TextView scanView;
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     private TextView lowestView;
     Context context;
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,6 +154,9 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         };
         playerControl.getPlayer(username, handler);
 
+        infoConLayout = findViewById(R.id.infobarConstraintLayout);
+        taskLinLayout = findViewById(R.id.taskbarLinearLayout);
+
         //Night mode handeling
 
         SharedPreferences appSettings = getSharedPreferences("AppSettings",0);
@@ -158,12 +164,16 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         Boolean nightmode = appSettings.getBoolean("NightMode",false);
         if(nightmode){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            ConstraintLayout cl = findViewById(R.id.constraintLayout);
+            ConstraintLayout cl = findViewById(R.id.infobarConstraintLayout);
             LinearLayout l1 = findViewById(R.id.taskbarLinearLayout);
             l1.setBackgroundColor(Color.parseColor("#121212"));
             cl.setBackgroundColor(Color.parseColor("#121212"));
+            infoConLayout.setBackgroundResource(R.drawable.infobarborder_dark);
+            taskLinLayout.setBackgroundResource(R.drawable.taskbarborder_dark);
         }else{
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            infoConLayout.setBackgroundResource(R.drawable.infobarborder);
+            taskLinLayout.setBackgroundResource(R.drawable.taskbarborder);
         }
     }
 
