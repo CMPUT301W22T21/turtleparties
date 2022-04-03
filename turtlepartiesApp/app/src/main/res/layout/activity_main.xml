@@ -8,6 +8,7 @@
 
     <ListView
         android:id="@+id/other_player_qr_list"
+
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/taskbarLinearLayout"
