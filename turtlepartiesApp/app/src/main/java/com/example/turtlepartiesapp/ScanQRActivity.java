@@ -200,15 +200,15 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
                 scannedQR.generateQRimage();
                 qrview.setImageBitmap(scannedQR.getMyBitmap());
                 qrscore.setText("Score:" + scannedQR.getScore());
-                addQRCode.setVisibility(View.VISIBLE);
-                comment.setVisibility(View.VISIBLE);
-                showImage.setVisibility(View.INVISIBLE);
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         new AddImageFragment().show(getSupportFragmentManager(),"ADD_IMAGE");
                         new GeolocationFragment().show(getSupportFragmentManager(), "ADD_GEOLOCATION");
+                        addQRCode.setVisibility(View.VISIBLE);
+                        comment.setVisibility(View.VISIBLE);
+                        showImage.setVisibility(View.INVISIBLE);
                     }
                 }, 500);
             }
@@ -255,15 +255,15 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
                             scannedQR.generateQRimage();
                             qrview.setImageBitmap(scannedQR.getMyBitmap());
                             qrscore.setText("Score:" + scannedQR.getScore());
-                            addQRCode.setVisibility(View.VISIBLE);
-                            comment.setVisibility(View.VISIBLE);
-                            showImage.setVisibility(View.INVISIBLE);
 
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 public void run() {
                                     new AddImageFragment().show(getSupportFragmentManager(),"ADD_IMAGE");
                                     new GeolocationFragment().show(getSupportFragmentManager(), "ADD_GEOLOCATION");
+                                    addQRCode.setVisibility(View.VISIBLE);
+                                    comment.setVisibility(View.VISIBLE);
+                                    showImage.setVisibility(View.INVISIBLE);
                                 }
                             }, 500);
                         }
