@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -20,11 +21,12 @@ import java.io.Serializable;
  * Profile activity
  * Displays current players information
  */
-public class ProfileActivity extends AppCompatActivity implements LoginQRFragment.OnFragmentInteractionListener {
+public class ProfileActivity extends AppCompatActivity implements LoginQRFragment.OnFragmentInteractionListener, GoalsFragment.OnFragmentInteractionListener {
 
     TextView text_name, text_userName;
     EditText editText_name, editText_email, editText_phoneNumber;
     Button saveButton, showLoginQRButton, showFriendQRButton;
+    ImageButton goalsButton;
     Player player;
 
     PlayerController playerControl;
@@ -43,6 +45,8 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
         saveButton = findViewById(R.id.saveChangesButton);
         showLoginQRButton = findViewById(R.id.showLoginQRButton);
         showFriendQRButton = findViewById(R.id.showFriendQRButton);
+        goalsButton = findViewById(R.id.goalsButton);
+
 
         Intent intent = getIntent();
         Bundle userBundle = intent.getBundleExtra(MainActivity.EXTRA_USER);
@@ -87,6 +91,15 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
         newFragment.setArguments(userBundle);
         newFragment.show(getSupportFragmentManager(),"SHOWLOGIN");
 
+    }
+
+    public void onGoalsButtonClicked(View view){
+        Bundle userBundle = new Bundle();
+        userBundle.putSerializable("player", player);
+
+        GoalsFragment newFragment = new GoalsFragment();
+        newFragment.setArguments(userBundle);
+        newFragment.show(getSupportFragmentManager(), "GOALS");
     }
 
 
