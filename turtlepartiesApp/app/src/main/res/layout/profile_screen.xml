@@ -131,6 +131,24 @@
         app:layout_constraintTop_toBottomOf="@+id/editEmail"
         tools:ignore="MissingConstraints" />
 
+    // temp button for goals
+
+    <ImageButton
+
+        android:id="@+id/goalsButton"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginEnd="20dp"
+        android:adjustViewBounds="true"
+        android:background="@color/white"
+        android:onClick="onGoalsButtonClicked"
+        android:scaleType="centerCrop"
+        android:src="@drawable/turtle_button"
+        android:text="Goals"
+        app:layout_constraintBottom_toTopOf="@+id/taskbarLinearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
+
     <LinearLayout
         android:id="@+id/taskbarLinearLayout"
         android:layout_width="fill_parent"
@@ -177,7 +195,22 @@
             android:text="show friend QR"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/toggleDarkModeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="58dp"
+        android:layout_marginBottom="66dp"
+        android:text="Enable Dark Mode"
+        app:layout_constraintBottom_toTopOf="@+id/taskbarLinearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

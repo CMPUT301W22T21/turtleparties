@@ -3,6 +3,8 @@ package com.example.turtlepartiesapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -11,7 +13,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import android.provider.Settings;
@@ -19,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,7 +41,7 @@ import java.util.List;
 // Main activity
 // Controls all acitivites
 // To do: Decide how to implement it with logging in
-public class MainActivity extends AppCompatActivity implements QRDeleteFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements QRDeleteFragment.OnFragmentInteractionListener {
 
     public static final String EXTRA_QR = "com.example.turtlepartiesapp.MESSAGE";
     public static final String EXTRA_USER = "com.example.turtlepartiesapp.MESSAGE";
@@ -152,6 +157,21 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
             }
         };
         playerControl.getPlayer(username, handler);
+
+        //Night mode handeling
+
+        SharedPreferences appSettings = getSharedPreferences("AppSettings",0);
+
+        Boolean nightmode = appSettings.getBoolean("NightMode",false);
+        if(nightmode){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            ConstraintLayout cl = findViewById(R.id.constraintLayout);
+            LinearLayout l1 = findViewById(R.id.taskbarLinearLayout);
+            l1.setBackgroundColor(Color.parseColor("#121212"));
+            cl.setBackgroundColor(Color.parseColor("#121212"));
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
 
@@ -181,7 +201,6 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         }
         return true;
     }
-
 
     public void updateInfo(DocumentSnapshot value){
 
