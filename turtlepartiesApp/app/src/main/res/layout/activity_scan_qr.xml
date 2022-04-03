@@ -16,14 +16,28 @@
         app:srcCompat="@android:drawable/gallery_thumb" />
 
 
-    <TextView
-        android:id="@+id/score"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="10"
-        android:text="Score:"
-        android:textSize="50dp" />
+        android:weightSum="100">
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="70"
+            android:text="Score:"
+            android:textSize="50dp" />
+        <Button
+            android:id="@+id/showimage"
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="30"
+            android:text="ShowIMAGE"/>
 
+
+    </LinearLayout>
 
 
     <LinearLayout
