@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -18,6 +19,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,15 +56,19 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
     private Button openCameraButton;
     private Button openGalleryButton;
     private Button addQRCode;
+    private Button showImage;
     final Activity myactivity = this;
     private String mystring;
     private ScoreQrcode scannedQR;
     private TextView qrscore;
     private EditText comment;
-
     private LocationManager locationManager;
     double latitude;
     double longitude;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +99,7 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
         qrscore = findViewById(R.id.score);
         addQRCode = findViewById(R.id.addQR);
         comment = findViewById(R.id.QRcomment);
+        showImage = findViewById(R.id.showimage);
 
         openCameraButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -141,6 +148,32 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
 
 
 
+        showImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),TakenPictureActivity.class);
+                intent.putExtra("Bitmap",scannedQR.getPicture());
+                startActivity(intent);
+
+
+                /*
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                scannedQR.getPicture().compress(Bitmap.CompressFormat.JPEG,100,bytes);
+                String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), scannedQR.getPicture(),"title",null);
+                userBundle.putString("key",path); */
+
+
+
+                /*userBundle.putParcelable("BMP", scannedQR.getPicture());
+                newFragment.setArguments(userBundle);
+                newFragment.show(getSupportFragmentManager(),"SHOWPICTURE");*/
+            }
+        });
+
+
+
+
+
     }
 
 
@@ -153,6 +186,8 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
         IntentResult scanresult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (scanresult != null) {
             if (scanresult.getContents() == null) {
@@ -166,6 +201,8 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
                 qrscore.setText("Score:" + scannedQR.getScore());
                 addQRCode.setVisibility(View.VISIBLE);
                 comment.setVisibility(View.VISIBLE);
+                showImage.setVisibility(View.INVISIBLE);
+                new AddImageFragment().show(getSupportFragmentManager(),"ADD_IMAGE");
                 new GeolocationFragment().show(getSupportFragmentManager(), "ADD_GEOLOCATION");
 
             }
@@ -214,6 +251,7 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
                             qrscore.setText("Score:" + scannedQR.getScore());
                             addQRCode.setVisibility(View.VISIBLE);
                             comment.setVisibility(View.VISIBLE);
+                            showImage.setVisibility(View.INVISIBLE);
 
                             new AddImageFragment().show(getSupportFragmentManager(),"ADD_IMAGE");
                             new GeolocationFragment().show(getSupportFragmentManager(), "ADD_GEOLOCATION");
@@ -241,11 +279,14 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
             }
         }
 
+        // checks if selected activity is taking a picture of the location //
         if(requestCode==2){
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            scannedQR.setPicture(photo); // sets the picture to the qrcode
+           // photo = (Bitmap) data.getExtras().get("data");
+            if((Bitmap) data.getExtras().get("data")!=null) {
+                scannedQR.setPicture((Bitmap) data.getExtras().get("data")); // sets the picture to the qrcode
+            }
+            showImage.setVisibility(View.VISIBLE);
 
-            /* SHOW IMAGE FRAGMENT AND ADD PICTURE TO THE DATABASE IMPLEMENTATION GOES HERE */
 
         }
 
@@ -308,6 +349,8 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
         // opens camera when user prompts
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent,2);
+
+
 
 
     }

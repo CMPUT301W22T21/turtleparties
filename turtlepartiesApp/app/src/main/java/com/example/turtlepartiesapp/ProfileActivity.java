@@ -95,12 +95,6 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
         );
     }
 
-    private void replaceFragment(Fragment fragment) {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.frameLayout, fragment);
-        ft.commit();
-    }
 
     public void setInfo(){
         text_name.setText(player.getName());
