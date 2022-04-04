@@ -202,6 +202,7 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
             } else {
                 mystring = scanresult.getContents();
                 // create QR code object and display the code on the screen with the score
+
                 qrScanController.NewQR(mystring);
                 qrScanController.createBitmap();
                 qrview.setImageBitmap(qrScanController.getBitmap());
@@ -215,6 +216,9 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
                     public void run() {
                         new AddImageFragment().show(getSupportFragmentManager(),"ADD_IMAGE");
                         new GeolocationFragment().show(getSupportFragmentManager(), "ADD_GEOLOCATION");
+                        addQRCode.setVisibility(View.VISIBLE);
+                        comment.setVisibility(View.VISIBLE);
+                        showImage.setVisibility(View.INVISIBLE);
                     }
                 }, 500);
             }
@@ -258,20 +262,21 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
                         if (result.getText() == null) {
                             Toast.makeText(this, "Scan failed", Toast.LENGTH_LONG).show();
                         } else {
+
                             mystring = result.getText();
                             qrScanController.NewQR(mystring);
                             qrScanController.createBitmap();
                             qrview.setImageBitmap(qrScanController.getBitmap());
                             qrscore.setText("Score:" + qrScanController.getScore());
-                            addQRCode.setVisibility(View.VISIBLE);
-                            comment.setVisibility(View.VISIBLE);
-                            showImage.setVisibility(View.INVISIBLE);
 
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 public void run() {
                                     new AddImageFragment().show(getSupportFragmentManager(),"ADD_IMAGE");
                                     new GeolocationFragment().show(getSupportFragmentManager(), "ADD_GEOLOCATION");
+                                    addQRCode.setVisibility(View.VISIBLE);
+                                    comment.setVisibility(View.VISIBLE);
+                                    showImage.setVisibility(View.INVISIBLE);
                                 }
                             }, 500);
                         }
