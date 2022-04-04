@@ -53,7 +53,7 @@ public class LeaderboardAdapter extends ArrayAdapter<String> {
         }else if(position == 2 && name == people.get(2)){
             playerTextview.setTextColor(Color.parseColor("#CD7F32"));
         }else{
-            playerTextview.setTextColor(Color.parseColor("#F5F5DC"));
+            playerTextview.setTextColor(Color.parseColor("#0071BC"));
         }
 
         if(name.equalsIgnoreCase(ownerUserID)){
