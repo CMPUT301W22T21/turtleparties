@@ -38,6 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 // Main activity
 // Controls all acitivites
@@ -86,8 +87,9 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         setContentView(R.layout.activity_main);
         Log.d(TAG, uniqueID);
         db = FirebaseFirestore.getInstance();
+        playerControl = new PlayerController();
 
-        final DocumentReference uniqueId  = db.collection("Users").document(uniqueID);
+        final DocumentReference uniqueId  = db.collection("DeviceId").document(username);
         uniqueId.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -95,12 +97,17 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
                     DocumentSnapshot document = task.getResult();
                     if(document.exists()){
                         Log.d(TAG, "Device ID already exists" + document.getData());
+                        username = document.getString("ref");
                     }
                     else{
                         user = new Player(username);
                         playerControl.savePlayer(user);
+                        HashMap<String, String> deviceIdMap = new HashMap<>();
+                        deviceIdMap.put("ref", username);
+                        db.collection("DeviceId").document(username).set(deviceIdMap);
                         Log.d(TAG, "added Device ID");
                     }
+                    Login();
                 }
                 else{
                     Log.d(TAG, "get failed", task.getException());
@@ -114,9 +121,35 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         qrList = findViewById(R.id.other_player_qr_list);
         context = this;
 
+
+
+        infoConLayout = findViewById(R.id.infobarConstraintLayout);
+        taskLinLayout = findViewById(R.id.taskbarLinearLayout);
+
+        //Night mode handeling
+
+        SharedPreferences appSettings = getSharedPreferences("AppSettings",0);
+
+        Boolean nightmode = appSettings.getBoolean("NightMode",false);
+        if(nightmode){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            ConstraintLayout cl = findViewById(R.id.infobarConstraintLayout);
+            LinearLayout l1 = findViewById(R.id.taskbarLinearLayout);
+            l1.setBackgroundColor(Color.parseColor("#121212"));
+            cl.setBackgroundColor(Color.parseColor("#121212"));
+            infoConLayout.setBackgroundResource(R.drawable.infobarborder_dark);
+            taskLinLayout.setBackgroundResource(R.drawable.taskbarborder_dark);
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            infoConLayout.setBackgroundResource(R.drawable.infobarborder);
+            taskLinLayout.setBackgroundResource(R.drawable.taskbarborder);
+        }
+    }
+
+    public void Login(){
         userRef = db.collection("Users").document(username);
 
-        playerControl = new PlayerController();
+
         ResultHandler handler = new ResultHandler() {
             @Override
             public void handleResult(Object data) {
@@ -161,28 +194,6 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
             }
         };
         playerControl.getPlayer(username, handler);
-
-        infoConLayout = findViewById(R.id.infobarConstraintLayout);
-        taskLinLayout = findViewById(R.id.taskbarLinearLayout);
-
-        //Night mode handeling
-
-        SharedPreferences appSettings = getSharedPreferences("AppSettings",0);
-
-        Boolean nightmode = appSettings.getBoolean("NightMode",false);
-        if(nightmode){
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            ConstraintLayout cl = findViewById(R.id.infobarConstraintLayout);
-            LinearLayout l1 = findViewById(R.id.taskbarLinearLayout);
-            l1.setBackgroundColor(Color.parseColor("#121212"));
-            cl.setBackgroundColor(Color.parseColor("#121212"));
-            infoConLayout.setBackgroundResource(R.drawable.infobarborder_dark);
-            taskLinLayout.setBackgroundResource(R.drawable.taskbarborder_dark);
-        }else{
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            infoConLayout.setBackgroundResource(R.drawable.infobarborder);
-            taskLinLayout.setBackgroundResource(R.drawable.taskbarborder);
-        }
     }
 
 
