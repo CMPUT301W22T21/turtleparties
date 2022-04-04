@@ -5,22 +5,27 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/turtle_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/turtle_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TurtlepartiesApp">
         <activity
             android:name=".TakenPictureActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".OtherPlayerProfileActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".PlayerSearchActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
 
         <meta-data
@@ -29,18 +34,23 @@
 
         <activity
             android:name=".QRInfo"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MapsActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ScanQRActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".LeaderboardActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
 
         <activity android:name=".PortraitMode"
@@ -51,6 +61,7 @@
             />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
