@@ -16,11 +16,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FriendQRFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class FriendQRFragment extends DialogFragment {
     private com.example.turtlepartiesapp.FriendQRFragment.OnFragmentInteractionListener  listener;
 
@@ -50,7 +46,9 @@ public class FriendQRFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_friend_qr,null);
         ImageView loginQRImage = view.findViewById(R.id.FriendQRImage);
         Player fragPlayer = (Player)getArguments().getSerializable("player");
-        LoginQrcode logincode = new LoginQrcode(fragPlayer.getName());
+
+        // changed to create QRcode by username
+        LoginQrcode logincode = new LoginQrcode(fragPlayer.getUsername());
         logincode.generateQRimage();
         loginQRImage.setImageBitmap(logincode.getMyBitmap());
 
