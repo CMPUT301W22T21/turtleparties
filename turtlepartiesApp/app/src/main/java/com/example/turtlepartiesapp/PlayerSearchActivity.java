@@ -167,8 +167,10 @@ public class PlayerSearchActivity extends AppCompatActivity {
         @Override
         public void handleResult(Object data) {
             players.clear();
-            Player player = (Player) data;
-            players.add(player);
+            if(data != null) {
+                Player player = (Player) data;
+                players.add(player);
+            }
             playerAdapter.notifyDataSetChanged();
         }
     };
