@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+//adapter for showing qrInfo in a listview in the mainactivity
 public class QRList extends ArrayAdapter<ScoreQrcode> {
 
     private ArrayList<ScoreQrcode> codes;

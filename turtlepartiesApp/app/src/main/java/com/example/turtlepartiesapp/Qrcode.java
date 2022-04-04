@@ -37,7 +37,6 @@ public abstract class Qrcode implements Serializable {
 
     /**
      * This method will generate the bitmap for a qr code. Bitmap must be set to imageview for qr code to be visible
-     * @return Bitmap
      */
     public void generateQRimage(){
 

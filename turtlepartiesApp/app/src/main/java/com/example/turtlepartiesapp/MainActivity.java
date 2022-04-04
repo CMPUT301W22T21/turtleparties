@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         }
     }
 
+    // logins user to profile
     public void Login(){
         userRef = db.collection("Users").document(username);
 

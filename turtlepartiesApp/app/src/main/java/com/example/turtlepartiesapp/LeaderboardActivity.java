@@ -120,6 +120,9 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Changes view to show players who have highest score
+     */
     public void onHighestScoreClicked(){
 
         choosePrompt.setVisibility(View.GONE);
@@ -134,6 +137,9 @@ public class LeaderboardActivity extends AppCompatActivity {
         personAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Changes view to show players who have the most scans
+     */
     public void onMostScansClicked(){
 
         choosePrompt.setVisibility(View.GONE);
@@ -151,6 +157,10 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Changes view to show players who have the greatest sum
+     */
     public void onGreatestSumClicked(){
 
         choosePrompt.setVisibility(View.GONE);
