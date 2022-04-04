@@ -92,7 +92,7 @@ public class OtherPlayerProfileActivity extends AppCompatActivity {
     }
 
     public void setView(){
-        formattedHeader = getString(R.string.other_player_user_qr_list_header_textview, thisUser.getUsername());
+        formattedHeader = getString(R.string.other_player_user_qr_list_header_textview, "USER");
 
         changeListViewButton = findViewById(R.id.other_player_change_qr_list_type_button);
         usernameTextView = findViewById(R.id.other_player_username_textview);
