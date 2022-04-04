@@ -25,7 +25,9 @@ import java.io.Serializable;
  * Profile activity
  * Displays current players information
  */
-public class ProfileActivity extends AppCompatActivity implements LoginQRFragment.OnFragmentInteractionListener, GoalsFragment.OnFragmentInteractionListener {
+
+public class ProfileActivity extends AppCompatActivity implements LoginQRFragment.OnFragmentInteractionListener, GoalsFragment.OnFragmentInteractionListener, FriendQRFragment.OnFragmentInteractionListener {
+
 
     TextView text_name, text_userName;
     EditText editText_name, editText_email, editText_phoneNumber;
@@ -150,17 +152,18 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
 
 
 
-    /* TO BE COMPLETED
+    // TO BE COMPLETED
     public void onShowFriendQRButtonClicked(View view){
 
 
         Bundle userBundle = new Bundle();
         userBundle.putSerializable("player", player);
-        FriendQRFragment loginFrag = new FriendQRFragment();
-        loginFrag.setArguments(userBundle);
-        replaceFragment(loginFrag);
+
+        FriendQRFragment newFragment = new FriendQRFragment();
+        newFragment.setArguments(userBundle);
+        newFragment.show(getSupportFragmentManager(),"SHOWNAME");
     }
-    */
+
 
     @Override
     public void onclosePressed() {;}

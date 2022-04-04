@@ -38,9 +38,8 @@ public class PlayerSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_player_search);
 
         Intent mainIntent = getIntent();
-        Bundle playerBundle = mainIntent.getBundleExtra(MainActivity.EXTRA_USER);
-        mainUser = (Player) playerBundle.getSerializable("mainUser");
-        Log.d("SearchActivity", mainUser.getUsername());
+
+        handleBundle(mainIntent);
         
         handler = new ResultHandler() {
             @Override
@@ -63,6 +62,12 @@ public class PlayerSearchActivity extends AppCompatActivity {
                 initiateOtherPlayerActivity(thisPlayer);
             }
         });
+    }
+
+    void handleBundle(Intent mainIntent){
+        Bundle playerBundle = mainIntent.getBundleExtra(MainActivity.EXTRA_USER);
+        mainUser = (Player) playerBundle.getSerializable("mainUser");
+        Log.d("SearchActivity", mainUser.getUsername());
     }
 
 

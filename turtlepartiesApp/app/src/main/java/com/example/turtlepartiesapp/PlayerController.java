@@ -16,6 +16,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -66,6 +67,43 @@ public class PlayerController {
         return;
     }
 
+    public void deletePlayer(Player player){
+        db.collection("Users").document(player.username).delete();
+        return;
+    }
+
+    public void deleteQrCode(ScoreQrcode qrcode, ResultHandler handler){
+        db.collection("QR codes").document(qrcode.getCode()).delete();
+        deleteQrFromPlayers(qrcode, handler);
+        return;
+    }
+    public void deleteQrFromPlayers(ScoreQrcode qrcode, ResultHandler handler){
+        db.collection("Users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                try{
+                                    Player player = document.toObject(Player.class);
+                                    if(player.hasQrCode(qrcode)){
+                                        removeQrFromPlayer(player, player.getQrCode(qrcode));
+                                    }
+
+                                }
+                                catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+                            handler.handleResult(null);
+                        }
+                    }
+                });
+
+        return;
+    }
+
 
     /**
      * Adds a QR to player in DB
@@ -79,6 +117,7 @@ public class PlayerController {
         if(player.hasQrCode(qrcode)){
             return false;
         }
+        qrcode.PictureToString();
         player.addQrCode(qrcode);
         db.collection("Users").document(player.username).update("qrCodes", FieldValue.arrayUnion(qrcode));
         db.collection("Users").document(player.username).update(
@@ -113,8 +152,10 @@ public class PlayerController {
         if(!player.hasQrCode(qrcode)){
             return false;
         }
-        player.removeQrCode(qrcode);
+
         db.collection("Users").document(player.username).update("qrCodes", FieldValue.arrayRemove(qrcode));
+
+        player.removeQrCode(qrcode);
 
         db.collection("Users").document(player.username).update(
                 "qrCount",player.qrCodes.size(),
@@ -122,6 +163,7 @@ public class PlayerController {
                 "qrLowest", player.qrLowest,
                 "qrSum", player.getQrSum()
         );
+
         deleteQRComment(player, qrcode);
         return true;
     }

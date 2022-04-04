@@ -4,6 +4,8 @@ import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 
 import com.google.common.hash.Hashing;
 import com.google.firebase.database.Exclude;
@@ -13,6 +15,7 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 
@@ -23,7 +26,9 @@ public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
     private transient GeoPoint geolocation;
     private String comment;
     private boolean toShow;
-    private Bitmap picture;
+    @Exclude
+    protected Bitmap picture;
+    private String pictureString;
 
     /**
      * This class is an extension of the QRcode class, it has a score, a comment, and a geolocation.
@@ -37,6 +42,7 @@ public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
        this.comment = null;
        this.toShow = true;
        this.picture = null;
+       this.pictureString = null;
    }
     public ScoreQrcode(){}
 
@@ -79,10 +85,20 @@ public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
 
     }
 
+
+    /**
+     * returns the name assigned to the qrcode
+     * @return
+     */
     public String getQrName() {
         return qrName;
     }
 
+
+    /**
+     * allows setting of qrcode name
+     * @param qrName
+     */
     public void setQrName(String qrName) {
         this.qrName = qrName;
     }
@@ -94,38 +110,83 @@ public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
         return Hashing.sha256().hashString(this.getCode(), StandardCharsets.UTF_8).toString();
     }
 
+
+    /**
+     * checks qrCode visibility
+     * @return
+     */
     public boolean isToShow() {
         return toShow;
     }
 
+    /**
+     * set qrcode visibility
+     * @param toShow
+     */
     public void setToShow(boolean toShow) {
         this.toShow = toShow;
     }
 
+    /**
+     * get qrcode score
+     * @return
+     */
     public int getScore(){
         return score;
     }
 
+    /**
+     * gets qrcode geoloaction
+     * @return
+     */
     public GeoPoint getGeolocation() {
         return geolocation;
     }
 
+    /**
+     * for setting qrcode geolocation
+     * @param geolocation
+     */
     public void setGeolocation(GeoPoint geolocation) {
         this.geolocation = geolocation;
     }
 
+    /**
+     * gets qrcode comment
+     * @return
+     */
     public String getComment() {
         return comment;
     }
 
+    /**
+     * for setting qrcode comment
+     * @param comment
+     */
     public void setComment(String comment) {
         this.comment = comment;
     }
 
+
+    /**
+     * gets qrcode location image
+     * @return
+     */
+    @com.google.firebase.firestore.Exclude
+
     public Bitmap getPicture() { return picture; }
 
+    /**
+     * for setting qrcode location image
+     * @param picture
+     */
     public void setPicture(Bitmap picture) { this.picture = picture; }
 
+    /**
+     * for comparing scores of qrcodes
+     * @param o
+     * @return
+     */
     @Override
     public int compareTo(Object o) {
         if (o == null || o.getClass() != ScoreQrcode.class) {
@@ -141,6 +202,10 @@ public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
         return 0;
     }
 
+    /**
+     * for checking if qrcode has a geolocation
+     * @return
+     */
     public Boolean hasGeoLocation(){
         if(geolocation == null){
             return false;
@@ -149,7 +214,38 @@ public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
         }
     }
 
+    /**
+     * for hashing the qrcode
+     * @return
+     */
     public String sha256(){
         return this.sha_hash();
+    }
+
+
+    public void PictureToString(){
+        if(picture == null){
+            return;
+        }
+        ByteArrayOutputStream baos =new  ByteArrayOutputStream();
+        picture.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        pictureString = Base64.encodeToString(b, Base64.DEFAULT);
+    }
+
+    public void StringToBitMap(){
+        if(pictureString == null){
+            return;
+        }
+        try {
+            byte [] encodeByte=Base64.decode(pictureString,Base64.DEFAULT);
+            this.picture = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+        } catch(Exception e) {
+            e.getMessage();
+        }
+    }
+
+    public String getPictureString() {
+        return pictureString;
     }
 }
