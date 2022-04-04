@@ -21,6 +21,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+// this activity shows the owners screen
+
 public class OwnerActivity extends AppCompatActivity implements QRDeleteFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "QRCODE";

@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+// This activity shows another players Profile QR codes
+
 public class OtherPlayerProfileActivity extends AppCompatActivity {
 
     String EXTRA_QR = "com.example.turtlepartiesapp.MESSAGE";

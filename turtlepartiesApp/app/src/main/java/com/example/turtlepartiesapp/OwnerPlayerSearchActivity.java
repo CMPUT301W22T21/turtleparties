@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
+
+// this activity allows owner to search for other players and delete them
 public class OwnerPlayerSearchActivity extends PlayerSearchActivity implements PlayerDeleteFragment.OnFragmentInteractionListener {
 
     private Player selectedPlayer;

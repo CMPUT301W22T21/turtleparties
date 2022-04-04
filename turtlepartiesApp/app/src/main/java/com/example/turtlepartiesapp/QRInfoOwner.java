@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+// activity for showing qrcodes when you are the owner
 public class QRInfoOwner extends QRInfo{
 
     @Override

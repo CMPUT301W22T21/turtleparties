@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 
+// activity for showing the picture of the location the qr code was taken
 public class TakenPictureActivity extends AppCompatActivity {
 
     private ImageView Locationpic;

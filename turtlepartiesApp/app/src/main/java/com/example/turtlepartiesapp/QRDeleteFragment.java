@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+// fragment for deleting a qr code
 public class QRDeleteFragment extends DialogFragment {
 
     private OnFragmentInteractionListener listener;

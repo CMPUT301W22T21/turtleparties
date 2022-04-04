@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 
+// class for qr code that keeps track of the score
 public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
 
     private String qrName;

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+// fragment that shows up for deleting player from the db
 public class PlayerDeleteFragment extends DialogFragment {
 
     private OnFragmentInteractionListener listener;
