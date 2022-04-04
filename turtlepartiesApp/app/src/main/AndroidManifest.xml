@@ -42,6 +42,13 @@
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />
+
+        <activity android:name=".PortraitMode"
+            android:screenOrientation="sensorPortrait"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            />
         <activity
             android:name=".MainActivity"
             android:exported="true">
