@@ -18,14 +18,13 @@
 
     <TextView
         android:id="@+id/score_info_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="97dp"
+        android:layout_height="19dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/showFriendQRButton"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,6 +35,20 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="Score:"
+        app:layout_constraintStart_toEndOf="@+id/qr_imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/pictureLocationButton"
+        android:layout_width="111dp"
+        android:layout_height="87dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:onClick="onLocationPictureButtonClicked"
+        android:visibility="gone"
+        android:text="Location Picture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.941"
         app:layout_constraintStart_toEndOf="@+id/qr_imageView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,14 +64,13 @@
 
     <TextView
         android:id="@+id/location_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="78dp"
+        android:layout_height="18dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="17dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/showFriendQRButton"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/score_info_view" />
 
@@ -70,10 +82,10 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/deleteQrButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/qr_imageView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/deleteQrButton"

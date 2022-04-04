@@ -252,6 +252,11 @@ public class Player implements Serializable {
         return qrCodes.contains(qrcode);
     }
 
+    public ScoreQrcode getQrCode(ScoreQrcode qrcode){
+        int index = this.qrCodes.indexOf(qrcode);
+        return  this.qrCodes.get(index);
+    }
+
     /**
      * Gette method for player phone number
      * @return
