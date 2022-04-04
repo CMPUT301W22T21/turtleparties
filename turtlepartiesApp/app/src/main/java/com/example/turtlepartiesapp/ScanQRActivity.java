@@ -52,7 +52,6 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
 
     private Player player;
     private PlayerController playerController;
-
     private ImageView qrview;
     private Button openCameraButton;
     private Button openGalleryButton;
@@ -60,12 +59,12 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
     private Button showImage;
     final Activity myactivity = this;
     private String mystring;
-    private ScoreQrcode scannedQR;
     private TextView qrscore;
     private EditText comment;
     private LocationManager locationManager;
     double latitude;
     double longitude;
+    QrScanController qrScanController;
 
 
 
@@ -79,6 +78,7 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
         geoLocation();
         /*get player async*/
         Bundle b = getIntent().getExtras();
+        qrScanController = new QrScanController();
         playerController = new PlayerController();
         if(b != null){
             ResultHandler handler = new ResultHandler() {
@@ -102,6 +102,10 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
         comment = findViewById(R.id.QRcomment);
         showImage = findViewById(R.id.showimage);
 
+
+        /**
+         * This button will open the camera for the player to scan a QRcode
+         */
         openCameraButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -120,6 +124,10 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
          author: Jyonsa on May 16, 2011
          answer author: Niranj Patel on May 16, 2011*/
 
+        /**
+         * This button will open the gallery for the player to upload a QRcode
+         */
+
         openGalleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,16 +139,18 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
         });
 
 
-        // button for adding qr code //
+        /**
+         * This button will add the QRcode to the database and return the player to MainActivity
+         */
         addQRCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String mycomment = comment.getText().toString();
-                scannedQR.setComment(mycomment);
+                qrScanController.addComment(mycomment);
 
                 // implementation for adding the qr to the database should go here
                 if(player != null){
-                    playerController.addQrToPlayer(player, scannedQR);
+                    playerController.addQrToPlayer(player, qrScanController.getQRcode());
                 }
 
                 finish();
@@ -148,26 +158,17 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
         });
 
 
-
+        /**
+         * This button will send the user to TakenPictureActivity to view the picture they have taken of the location
+         */
         showImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),TakenPictureActivity.class);
-                intent.putExtra("Bitmap",scannedQR.getPicture());
-                startActivity(intent);
-
-
-                /*
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                scannedQR.getPicture().compress(Bitmap.CompressFormat.JPEG,100,bytes);
-                String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), scannedQR.getPicture(),"title",null);
-                userBundle.putString("key",path); */
-
-
-
-                /*userBundle.putParcelable("BMP", scannedQR.getPicture());
-                newFragment.setArguments(userBundle);
-                newFragment.show(getSupportFragmentManager(),"SHOWPICTURE");*/
+                if (qrScanController.getLocationPicture()!=null) {
+                    Intent intent = new Intent(getApplicationContext(), TakenPictureActivity.class);
+                    intent.putExtra("Bitmap", qrScanController.getLocationPicture());
+                    startActivity(intent);
+                }
             }
         });
 
@@ -176,7 +177,6 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
 
 
     }
-
 
 
     /**
@@ -189,6 +189,9 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
+        /**
+         * 1. This part of the code checks and handles the result if the player scanned a QR from the camera
+         */
         IntentResult scanresult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (scanresult != null) {
             if (scanresult.getContents() == null) {
@@ -196,10 +199,10 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
             } else {
                 mystring = scanresult.getContents();
                 // create QR code object and display the code on the screen with the score
-                scannedQR = new ScoreQrcode(mystring);
-                scannedQR.generateQRimage();
-                qrview.setImageBitmap(scannedQR.getMyBitmap());
-                qrscore.setText("Score:" + scannedQR.getScore());
+                qrScanController.NewQR(mystring);
+                qrScanController.createBitmap();
+                qrview.setImageBitmap(qrScanController.getBitmap());
+                qrscore.setText("Score:" + qrScanController.getScore());
                 addQRCode.setVisibility(View.VISIBLE);
                 comment.setVisibility(View.VISIBLE);
                 showImage.setVisibility(View.INVISIBLE);
@@ -218,7 +221,9 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
 
 
 
-        // this part checks if the selected activity was for reading a qr from image //
+        /**
+         * 2. This part of the code checks and handles the result if the player scanned a QR from the gallery
+         */
 
         /*https://stackoverflow.com/questions/6016000/how-to-open-phones-gallery-through-code
          author: Jyonsa on May 16, 2011
@@ -250,11 +255,11 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
                         if (result.getText() == null) {
                             Toast.makeText(this, "Scan failed", Toast.LENGTH_LONG).show();
                         } else {
-                            String contents = result.getText();
-                            scannedQR = new ScoreQrcode(contents);
-                            scannedQR.generateQRimage();
-                            qrview.setImageBitmap(scannedQR.getMyBitmap());
-                            qrscore.setText("Score:" + scannedQR.getScore());
+                            mystring = result.getText();
+                            qrScanController.NewQR(mystring);
+                            qrScanController.createBitmap();
+                            qrview.setImageBitmap(qrScanController.getBitmap());
+                            qrscore.setText("Score:" + qrScanController.getScore());
                             addQRCode.setVisibility(View.VISIBLE);
                             comment.setVisibility(View.VISIBLE);
                             showImage.setVisibility(View.INVISIBLE);
@@ -288,11 +293,13 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
             }
         }
 
-        // checks if selected activity is taking a picture of the location //
+        /**
+         * 3. This part of the code checks and handles the result if the player is taking a picture of the location they found the code
+         */
         if(requestCode==2){
            // photo = (Bitmap) data.getExtras().get("data");
             if((Bitmap) data.getExtras().get("data")!=null) {
-                scannedQR.setPicture((Bitmap) data.getExtras().get("data")); // sets the picture to the qrcode
+                qrScanController.setLocationPicture((Bitmap) data.getExtras().get("data")); // sets the picture to the qrcode
             }
             showImage.setVisibility(View.VISIBLE);
 
@@ -302,8 +309,9 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
     }
 
 
-
-
+    /**
+     * gets the geolocation of the player at start
+     */
     public void geoLocation(){
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         DecimalFormat df = new DecimalFormat("#.####");
@@ -335,6 +343,10 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
     }
 
 
+    /**
+     * Gets the players current geolocation and displays in fragment
+     * @return geoLoc
+     */
     @Override
     public double[] getGeoLocation() {
         double[] geoLoc = new double[2];
@@ -345,23 +357,27 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
         return geoLoc;
     }
 
+
+    /**
+     * Sets the geolocation of the QRcode
+     */
     public void setLocation(){
-        if (scannedQR != null){
+        if (qrScanController.getQRcode() != null){
             Log.d("GEOERR", latitude + "   " + longitude);
             GeoPoint newGP = new GeoPoint((latitude), (longitude));
-            scannedQR.setGeolocation(newGP);
+            qrScanController.setGeo(newGP);
         }
     }
 
+
+    /**
+     * Launches the camera activity
+     */
     @Override
     public void OnOpenCamera() {
         // opens camera when user prompts
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent,2);
-
-
-
-
     }
 
 

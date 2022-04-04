@@ -60,16 +60,31 @@ public abstract class Qrcode implements Serializable {
         myBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         myBitmap.setPixels(pixels,0,width,0,0,width,height);
     }
+
+
+    /**
+     * This method will return the bitmap
+     * @return
+     */
     @com.google.firebase.firestore.Exclude
     public Bitmap getMyBitmap() {
         return myBitmap;
     }
 
+    /**
+     * This method will return the code used to generate QRcode
+     * @return
+     */
     public String getCode(){
         return code;
     }
 
 
+    /**
+     * This method lets you check if QRcode is of type QRcode
+     * @param qrCode
+     * @return
+     */
     @Override
     public boolean equals(Object qrCode){
         if(qrCode == null || qrCode.getClass() != this.getClass()){
@@ -82,6 +97,10 @@ public abstract class Qrcode implements Serializable {
         return false;
     }
 
+    /**
+     * This method returs the hash of the code
+     * @return
+     */
     @Override
     public int hashCode(){
         return getCode().hashCode();

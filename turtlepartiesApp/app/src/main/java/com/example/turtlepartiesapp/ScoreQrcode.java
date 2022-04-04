@@ -85,10 +85,20 @@ public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
 
     }
 
+
+    /**
+     * returns the name assigned to the qrcode
+     * @return
+     */
     public String getQrName() {
         return qrName;
     }
 
+
+    /**
+     * allows setting of qrcode name
+     * @param qrName
+     */
     public void setQrName(String qrName) {
         this.qrName = qrName;
     }
@@ -100,39 +110,83 @@ public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
         return Hashing.sha256().hashString(this.getCode(), StandardCharsets.UTF_8).toString();
     }
 
+
+    /**
+     * checks qrCode visibility
+     * @return
+     */
     public boolean isToShow() {
         return toShow;
     }
 
+    /**
+     * set qrcode visibility
+     * @param toShow
+     */
     public void setToShow(boolean toShow) {
         this.toShow = toShow;
     }
 
+    /**
+     * get qrcode score
+     * @return
+     */
     public int getScore(){
         return score;
     }
 
+    /**
+     * gets qrcode geoloaction
+     * @return
+     */
     public GeoPoint getGeolocation() {
         return geolocation;
     }
 
+    /**
+     * for setting qrcode geolocation
+     * @param geolocation
+     */
     public void setGeolocation(GeoPoint geolocation) {
         this.geolocation = geolocation;
     }
 
+    /**
+     * gets qrcode comment
+     * @return
+     */
     public String getComment() {
         return comment;
     }
 
+    /**
+     * for setting qrcode comment
+     * @param comment
+     */
     public void setComment(String comment) {
         this.comment = comment;
     }
 
+
+    /**
+     * gets qrcode location image
+     * @return
+     */
     @com.google.firebase.firestore.Exclude
+
     public Bitmap getPicture() { return picture; }
 
+    /**
+     * for setting qrcode location image
+     * @param picture
+     */
     public void setPicture(Bitmap picture) { this.picture = picture; }
 
+    /**
+     * for comparing scores of qrcodes
+     * @param o
+     * @return
+     */
     @Override
     public int compareTo(Object o) {
         if (o == null || o.getClass() != ScoreQrcode.class) {
@@ -148,6 +202,10 @@ public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
         return 0;
     }
 
+    /**
+     * for checking if qrcode has a geolocation
+     * @return
+     */
     public Boolean hasGeoLocation(){
         if(geolocation == null){
             return false;
@@ -156,6 +214,10 @@ public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
         }
     }
 
+    /**
+     * for hashing the qrcode
+     * @return
+     */
     public String sha256(){
         return this.sha_hash();
     }
