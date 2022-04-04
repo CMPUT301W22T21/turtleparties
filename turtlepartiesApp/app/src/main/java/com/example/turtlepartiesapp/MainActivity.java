@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import android.provider.Settings;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         String uniqueID = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.d(TAG, "My Unique ID: "+uniqueID);
         username = uniqueID;
@@ -79,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         }
 
         setContentView(R.layout.activity_main);
-
         Log.d(TAG, uniqueID);
         db = FirebaseFirestore.getInstance();
 

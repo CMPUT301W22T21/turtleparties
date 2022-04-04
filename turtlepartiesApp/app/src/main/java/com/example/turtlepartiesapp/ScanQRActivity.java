@@ -17,6 +17,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -202,9 +203,14 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
                 addQRCode.setVisibility(View.VISIBLE);
                 comment.setVisibility(View.VISIBLE);
                 showImage.setVisibility(View.INVISIBLE);
-                new AddImageFragment().show(getSupportFragmentManager(),"ADD_IMAGE");
-                new GeolocationFragment().show(getSupportFragmentManager(), "ADD_GEOLOCATION");
 
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        new AddImageFragment().show(getSupportFragmentManager(),"ADD_IMAGE");
+                        new GeolocationFragment().show(getSupportFragmentManager(), "ADD_GEOLOCATION");
+                    }
+                }, 500);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -253,10 +259,13 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
                             comment.setVisibility(View.VISIBLE);
                             showImage.setVisibility(View.INVISIBLE);
 
-                            new AddImageFragment().show(getSupportFragmentManager(),"ADD_IMAGE");
-                            new GeolocationFragment().show(getSupportFragmentManager(), "ADD_GEOLOCATION");
-
-
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                public void run() {
+                                    new AddImageFragment().show(getSupportFragmentManager(),"ADD_IMAGE");
+                                    new GeolocationFragment().show(getSupportFragmentManager(), "ADD_GEOLOCATION");
+                                }
+                            }, 500);
                         }
 
 
