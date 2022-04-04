@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -53,6 +54,7 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
     Button darkModeButton;
     ImageButton goalsButton;
     Player player;
+    String uniqueID;
 
     PlayerController playerControl;
     final String TAG = "ProfileActivity";
@@ -61,6 +63,7 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_screen);
+        uniqueID = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
         text_name = findViewById(R.id.other_player_name_textview);
         text_userName = findViewById(R.id.other_player_username_textview);
@@ -261,7 +264,7 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
                 code = scanresult.getContents();
 
                 // QUERY GOES HERE to login player to new account and assign device to that account
-                playerControl.updateRef(player.getUsername(), code);
+                playerControl.updateRef(uniqueID, code);
                 finish();
 
             }
@@ -310,7 +313,7 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
                             code = result.getText();
 
                             // QUERY GOES HERE to login player to new account and assign device to that account
-                            playerControl.updateRef(player.getUsername(), code);
+                            playerControl.updateRef(uniqueID, code);
 
                             finish();
                         }
