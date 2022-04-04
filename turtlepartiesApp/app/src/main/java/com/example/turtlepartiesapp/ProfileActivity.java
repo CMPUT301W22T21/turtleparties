@@ -261,7 +261,7 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
                 code = scanresult.getContents();
 
                 // QUERY GOES HERE to login player to new account and assign device to that account
-
+                playerControl.updateRef(player.getUsername(), code);
 
 
             }
@@ -310,8 +310,7 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
                             code = result.getText();
 
                             // QUERY GOES HERE to login player to new account and assign device to that account
-
-
+                            playerControl.updateRef(player.getUsername(), code);
 
                         }
 

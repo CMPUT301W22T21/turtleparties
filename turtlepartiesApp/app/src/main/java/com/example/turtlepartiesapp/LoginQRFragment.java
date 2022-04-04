@@ -46,7 +46,7 @@ public class LoginQRFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_login_qr,null);
         ImageView loginQRImage = view.findViewById(R.id.loginQRImageView);
         Player fragPlayer = (Player)getArguments().getSerializable("player");
-        LoginQrcode logincode = new LoginQrcode(fragPlayer.toString());
+        LoginQrcode logincode = new LoginQrcode(fragPlayer.getUsername());
         logincode.generateQRimage();
         loginQRImage.setImageBitmap(logincode.getMyBitmap());
 
