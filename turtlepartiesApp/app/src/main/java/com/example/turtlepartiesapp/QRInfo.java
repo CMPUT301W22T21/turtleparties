@@ -28,6 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+// activity for displaying the info for a users QRcode
 public class QRInfo extends AppCompatActivity {
 
     final String TAG = "info";

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+// adapter for showing list of comments for a qr code
 public class QRCommentList extends ArrayAdapter<Comment> {
 
     private Context context;

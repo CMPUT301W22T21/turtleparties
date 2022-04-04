@@ -48,6 +48,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.concurrent.TimeUnit;
 
+// activity for scanning qrcodes to score
 public class ScanQRActivity extends AppCompatActivity implements GeolocationFragment.OnFragmentInteractionListener, AddImageFragment.OnFragmentInteractionListener{
 
     private Player player;

@@ -21,7 +21,7 @@ public class FriendQRFragment extends DialogFragment {
     private com.example.turtlepartiesapp.FriendQRFragment.OnFragmentInteractionListener  listener;
 
 
-
+    // code for when pressing close
     public interface OnFragmentInteractionListener{
         void onclosePressed();
     }
@@ -38,6 +38,7 @@ public class FriendQRFragment extends DialogFragment {
         }
     }
 
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -48,9 +49,9 @@ public class FriendQRFragment extends DialogFragment {
         Player fragPlayer = (Player)getArguments().getSerializable("player");
 
         // changed to create QRcode by username
-        LoginQrcode logincode = new LoginQrcode(fragPlayer.getUsername());
-        logincode.generateQRimage();
-        loginQRImage.setImageBitmap(logincode.getMyBitmap());
+        FriendQrcode friendcode = new FriendQrcode(fragPlayer.getUsername());
+        friendcode.generateQRimage();
+        loginQRImage.setImageBitmap(friendcode.getMyBitmap());
 
 
 
