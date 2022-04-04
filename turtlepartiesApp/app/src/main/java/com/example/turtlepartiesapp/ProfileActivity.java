@@ -262,7 +262,7 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
 
                 // QUERY GOES HERE to login player to new account and assign device to that account
                 playerControl.updateRef(player.getUsername(), code);
-
+                finish();
 
             }
         } else {
@@ -312,6 +312,7 @@ public class ProfileActivity extends AppCompatActivity implements LoginQRFragmen
                             // QUERY GOES HERE to login player to new account and assign device to that account
                             playerControl.updateRef(player.getUsername(), code);
 
+                            finish();
                         }
 
                     } catch (IOException e) {

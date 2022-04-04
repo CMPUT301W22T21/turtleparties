@@ -27,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     final String TAG = "MainActivity";
     FirebaseFirestore db;
     private DocumentReference userRef;
+    private String uniqueID;
 
     private Player user;
     private PlayerController playerControl;
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String uniqueID = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        uniqueID = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.d(TAG, "My Unique ID: "+uniqueID);
         username = uniqueID;
         //username = "Owner";
@@ -89,31 +91,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         db = FirebaseFirestore.getInstance();
         playerControl = new PlayerController();
 
-        final DocumentReference uniqueId  = db.collection("DeviceId").document(username);
-        uniqueId.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot document = task.getResult();
-                    if(document.exists()){
-                        Log.d(TAG, "Device ID already exists" + document.getData());
-                        username = document.getString("ref");
-                    }
-                    else{
-                        user = new Player(username);
-                        playerControl.savePlayer(user);
-                        HashMap<String, String> deviceIdMap = new HashMap<>();
-                        deviceIdMap.put("ref", username);
-                        db.collection("DeviceId").document(username).set(deviceIdMap);
-                        Log.d(TAG, "added Device ID");
-                    }
-                    Login();
-                }
-                else{
-                    Log.d(TAG, "get failed", task.getException());
-                }
-            }
-        });
+        
 
         context = this;
         checkAndRequestPermissions();
@@ -146,6 +124,41 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startLogin();
+    }
+
+    public void startLogin(){
+        final DocumentReference uniqueId  = db.collection("DeviceId").document(uniqueID);
+        uniqueId.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+                        Log.d(TAG, "Device ID already exists" + document.getData());
+                        username = document.getString("ref");
+                    }
+                    else{
+                        user = new Player(uniqueID);
+                        playerControl.savePlayer(user);
+                        HashMap<String, String> deviceIdMap = new HashMap<>();
+                        deviceIdMap.put("ref", uniqueID);
+                        db.collection("DeviceId").document(uniqueID).set(deviceIdMap);
+                        Log.d(TAG, "added Device ID");
+                        //Toast.makeText(this, "No QR code found", Toast.LENGTH_LONG).show();
+                    }
+                    Login();
+                }
+                else{
+                    Log.d(TAG, "get failed", task.getException());
+                }
+            }
+        });
+    }
+    
     // logins user to profile
     public void Login(){
         userRef = db.collection("Users").document(username);
