@@ -111,9 +111,12 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
             public void onClick(View view) {
                 IntentIntegrator integrator = new IntentIntegrator(myactivity);
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+                integrator.setCaptureActivity(PortraitMode.class);
                 integrator.setPrompt("Scan QR code");
                 integrator.setCameraId(0);
                 integrator.setBarcodeImageEnabled(false);
+                integrator.setOrientationLocked(true);
+                integrator.setBeepEnabled(false);
                 integrator.initiateScan();
 
             }

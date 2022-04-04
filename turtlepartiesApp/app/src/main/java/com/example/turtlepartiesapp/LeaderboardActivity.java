@@ -63,10 +63,9 @@ public class LeaderboardActivity extends AppCompatActivity {
         PlayerController pc = new PlayerController();
         final CollectionReference collectionReference = db.collection("Users");
 
+
         identifyAllButtons();
         choosePrompt.setVisibility(View.VISIBLE);
-
-
 
         highestSumMap = new HashMap<>();
         highestQRScanMap = new HashMap<>();
@@ -117,6 +116,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         if(extras != null){
             currentUser = extras.getString("USER_IDENTIFIER");
         }
+        System.out.println(currentUser + " is current user");
 
     }
 
@@ -130,6 +130,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         highestScoreMap = sortByValue(highestScoreMap);
         peopleNames.addAll(highestScoreMap.keySet());
         scoresList.addAll(highestScoreMap.values());
+        highestScoreMap.remove("Owner");
         personAdapter.notifyDataSetChanged();
     }
 
@@ -144,6 +145,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         peopleNames.addAll(highestQRScanMap.keySet());
         scoresList.addAll(highestQRScanMap.values());
+        highestQRScanMap.remove("Owner");
 
         personAdapter.notifyDataSetChanged();
 
@@ -159,6 +161,8 @@ public class LeaderboardActivity extends AppCompatActivity {
         highestSumMap = sortByValue(highestSumMap);
         peopleNames.addAll(highestSumMap.keySet());
         scoresList.addAll(highestSumMap.values());
+        highestSumMap.remove("Owner");
+
         personAdapter.notifyDataSetChanged();
     }
 

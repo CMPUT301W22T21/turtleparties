@@ -41,10 +41,21 @@ public class LeaderboardAdapter extends ArrayAdapter<String> {
         if (view == null){
             view = LayoutInflater.from(context).inflate(R.layout.leaderboard_content,parent,false);
         }
+        //System.out.println(people + "is people");
         String name = people.get(position);
         String score = scores.get(position).toString();
         TextView playerTextview = view.findViewById(R.id.playerNametextView);
         TextView leaderboardStatTextView = view.findViewById(R.id.leaderboardstatTextView);
+        if(position == 0 && name == people.get(0)){
+            playerTextview.setTextColor(Color.parseColor("#FFD700"));
+        }else if(position == 1 && name == people.get(1)){
+            playerTextview.setTextColor(Color.parseColor("#C0C0C0"));
+        }else if(position == 2 && name == people.get(2)){
+            playerTextview.setTextColor(Color.parseColor("#CD7F32"));
+        }else{
+            playerTextview.setTextColor(Color.parseColor("#F5F5DC"));
+        }
+
         if(name.equalsIgnoreCase(ownerUserID)){
             playerTextview.setText(String.valueOf(position+1) + ". " + name + " (ME)");
             playerTextview.setTextColor(Color.parseColor("#E1306C"));
