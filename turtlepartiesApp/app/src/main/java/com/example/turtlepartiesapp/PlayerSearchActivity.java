@@ -99,7 +99,7 @@ public class PlayerSearchActivity extends AppCompatActivity {
                 IntentIntegrator integrator = new IntentIntegrator(PlayerSearchActivity.this);
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
                 integrator.setCaptureActivity(PortraitMode.class);
-                integrator.setPrompt("Scan QR code");
+                integrator.setPrompt("Scan ProfileQR code");
                 integrator.setCameraId(0);
                 integrator.setBarcodeImageEnabled(false);
                 integrator.setOrientationLocked(true);
@@ -123,7 +123,7 @@ public class PlayerSearchActivity extends AppCompatActivity {
                 Intent opengallery = new Intent();
                 opengallery.setType("image/*");
                 opengallery.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(opengallery, "Select Picture"), 1);
+                startActivityForResult(Intent.createChooser(opengallery, "Select ProfileQR code"), 1);
             }
         });
 
