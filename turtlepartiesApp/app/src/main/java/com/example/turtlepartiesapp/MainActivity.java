@@ -68,11 +68,19 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         String uniqueID = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.d(TAG, "My Unique ID: "+uniqueID);
         username = uniqueID;
+        //username = "Owner";
+        if(username.equals("Owner")){
+            Intent mapIntent = new Intent(MainActivity.this, OwnerActivity.class);
+            startActivity(mapIntent);
+
+            return;
+        }
+
+        setContentView(R.layout.activity_main);
         Log.d(TAG, uniqueID);
         db = FirebaseFirestore.getInstance();
 
@@ -236,8 +244,8 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
             args.putSerializable("lat", qrToPass.getGeolocation().getLatitude());
             args.putSerializable("lon", qrToPass.getGeolocation().getLongitude());
         }catch (Exception e){
-            args.putSerializable("lat", 0.0);
-            args.putSerializable("lon", 0.0);
+            args.putSerializable("lat", null);
+            args.putSerializable("lon", null);
         }
 
         Intent qrinfoIntent = new Intent (this, QRInfo.class);

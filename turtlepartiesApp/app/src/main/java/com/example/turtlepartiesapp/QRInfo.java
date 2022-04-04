@@ -3,6 +3,7 @@ package com.example.turtlepartiesapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,14 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -27,10 +25,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.zxing.WriterException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class QRInfo extends AppCompatActivity {
 
@@ -40,13 +36,13 @@ public class QRInfo extends AppCompatActivity {
     private TextView locationView;
     private Button deleteButton;
     private View view;
-    private ScoreQrcode thisQr;
+    protected ScoreQrcode thisQr;
     private ListView commentList;
     private ArrayAdapter<Comment> commentAdapter;
     private ArrayList<Comment> commentDataList;
     private String username;
     private Player user;
-    private boolean showDeleteButton;
+    protected boolean showDeleteButton;
 
     FirebaseFirestore db;
 
@@ -59,12 +55,17 @@ public class QRInfo extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle qrBundle = intent.getBundleExtra(MainActivity.EXTRA_QR);
-        thisQr = (ScoreQrcode) qrBundle.getSerializable("qrcode");
-        user = (Player) qrBundle.getSerializable("user");
-        showDeleteButton = (boolean) qrBundle.getSerializable("showDeleteButton");
+        handleBundle(qrBundle);
 
         Double lat = (Double) qrBundle.getSerializable("lat");
         Double lon = (Double) qrBundle.getSerializable("lon");
+        if(lat != null && lon != null){
+            thisQr.setGeolocation(new GeoPoint(lat, lon));
+        }
+        else{
+            thisQr.setGeolocation(null);
+        }
+
         String qrname = thisQr.getCode();
         thisQr.generateQRimage();
 
@@ -76,13 +77,21 @@ public class QRInfo extends AppCompatActivity {
         locationView = view.findViewById(R.id.location_view);
         deleteButton = view.findViewById(R.id.deleteQrButton);
 
+        if(thisQr.picture == null){
+            thisQr.StringToBitMap();
+        }
+        if(thisQr.picture != null){
+            Button locationButton = view.findViewById(R.id.pictureLocationButton);
+            locationButton.setVisibility(View.VISIBLE);
+        }
+
         if (thisQr.isToShow()) {
             qrImage.setImageBitmap(thisQr.getMyBitmap());
         }else{
             qrImage.setImageResource(R.drawable.ic_baseline_qr_code_24);
         }
         scoreView.setText(String.valueOf(thisQr.getScore()));
-        if (lat != 0.0) {
+        if (thisQr.getGeolocation() != null) {
             locationView.setText(String.valueOf(lat + "° N " + lon + "° W"));
         }else{
             locationView.setText("n/a");
@@ -131,6 +140,13 @@ public class QRInfo extends AppCompatActivity {
         });
     }
 
+    public void handleBundle(Bundle qrBundle ){
+        thisQr = (ScoreQrcode) qrBundle.getSerializable("qrcode");
+        user = (Player) qrBundle.getSerializable("user");
+        showDeleteButton = (boolean) qrBundle.getSerializable("showDeleteButton");
+    }
+
+
     public void deleteButtonClicked(View view){
         PlayerController playerController = new PlayerController();
         playerController.removeQrFromPlayer(user, thisQr);
@@ -138,4 +154,9 @@ public class QRInfo extends AppCompatActivity {
         finish();
     }
 
+    public void onLocationPictureButtonClicked(View view) {
+        Intent intent = new Intent(getApplicationContext(),TakenPictureActivity.class);
+        intent.putExtra("Bitmap",thisQr.getPicture());
+        startActivity(intent);
+    }
 }
