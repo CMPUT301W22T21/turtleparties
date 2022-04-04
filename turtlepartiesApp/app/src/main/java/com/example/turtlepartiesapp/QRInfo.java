@@ -3,6 +3,7 @@ package com.example.turtlepartiesapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -58,7 +59,13 @@ public class QRInfo extends AppCompatActivity {
 
         Double lat = (Double) qrBundle.getSerializable("lat");
         Double lon = (Double) qrBundle.getSerializable("lon");
-        thisQr.setGeolocation(new GeoPoint(lat, lon));
+        if(lat != null && lon != null){
+            thisQr.setGeolocation(new GeoPoint(lat, lon));
+        }
+        else{
+            thisQr.setGeolocation(null);
+        }
+
         String qrname = thisQr.getCode();
         thisQr.generateQRimage();
 
@@ -70,13 +77,21 @@ public class QRInfo extends AppCompatActivity {
         locationView = view.findViewById(R.id.location_view);
         deleteButton = view.findViewById(R.id.deleteQrButton);
 
+        if(thisQr.picture == null){
+            thisQr.StringToBitMap();
+        }
+        if(thisQr.picture != null){
+            Button locationButton = view.findViewById(R.id.pictureLocationButton);
+            locationButton.setVisibility(View.VISIBLE);
+        }
+
         if (thisQr.isToShow()) {
             qrImage.setImageBitmap(thisQr.getMyBitmap());
         }else{
             qrImage.setImageResource(R.drawable.ic_baseline_qr_code_24);
         }
         scoreView.setText(String.valueOf(thisQr.getScore()));
-        if (lat != 0.0) {
+        if (thisQr.getGeolocation() != null) {
             locationView.setText(String.valueOf(lat + "° N " + lon + "° W"));
         }else{
             locationView.setText("n/a");
@@ -139,4 +154,9 @@ public class QRInfo extends AppCompatActivity {
         finish();
     }
 
+    public void onLocationPictureButtonClicked(View view) {
+        Intent intent = new Intent(getApplicationContext(),TakenPictureActivity.class);
+        intent.putExtra("Bitmap",thisQr.getPicture());
+        startActivity(intent);
+    }
 }

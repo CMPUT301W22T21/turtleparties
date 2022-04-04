@@ -5,11 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class QRInfoOwner extends QRInfo {
+public class QRInfoOwner extends QRInfo{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_qrinfo_owner);
     }
 
     @Override
@@ -23,6 +24,19 @@ public class QRInfoOwner extends QRInfo {
         PlayerController playerController = new PlayerController();
         //playerController.removeQrFromPlayer(user, thisQr);
 
-        finish();
+
+        //put in handler
+        ResultHandler handler = new ResultHandler() {
+
+            @Override
+            public void handleResult(Object data) {
+                finish();
+            }
+        };
+        playerController.deleteQrCode(thisQr, handler);
+
     }
+
+    @Override
+    public void onLocationPictureButtonClicked(View view){ }
 }

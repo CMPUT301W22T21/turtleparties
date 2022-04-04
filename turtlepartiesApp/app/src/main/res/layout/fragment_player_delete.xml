@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlayerDeleteFragment">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:text="Are you sure you want to permanently delete this Player?"
+    android:textSize="15dp"
+    android:paddingLeft="25dp"
+    android:paddingRight="25dp"
+    android:paddingTop="5dp"/>
+
+</FrameLayout>

@@ -1,7 +1,6 @@
 package com.example.turtlepartiesapp;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -15,11 +14,7 @@ import android.widget.ListView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -27,6 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class OwnerActivity extends AppCompatActivity implements QRDeleteFragment.OnFragmentInteractionListener{
+
     private static final String TAG = "QRCODE";
     public static final String EXTRA_QR = "com.example.turtlepartiesapp.MESSAGE";
     FirebaseFirestore db;
@@ -49,14 +45,12 @@ public class OwnerActivity extends AppCompatActivity implements QRDeleteFragment
         qrList = findViewById(R.id.other_player_qr_list);
 
         qrDataList = new ArrayList<ScoreQrcode>();
-        qrDataList.add(new ScoreQrcode("Hello :)"));
         qrAdapter = new QRList(this, qrDataList);
         qrList.setAdapter(qrAdapter);
         addQrListListeners();
 
         getQrCodes();
     }
-
 
     void addQrListListeners(){
         qrList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -132,40 +126,13 @@ public class OwnerActivity extends AppCompatActivity implements QRDeleteFragment
         return;
     }
 
-//    //Goes to map activty
-//    public void mapActivity(View view) {
-//        Intent mapIntent = new Intent(this, MapsActivity.class);
-//        startActivity(mapIntent);
-//    }
-//    //Goes to leaderboard acitivty
-//    public void leaderboardActivity(View view){
-//        Intent leaderboardIntent = new Intent(this, LeaderboardActivity.class);
-//        leaderboardIntent.putExtra("USER_IDENTIFIER", username);
-//
-//        startActivity(leaderboardIntent);
-//    }
-//    //Goes to scan qr acitivty
-//    public void scanQRActivity(View view) {
-//        // QR scanner goes here
-//        Intent scanQRIntent = new Intent(this, ScanQRActivity.class);
-//        scanQRIntent.putExtra("USER_ID", username);
-//        startActivity(scanQRIntent);
-//    }
-//    //Goes to profile search acitivy
-//    public void profileSearchActivity(View view) {
-//        Bundle args = new Bundle();
-//        args.putSerializable("mainUser", user);
-//        Intent playerSearchIntent = new Intent(this, PlayerSearchActivity.class);
-//        playerSearchIntent.putExtra(EXTRA_USER, args);
-//        startActivity(playerSearchIntent);
-//    }
-//
-//    //Goes to profile Qr Acitivty
-//    public void profileQRActivity(View view) {
-//        Bundle args = new Bundle();
-//        args.putSerializable("usr", user);
-//        Intent profileIntent  = new Intent(this, ProfileActivity.class);
-//        profileIntent.putExtra(EXTRA_USER, args);
-//        startActivity(profileIntent);
-//    }
+    //Goes to profile search acitivy
+    public void profileSearchActivity(View view) {
+        //Bundle args = new Bundle();
+        //args.putSerializable("mainUser", user);
+        Intent playerSearchIntent = new Intent(this, OwnerPlayerSearchActivity.class);
+        //playerSearchIntent.putExtra(EXTRA_USER, args);
+        startActivity(playerSearchIntent);
+    }
+
 }
