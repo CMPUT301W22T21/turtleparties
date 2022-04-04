@@ -57,6 +57,12 @@ public class PlayerController {
         return;
     }
 
+    public void updateRef(String username, String ref){
+        HashMap<String, String> deviceIdMap = new HashMap<>();
+        deviceIdMap.put("ref", ref);
+        db.collection("DeviceId").document(username).set(deviceIdMap);
+    }
+
     /**
      * Adds player to DB
      * @param player

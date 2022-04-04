@@ -162,6 +162,17 @@ public class PlayerSearchActivity extends AppCompatActivity {
         startActivity(showOtherProfileIntent);
     }
 
+
+    ResultHandler handleCodeSearch = new ResultHandler() {
+        @Override
+        public void handleResult(Object data) {
+            players.clear();
+            Player player = (Player) data;
+            players.add(player);
+            playerAdapter.notifyDataSetChanged();
+        }
+    };
+
     /**
      * This is the onActivity result method which will open either the camera or gallery depending on which button the user clicked
      * @param requestCode
@@ -183,9 +194,7 @@ public class PlayerSearchActivity extends AppCompatActivity {
                 String code;
                 code = scanresult.getContents();
 
-                // QUERY GOES HERE
-                //searchController.SearchByQr(code){; }
-
+                searcherController.searchByCode(code, handleCodeSearch);
 
             }
         } else {
@@ -232,10 +241,7 @@ public class PlayerSearchActivity extends AppCompatActivity {
                             String code;
                             code = result.getText();
 
-                            // QUERY GOES HERE
-                            //searchController.SearchByQr(code){; }
-
-
+                            searcherController.searchByCode(code, handleCodeSearch);
 
                         }
 

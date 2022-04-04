@@ -72,6 +72,40 @@ public class PlayerSearcherController {
         return;
     }
 
+
+    public void searchByCode(String code, ResultHandler handler){
+        db.collection("Users")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            //players.clear();
+                            Object player = null;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String username = document.getId();
+                                if(username.equals(code)){
+                                    try{
+                                        player = document.toObject(Player.class);
+                                        //players.add((Player) player);
+                                        break;
+                                    }
+                                    catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                            handler.handleResult(player);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        return;
+    }
+
+
     public void SearchByQR(String DID){
     // implementation for searching the player By there DeviceId goes here
 
