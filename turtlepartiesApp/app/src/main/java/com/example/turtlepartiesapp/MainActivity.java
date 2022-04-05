@@ -27,9 +27,12 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
+import com.example.turtlepartiesapp.Adapters.QRList;
+import com.example.turtlepartiesapp.Fragments.QRDeleteFragment;
+import com.example.turtlepartiesapp.Models.QRInfo;
+import com.example.turtlepartiesapp.Models.ScoreQrcode;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;

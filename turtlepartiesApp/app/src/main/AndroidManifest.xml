@@ -33,7 +33,7 @@
             android:value="AIzaSyCj9bxeyKrtePUr9OsZY6_OkjDpURt2Xcc" />
 
         <activity
-            android:name=".QRInfo"
+            android:name=".Models.QRInfo"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity

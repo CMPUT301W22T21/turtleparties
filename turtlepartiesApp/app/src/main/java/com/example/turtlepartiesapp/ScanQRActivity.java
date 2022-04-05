@@ -3,13 +3,9 @@ package com.example.turtlepartiesapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -20,7 +16,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +23,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.turtlepartiesapp.Controllers.QrScanController;
+import com.example.turtlepartiesapp.Fragments.AddImageFragment;
+import com.example.turtlepartiesapp.Fragments.GeolocationFragment;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
@@ -42,11 +40,9 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.concurrent.TimeUnit;
 
 // activity for scanning qrcodes to score
 public class ScanQRActivity extends AppCompatActivity implements GeolocationFragment.OnFragmentInteractionListener, AddImageFragment.OnFragmentInteractionListener{

@@ -1,32 +1,29 @@
-package com.example.turtlepartiesapp;
+package com.example.turtlepartiesapp.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
+import android.view.ViewGroup;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
+import com.example.turtlepartiesapp.R;
 
-public class GeolocationFragment extends DialogFragment {
+// fragment for deleting a qr code
+public class QRDeleteFragment extends DialogFragment {
 
     private OnFragmentInteractionListener listener;
-    private LocationManager locationManager;
 
     public interface OnFragmentInteractionListener{
-        double[] getGeoLocation();
-        void setLocation();
+        void onDeleteClicked();
     }
 
     @Override
@@ -43,28 +40,18 @@ public class GeolocationFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_geolocation,null);
-
-        double[] geoLoc = listener.getGeoLocation();
-        Log.d("GEO", geoLoc[0] + "   " + geoLoc[1]);
-
-        TextView latView = view.findViewById(R.id.lat_textview);
-        TextView longView = view.findViewById(R.id.long_textview);
-
-        latView.setText(String.valueOf(geoLoc[0]));
-        longView.setText(String.valueOf(geoLoc[1]));
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_qr_delete,null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Add Geolocation")
+                .setTitle("Delete QR Entry")
                 .setNegativeButton("No", null)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        listener.setLocation();
+                        listener.onDeleteClicked();
                     }
                 }).create();
     }
-
 }

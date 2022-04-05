@@ -1,9 +1,10 @@
 package com.example.turtlepartiesapp;
 
 import static org.junit.Assert.assertEquals;
-import org.junit.Before;
+
+import com.example.turtlepartiesapp.Models.ScoreQrcode;
+
 import org.junit.Test;
-import org.junit.Assert.*;
 
 public class ScoreQRTest {
 

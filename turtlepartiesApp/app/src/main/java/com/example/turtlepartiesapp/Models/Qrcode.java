@@ -1,4 +1,4 @@
-package com.example.turtlepartiesapp;
+package com.example.turtlepartiesapp.Models;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;

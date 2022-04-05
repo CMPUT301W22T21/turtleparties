@@ -1,32 +1,29 @@
-package com.example.turtlepartiesapp;
+package com.example.turtlepartiesapp.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Base64;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-public class AddImageFragment extends DialogFragment {
-    private com.example.turtlepartiesapp.AddImageFragment.OnFragmentInteractionListener listener;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.example.turtlepartiesapp.R;
 
-    public interface OnFragmentInteractionListener {
-        void OnOpenCamera();
+// fragment that shows up for deleting player from the db
+public class PlayerDeleteFragment extends DialogFragment {
+
+    private OnFragmentInteractionListener listener;
+
+    public interface OnFragmentInteractionListener{
+        void onDeleteClicked();
     }
 
     @Override
@@ -34,33 +31,27 @@ public class AddImageFragment extends DialogFragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             listener = (OnFragmentInteractionListener) context;
-
         } else {
-            throw new RuntimeException(context.toString() + "must implement OnFragmentInteractionListener");
-
+            throw new RuntimeException(context.toString()
+                    + "must implement onfragmentinteractionlsitener");
         }
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-
-        // this part creates the code //
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add_image, null);
-
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_player_delete,null);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Add Image")
+                .setTitle("Delete Player")
                 .setNegativeButton("No", null)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        listener.OnOpenCamera();
+                        listener.onDeleteClicked();
                     }
                 }).create();
-
     }
 }

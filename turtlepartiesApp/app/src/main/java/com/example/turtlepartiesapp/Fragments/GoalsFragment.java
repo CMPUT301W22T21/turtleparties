@@ -1,4 +1,4 @@
-package com.example.turtlepartiesapp;
+package com.example.turtlepartiesapp.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,9 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.turtlepartiesapp.Player;
+import com.example.turtlepartiesapp.R;
+
 public class GoalsFragment extends DialogFragment {
 
-//    private com.example.turtlepartiesapp.GoalsFragment.OnFragmentInteractionListener listener;
+//    private com.example.turtlepartiesapp.Fragments.GoalsFragment.OnFragmentInteractionListener listener;
     private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener{

@@ -20,10 +20,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import com.example.turtlepartiesapp.Fragments.FriendQRFragment;
+import com.example.turtlepartiesapp.Fragments.GoalsFragment;
+import com.example.turtlepartiesapp.Fragments.LoginQRFragment;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
 import com.google.zxing.FormatException;
@@ -38,7 +38,6 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 /**
  * Profile activity

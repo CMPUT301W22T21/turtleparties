@@ -11,6 +11,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.turtlepartiesapp.Adapters.QRList;
+import com.example.turtlepartiesapp.Fragments.QRDeleteFragment;
+import com.example.turtlepartiesapp.Models.QRInfoOwner;
+import com.example.turtlepartiesapp.Models.ScoreQrcode;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;

@@ -1,4 +1,4 @@
-package com.example.turtlepartiesapp;
+package com.example.turtlepartiesapp.Models;
 
 /**
  * Extends qrcode class, used for viewing other players profile

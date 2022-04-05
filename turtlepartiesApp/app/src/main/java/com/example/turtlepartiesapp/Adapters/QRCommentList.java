@@ -1,17 +1,18 @@
-package com.example.turtlepartiesapp;
+package com.example.turtlepartiesapp.Adapters;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.turtlepartiesapp.Models.Comment;
+import com.example.turtlepartiesapp.R;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class QRCommentList extends ArrayAdapter<Comment> {
     private Context context;
     private ArrayList<Comment> comments;
 
-    protected QRCommentList(Context context, ArrayList<Comment> commentDataList) {
+    public QRCommentList(Context context, ArrayList<Comment> commentDataList) {
         super(context, 0, commentDataList);
         this.context = context;
         this.comments = commentDataList;

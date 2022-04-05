@@ -1,4 +1,4 @@
-package com.example.turtlepartiesapp;
+package com.example.turtlepartiesapp.Models;
 // Used for comments on QR codes
 public class Comment {
     private String commentBody;

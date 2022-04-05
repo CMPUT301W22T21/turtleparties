@@ -3,10 +3,10 @@ package com.example.turtlepartiesapp;
 import static org.junit.Assert.assertEquals;
 
 
+import com.example.turtlepartiesapp.Models.ScoreQrcode;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 
 /**

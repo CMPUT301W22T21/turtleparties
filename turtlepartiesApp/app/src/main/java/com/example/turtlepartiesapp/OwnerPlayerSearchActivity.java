@@ -1,12 +1,9 @@
 package com.example.turtlepartiesapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 
-import java.util.ArrayList;
+import com.example.turtlepartiesapp.Fragments.PlayerDeleteFragment;
 
 
 // this activity allows owner to search for other players and delete them

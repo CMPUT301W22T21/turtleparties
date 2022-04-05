@@ -1,4 +1,8 @@
 package com.example.turtlepartiesapp;
+
+import com.example.turtlepartiesapp.Models.Qrcode;
+import com.example.turtlepartiesapp.Models.ScoreQrcode;
+
 // Extends player and stores currently logged in player
 // To be deprecated in future iterations
 public class LoggedInPlayer extends Player{

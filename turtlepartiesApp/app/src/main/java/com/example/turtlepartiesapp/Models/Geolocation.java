@@ -1,4 +1,4 @@
-package com.example.turtlepartiesapp;
+package com.example.turtlepartiesapp.Models;
 // Geolocation class used with QR codes. No outstanding issues
 public class Geolocation {
     private double lat;

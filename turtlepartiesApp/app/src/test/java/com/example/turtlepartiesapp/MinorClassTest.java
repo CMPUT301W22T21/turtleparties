@@ -2,7 +2,9 @@ package com.example.turtlepartiesapp;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
+import com.example.turtlepartiesapp.Models.Comment;
+import com.example.turtlepartiesapp.Models.Geolocation;
+
 import org.junit.Test;
 
 public class MinorClassTest {

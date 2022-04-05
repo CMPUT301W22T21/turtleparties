@@ -14,6 +14,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.turtlepartiesapp.Adapters.QRList;
+import com.example.turtlepartiesapp.Models.QRInfo;
+import com.example.turtlepartiesapp.Models.ScoreQrcode;
+
 import java.util.ArrayList;
 
 // This activity shows another players Profile QR codes

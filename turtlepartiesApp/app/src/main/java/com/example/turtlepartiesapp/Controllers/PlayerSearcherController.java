@@ -1,9 +1,11 @@
-package com.example.turtlepartiesapp;
+package com.example.turtlepartiesapp.Controllers;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.turtlepartiesapp.Player;
+import com.example.turtlepartiesapp.ResultHandler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;

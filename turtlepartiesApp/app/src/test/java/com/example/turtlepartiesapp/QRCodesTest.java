@@ -2,12 +2,11 @@ package com.example.turtlepartiesapp;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.example.turtlepartiesapp.Models.ScoreQrcode;
 import com.google.firebase.firestore.GeoPoint;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert.*;
-
 
 
 public class QRCodesTest {

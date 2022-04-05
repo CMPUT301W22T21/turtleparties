@@ -1,7 +1,8 @@
-package com.example.turtlepartiesapp;
+package com.example.turtlepartiesapp.Controllers;
 
 import android.graphics.Bitmap;
 
+import com.example.turtlepartiesapp.Models.ScoreQrcode;
 import com.google.firebase.firestore.GeoPoint;
 
 public class QrScanController {

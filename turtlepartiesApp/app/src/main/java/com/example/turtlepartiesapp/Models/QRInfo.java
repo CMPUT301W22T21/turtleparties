@@ -1,9 +1,8 @@
-package com.example.turtlepartiesapp;
+package com.example.turtlepartiesapp.Models;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +14,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.turtlepartiesapp.Adapters.QRCommentList;
+import com.example.turtlepartiesapp.MainActivity;
+import com.example.turtlepartiesapp.Player;
+import com.example.turtlepartiesapp.PlayerController;
+import com.example.turtlepartiesapp.R;
+import com.example.turtlepartiesapp.TakenPictureActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -156,7 +161,7 @@ public class QRInfo extends AppCompatActivity {
     }
 
     public void onLocationPictureButtonClicked(View view) {
-        Intent intent = new Intent(getApplicationContext(),TakenPictureActivity.class);
+        Intent intent = new Intent(getApplicationContext(), TakenPictureActivity.class);
         intent.putExtra("Bitmap",thisQr.getPicture());
         startActivity(intent);
     }

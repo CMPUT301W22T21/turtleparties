@@ -1,7 +1,4 @@
-package com.example.turtlepartiesapp;
-
-import static android.graphics.Color.BLACK;
-import static android.graphics.Color.WHITE;
+package com.example.turtlepartiesapp.Models;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,10 +7,6 @@ import android.util.Base64;
 import com.google.common.hash.Hashing;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.firestore.GeoPoint;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;

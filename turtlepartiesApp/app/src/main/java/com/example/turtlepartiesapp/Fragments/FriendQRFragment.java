@@ -1,4 +1,4 @@
-package com.example.turtlepartiesapp;
+package com.example.turtlepartiesapp.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,12 +13,14 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
+import com.example.turtlepartiesapp.Models.FriendQrcode;
+import com.example.turtlepartiesapp.Player;
+import com.example.turtlepartiesapp.R;
 
 
 public class FriendQRFragment extends DialogFragment {
-    private com.example.turtlepartiesapp.FriendQRFragment.OnFragmentInteractionListener  listener;
+    private FriendQRFragment.OnFragmentInteractionListener  listener;
 
 
     // code for when pressing close

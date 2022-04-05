@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <LinearLayout
-    tools:context=".AddImageFragment"
+    tools:context=".Fragments.AddImageFragment"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:id="@+id/AIMGFRAG"

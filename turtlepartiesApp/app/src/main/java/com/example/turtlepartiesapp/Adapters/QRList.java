@@ -1,4 +1,4 @@
-package com.example.turtlepartiesapp;
+package com.example.turtlepartiesapp.Adapters;
 
 
 import android.content.Context;
@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.turtlepartiesapp.R;
+import com.example.turtlepartiesapp.Models.ScoreQrcode;
 
 import java.util.ArrayList;
 

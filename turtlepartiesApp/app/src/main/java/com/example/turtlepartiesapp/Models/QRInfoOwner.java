@@ -1,12 +1,15 @@
-package com.example.turtlepartiesapp;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.turtlepartiesapp.Models;
 
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.turtlepartiesapp.Models.QRInfo;
+import com.example.turtlepartiesapp.Models.ScoreQrcode;
+import com.example.turtlepartiesapp.PlayerController;
+import com.example.turtlepartiesapp.ResultHandler;
+
 // activity for showing qrcodes when you are the owner
-public class QRInfoOwner extends QRInfo{
+public class QRInfoOwner extends QRInfo {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
