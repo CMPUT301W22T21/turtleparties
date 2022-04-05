@@ -20,6 +20,7 @@ public class ScoreQrcode extends Qrcode implements Serializable, Comparable {
     private transient GeoPoint geolocation;
     private String comment;
     private boolean toShow;
+    private String fixedcode;
     @Exclude
     protected Bitmap picture;
     private String pictureString;

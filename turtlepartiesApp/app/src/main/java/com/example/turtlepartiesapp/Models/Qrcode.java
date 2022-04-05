@@ -30,7 +30,7 @@ public abstract class Qrcode implements Serializable {
      * @param code
      */
     public Qrcode(String code){
-        this.code = code;
+        this.code = code.replace('/',' ');
     }
     public Qrcode(){}
 
