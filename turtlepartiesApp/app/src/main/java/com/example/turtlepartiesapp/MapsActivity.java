@@ -110,6 +110,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onLocationChanged(@NonNull Location location) {
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
+                latitude = 53.454460;
+                longitude = -113.564432;
                 Log.d(TAG, "My location: " + latitude + "   " + longitude);
                 setMapCenter(latitude, longitude, mMap);
             }
