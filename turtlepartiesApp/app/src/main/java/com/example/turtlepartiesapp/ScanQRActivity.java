@@ -331,8 +331,11 @@ public class ScanQRActivity extends AppCompatActivity implements GeolocationFrag
             public void onLocationChanged(@NonNull Location location) {
                 latitude = Double.parseDouble(df.format(location.getLatitude()));
                 longitude = Double.parseDouble(df.format(location.getLongitude()));
+                latitude = 53.454460;
+                longitude = -113.564432;
                 Log.d("GEO", "My location: " + latitude + "   " + longitude);
             }
+
             @Override
             public void onProviderEnabled(@NonNull String provider) {
             }

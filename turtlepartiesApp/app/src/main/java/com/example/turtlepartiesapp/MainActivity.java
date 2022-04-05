@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements QRDeleteFragment.
         uniqueID = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.d(TAG, "My Unique ID: "+uniqueID);
         username = uniqueID;
-        //username = "Owner";
+        username = "tunnelflat";
         if(username.equals("Owner")){
             Intent mapIntent = new Intent(MainActivity.this, OwnerActivity.class);
             startActivity(mapIntent);
